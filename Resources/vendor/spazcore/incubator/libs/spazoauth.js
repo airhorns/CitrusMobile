@@ -297,7 +297,7 @@ SpazOAuth.prototype.getXauthTokens = function(opts) {
 		success: function(data, textStatus) {
 
 				var results = OAuth.decodeForm(data);
-				alert(JSON.stringify(results));
+				d(JSON.stringify(results));
 				that.accessToken = OAuth.getParameter(results, 'oauth_token');
 				that.accessTokenSecret = OAuth.getParameter(results, 'oauth_token_secret');
 
@@ -353,19 +353,19 @@ SpazOAuth.prototype.getAuthHeader = function(options) {
 
 	}
 	
-	if (options.xauth) {
-		complete_opts = {
-			consumerKey: this.getService().consumerKey,
-			consumerSecret: this.getService().consumerSecret
-		};
-	} else {
+	// if (options.xauth) {
+	// 	complete_opts = {
+	// 		consumerKey: this.getService().consumerKey,
+	// 		consumerSecret: this.getService().consumerSecret
+	// 	};
+	// } else {
 		complete_opts = {
 			consumerKey: this.getService().consumerKey,
 			consumerSecret: this.getService().consumerSecret,
 			token: this.accessToken,
 			tokenSecret: this.accessTokenSecret
 		};	
-	}
+	// }
 
 	var message = {
 		method: options.method,
