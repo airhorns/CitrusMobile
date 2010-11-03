@@ -15,5 +15,8 @@
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
+		<modules>
+    		<module version="0.3">tibar</module>
+    </modules> 
 <guid>6f370fed-dc4e-4b08-8c05-db18daf536db</guid>
 </ti:app>
