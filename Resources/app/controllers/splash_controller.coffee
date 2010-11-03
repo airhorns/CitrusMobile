@@ -14,28 +14,38 @@ class SplashController extends Citrus.Controller
 		@window.showLoading()
 
 		Citrus.Splash.newFromDecodedData(@codeData, (splash) =>
+			d("Found a splash in the decoded data, with shortcode "+splash.shortcode)
 			@splash = splash
 			@window.displaySplash(@splash)
 		, (xhr, status, error) =>
-			if !Titanium.Network.online
-				msg = "You need to be connected to the internet to scan this code. Please connect and then retry."
-				retry = true
-			else if xhr.status == 404
-				msg = "This code couldn't be found in our database, probably because it's been deleted!"
-				retry = false
+			d("Error finding a Citrus splash from the decoded data. Status: "+status)
+			if xhr
+				# The scanned code was a citrus code but there was a problem connecting to the backend.
+				if !Titanium.Network.online
+					msg = "You need to be connected to the internet to scan this code. Please connect and then retry."
+					retry = true
+				else if xhr.status == 404
+					msg = "This code couldn't be found in our database, probably because it's been deleted!"
+					retry = false
+				else
+					msg = "There was an error fetching this code from the server! Please try again."
+					retry = true
 			else
-				msg = "There was an error fetchng this code from the server! Please try again."
-				retry = true
+				# The xhr request was never made because the data couldn't be interpreted as Citrus data.
+				if status == "not_citrus_code"
+					@window.displayDecodedData(@codeData)
+					return true
 
 			@window.displayError(msg, retry, => this.tryToShow())
+			return false
 		)
-	
+
 	# Gets passed the row object wrapper and the click event for a button in the list of actions.
 	# Runs the action on the available accounts.
 	takeActionFromRow: (row, e) =>
 		action = row.action
 		accounts = this.possibleAccountsForAction(action)
-	
+
 		actionSuccess = (e) =>
 			Titanium.API.debug("Action complete!")
 			row.displaySuccess()
@@ -82,16 +92,14 @@ class SplashController extends Citrus.Controller
 					if account?
 						Titanium.API.debug("Running on account "+account.screenName)
 						runAction(account)
-			
+
 			@dialog.show() # Show the selection dialog
 		else
-			d("BLAH")
+			# Only one account
 			d("running on "+accounts[0])
 			runAction(accounts[0])
 			return true
-			# Only one account
-			# d("running on "+accounts[0])
-			#
+
 
 	# Boolean return if an action can be taken by any of the accounts available
 	isActionTakeable: (action) ->

@@ -42,11 +42,9 @@
           return new Citrus.SplashController(data.barcode, root.accountStore);
         }
       },
-      cancel: function() {
-        return alert("Canceled");
-      },
+      cancel: function() {},
       error: function() {
-        return alert("Error");
+        return alert("Error reading the code! Please try again.");
       }
     });
   };

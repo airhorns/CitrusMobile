@@ -9,7 +9,7 @@ class SplashWindow extends Citrus.GenericWindow
 		@win = Ti.UI.createWindow({title: "Scan Results",backgroundColor:'#fff'})
 
 		@loadingIndicator = Titanium.UI.createActivityIndicator {
-			style: Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN
+			# style: Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN
 			font: {
 				fontFamily: 'Helvetica Neue'
 				fontSize: 20
@@ -41,16 +41,18 @@ class SplashWindow extends Citrus.GenericWindow
 	# If a splash couldn't be fetched, this displays the notification and an optional retry button
 	displayError: (msg, retry, callback) ->
 		this.hideLoading()
-		@errorLabel ?= Ti.UI.createLabel {
-			color:'#000'
-			font:{fontSize:20, fontWeight:'bold'}
-			top:100
-			height:'auto'
-			width:300
-		}
+		unless @errorLabel?
+			@errorLabel = Ti.UI.createLabel {
+				color:'#000'
+				font:{fontSize:20, fontWeight:'bold'}
+				top:100
+				height:'auto'
+				width:300
+			}
+			@win.add @errorLabel
+		
 		@errorLabel.text = msg
-
-		@win.add @errorLabel
+		@errorLabel.show()
 		if retry
 			unless @retryButton?
 				@retryButton = Titanium.UI.createButton {
@@ -66,12 +68,44 @@ class SplashWindow extends Citrus.GenericWindow
 				}
 				@retryButton.addEventListener "click", (e) ->
 					callback(e)
+				@win.add @retryButton
 
-			@win.add @retryButton
+			@retryButton.show()
+	# Displays non Citrus decoded data as a simple qr code scanner.
+	displayDecodedData: (data) ->
+		this.hideLoading()
+		unless @noticeLabel?
+			@noticeLabel = Ti.UI.createLabel {
+				color:'#000'
+				font:{fontSize:16, fontWeight:'bold'}
+				top:50
+				height:'auto'
+				width:300
+				text: "Warning: this code doesn't seem to be a Citrus enabled code! Here's the data that was in it:"
+			}
+			@win.add(@noticeLabel)
+
+		unless @dataLabel?
+			@dataLabel = Ti.UI.createLabel {
+				color:'#000'
+				font:{fontSize:20, fontWeight:'bold'}
+				top:200
+				height:'auto'
+				width:300
+				text: data
+			}
+			@win.add(@dataLabel)
+		
+		@noticeLabel.show()
+		@dataLabel.show()
+		
 
 	# Hides the error label and retry button.
 	hideError: () ->
 		@win.remove @errorLabel if @errorLabel?
+		@win.remove @noticeLabel if @noticeLabel?
+		@win.remove @dataLabel if @dataLabel?
+		@win.remove @goButton if @goButton?
 		@win.remove @retryButton if @retryButton?
 
 
@@ -95,9 +129,11 @@ class SplashWindow extends Citrus.GenericWindow
 		rows
 
 	showLoading: () ->
+		d("Showing loading indicator")
 		@loadingIndicator.show()
 
 	hideLoading: () ->
-		@loadingIndicator.hide()
+		d("Hiding loading indicator")
+		# @loadingIndicator.hide()
 
 Citrus.SplashWindow = SplashWindow

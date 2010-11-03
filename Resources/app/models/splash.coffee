@@ -1,8 +1,8 @@
 Ti.include("/app/models/actions/action.js")
 
 class Splash extends Citrus.Object
-	@shortcodeRE: /\/s\/([a-zA-Z0-9]+)/m
-	@backendURL: "http://localhost:3000/s/"
+	@shortcodeRE: new RegExp(Citrus.Config.SHORTCODE_RE)
+	@backendURL: new RegExp(Citrus.Config.BACKEND_URL + Citrus.Config.SHORTENER_PREFIX)
 
 	@newFromDecodedData: (data, success, error) ->
 		matches = @shortcodeRE.exec(data)
@@ -19,6 +19,7 @@ class Splash extends Citrus.Object
 				dataType: "json"
 				success: (attributes, status, xhr) ->
 					Ti.API.debug("Success fetching splash!")
+					attributes.shortcode = shortcode
 					splash = new Citrus.Splash(attributes)
 					success(splash) if _.isFunction(success)
 				error: (xhr, status, e) ->
@@ -26,12 +27,14 @@ class Splash extends Citrus.Object
 					error(xhr, status, e)
 			})
 		else
+			error(false, "not_citrus_code")
 			return false
 
 	name: ""
 	description: ""
 	photo: ""
 	text: ""
+	shortcode: ""
 	constructor: (attributes) ->
 		super()
 		@actions = []

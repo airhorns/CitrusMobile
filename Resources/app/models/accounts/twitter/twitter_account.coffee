@@ -3,20 +3,20 @@ Ti.include('/vendor/spazcore/libs/spaztwit.js');
 
 class TwitterAccount extends Citrus.Account
 	type: "TwitterAccount"
-	persistableAttributes: ["screenName", "name", "accessToken", "accessTokenSecret"]	
+	persistableAttributes: ["screenName", "name", "accessToken", "accessTokenSecret"]
 	constructor: (params) ->
 		super(params)
 		@consumer = new SpazOAuth {
 			'service' : 'twitter'
 		}
-		
+
 		@api = new SpazTwit()
-		
+
 		@consumer.accessToken = this.accessToken
 		@consumer.accessTokenSecret = this.accessTokenSecret
 		if @consumer.isAuthorized()
 			@api.setCredentials(@consumer)
-	
+
 	synch: ->
 		this.fireEvent("state:updating")
 		if ! this.isAuthorized()
@@ -35,22 +35,30 @@ class TwitterAccount extends Citrus.Account
 			Ti.API.error("Response: "+e.responseText)
 			this.fireEvent("state:error")
 		)
-		
+
 	isAuthorized: ->
 		return @consumer.isAuthorized()
-	
+
 	authorize: (callback) ->
 		super
+		if Citrus.Config.TWITTER_XAUTH
+			xAuthAuthorize(callback)
+		else
+			oAuthAuthorize(callback)
+	
+	xAuthAuthorize: (callbakc) ->
+
+	oAuthAuthorize: (callback) ->
 		controller = {}
 
 		this.addEventListener "authorization:error", (e) =>
 			controller.destroy()
-			
+
 		errorFindingPin = (e) =>
 			Ti.API.error("Error finding pin in authorize UI. Canceling process.")
 			this.fireEvent("authorization:error", e)
 			this.fireEvent("authorization:complete")
-			
+
 		findPin = (e) =>
 			try
 				xmlDocument = Ti.XML.parseString(e.source.html)
@@ -73,12 +81,12 @@ class TwitterAccount extends Citrus.Account
 			catch e
 				Ti.API.error("Error parsing Authorize UI XML and finding PIN.")
 				errorFindingPin(e)
-			
+
 			Ti.API.debug("Pin not found in loaded XML")
 
 		# Create controller to manage the PIN getting web view
 		controller = new Citrus.OAuthorizationController(findPin, errorFindingPin)
-		
+
 		@consumer.getRequestTokenAsync (token) =>
 			url = OAuth.addToURL(@consumer.getService().userAuthorizationUrl, {oauth_token : @consumer.requestToken})
 			Ti.API.debug("Sending user to url to authorize: "+url)
@@ -89,9 +97,9 @@ class TwitterAccount extends Citrus.Account
 
 	_getAccessToken: (accessPin) ->
 		Ti.API.debug("Trying to complete authorization with pin: "+accessPin)
-		if @consumer.requestToken? 
+		if @consumer.requestToken?
 			if accessPin?
-				if @consumer.getAuthorization(accessPin)			
+				if @consumer.getAuthorization(accessPin)
 					this.completeAuthorization()
 					return true
 				else
@@ -100,10 +108,10 @@ class TwitterAccount extends Citrus.Account
 				msg = "Invalid access PIN"
 		else
 			msg = "Consumer has no request token!"
-		
+
 		this.fireEvent("authorization:error", {msg: msg, source:this})
 		this.fireEvent("authorization:complete")
-		
+
 	completeAuthorization: () ->
 		# Set up API to properly consume
 		this.accessToken = @consumer.accessToken

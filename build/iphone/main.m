@@ -9,17 +9,17 @@
 
 NSString * const TI_APPLICATION_DEPLOYTYPE = @"development";
 NSString * const TI_APPLICATION_ID = @"com.harrybrundage.citrus";
-NSString * const TI_APPLICATION_PUBLISHER = @"not specified";
-NSString * const TI_APPLICATION_URL = @"not specified";
+NSString * const TI_APPLICATION_PUBLISHER = @"Citrus App LLC";
+NSString * const TI_APPLICATION_URL = @"http://citrusapp.com/";
 NSString * const TI_APPLICATION_NAME = @"Citrus";
 NSString * const TI_APPLICATION_VERSION = @"1.0";
-NSString * const TI_APPLICATION_DESCRIPTION = @"not specified";
-NSString * const TI_APPLICATION_COPYRIGHT = @"not specified";
+NSString * const TI_APPLICATION_DESCRIPTION = @"Citrus QR Code App";
+NSString * const TI_APPLICATION_COPYRIGHT = @"2010 by Harry Brundage";
 NSString * const TI_APPLICATION_GUID = @"6f370fed-dc4e-4b08-8c05-db18daf536db";
 BOOL const TI_APPLICATION_ANALYTICS = true;
 
 #ifdef TARGET_IPHONE_SIMULATOR
-NSString * const TI_APPLICATION_RESOURCE_DIR = @"/Users/hornairs/Code/Citrus/Resources";
+NSString * const TI_APPLICATION_RESOURCE_DIR = @"/Users/hornairs/Code/CitrusMobile/Resources";
 #endif
 
 int main(int argc, char *argv[]) {
