@@ -4,6 +4,12 @@
 var Citrus = {};
 var jQuery = {};
 
+// Global configuration variables
+Citrus.Config = {
+	REMOTE_URL: "http://localhost:3000/",
+	SHORTENER_PREFIX: "s/",
+	SHORTCODE_RE: "s/([a-zA-Z0-9]+)"	
+};
 // Debugging functions
 var d = function(x) {
 	Titanium.API.debug(x)

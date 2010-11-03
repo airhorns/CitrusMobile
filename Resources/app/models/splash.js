@@ -28,8 +28,8 @@
     return this;
   };
   __extends(Splash, Citrus.Object);
-  Splash.shortcodeRE = /\/s\/([a-zA-Z0-9]+)/m;
-  Splash.backendURL = "http://localhost:3000/s/";
+  Splash.shortcodeRE = new RegExp(Citrus.Config.SHORTCODE_RE);
+  Splash.backendURL = new RegExp(Citrus.Config.BACKEND_URL + Citrus.Config.SHORTENER_PREFIX);
   Splash.newFromDecodedData = function(data, success, error) {
     var matches, shortcode;
     matches = this.shortcodeRE.exec(data);
@@ -45,6 +45,7 @@
         success: function(attributes, status, xhr) {
           var splash;
           Ti.API.debug("Success fetching splash!");
+          attributes.shortcode = shortcode;
           splash = new Citrus.Splash(attributes);
           if (_.isFunction(success)) {
             return success(splash);
@@ -56,6 +57,7 @@
         }
       });
     } else {
+      error(false, "not_citrus_code");
       return false;
     }
   };
@@ -63,6 +65,7 @@
   Splash.prototype.description = "";
   Splash.prototype.photo = "";
   Splash.prototype.text = "";
+  Splash.prototype.shortcode = "";
   Splash.prototype.setActions = function(passed_actions) {
     var _i, _len, _ref, _result, action, attrs;
     _result = []; _ref = passed_actions;
