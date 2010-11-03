@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   FacebookAccount = function() {
-    return Zeebra.Account.apply(this, arguments);
+    return Citrus.Account.apply(this, arguments);
   };
-  __extends(FacebookAccount, Zeebra.Account);
+  __extends(FacebookAccount, Citrus.Account);
   FacebookAccount.prototype.type = "FacebookAccount";
-  Zeebra.registerAccount(FacebookAccount);
+  Citrus.registerAccount(FacebookAccount);
 }).call(this);

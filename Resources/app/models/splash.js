@@ -27,7 +27,7 @@
     }
     return this;
   };
-  __extends(Splash, Zeebra.Object);
+  __extends(Splash, Citrus.Object);
   Splash.shortcodeRE = /\/s\/([a-zA-Z0-9]+)/m;
   Splash.backendURL = "http://localhost:3000/s/";
   Splash.newFromDecodedData = function(data, success, error) {
@@ -45,7 +45,7 @@
         success: function(attributes, status, xhr) {
           var splash;
           Ti.API.debug("Success fetching splash!");
-          splash = new Zeebra.Splash(attributes);
+          splash = new Citrus.Splash(attributes);
           if (_.isFunction(success)) {
             return success(splash);
           }
@@ -69,7 +69,7 @@
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       attrs = _ref[_i];
       _result.push((function() {
-        action = Zeebra.Actions.newFromJSON(attrs);
+        action = Citrus.Actions.newFromJSON(attrs);
         if (action !== false) {
           return this.actions.push(action);
         } else {
@@ -80,5 +80,5 @@
     }
     return _result;
   };
-  Zeebra.Splash = Splash;
+  Citrus.Splash = Splash;
 }).call(this);

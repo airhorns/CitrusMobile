@@ -8,11 +8,11 @@
     if (typeof parent.extended === "function") parent.extended(child);
     child.__super__ = parent.prototype;
   };
-  Zeebra.AccountTypes = [];
+  Citrus.AccountTypes = [];
   Account = function() {
-    return Zeebra.PersistedObject.apply(this, arguments);
+    return Citrus.PersistedObject.apply(this, arguments);
   };
-  __extends(Account, Zeebra.PersistedObject);
+  __extends(Account, Citrus.PersistedObject);
   Account.prototype.type = "GenericAccount";
   Account.prototype.lastSynched = false;
   Account.prototype.refreshInterval = 1000 * 60 * 3;
@@ -33,10 +33,10 @@
     this.fireEvent("authorization:complete");
     return true;
   };
-  Zeebra.Account = Account;
-  Zeebra.registerAccount = function(account_klass) {
-    Zeebra.AccountTypes.push(account_klass);
-    return (Zeebra[account_klass.prototype.type] = account_klass);
+  Citrus.Account = Account;
+  Citrus.registerAccount = function(account_klass) {
+    Citrus.AccountTypes.push(account_klass);
+    return (Citrus[account_klass.prototype.type] = account_klass);
   };
   Ti.include("/app/models/accounts/twitter/twitter_account.js");
   Ti.include("/app/models/accounts/facebook/facebook_account.js");

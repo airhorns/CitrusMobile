@@ -13,7 +13,7 @@
     this.shortcode = shortcode;
     return this;
   };
-  __extends(Code, Zeebra.Object);
+  __extends(Code, Citrus.Object);
   Code.shortcodeRE = /\/s\/([a-zA-Z0-9]+)/m;
   Code.backendURL = "http://localhost:3000/s/";
   Code.newFromDecodedData = function(data) {
@@ -31,5 +31,5 @@
       url: Code.backendURL + this.shortcode
     }));
   };
-  Zeebra.Code = Code;
+  Citrus.Code = Code;
 }).call(this);

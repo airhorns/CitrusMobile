@@ -7,20 +7,20 @@
     barColor: '#336699'
   });
   Titanium.UI.setBackgroundColor('#000');
-  root.CodeReaderController = new Zeebra.CodeReaderController();
+  root.CodeReaderController = new Citrus.CodeReaderController();
   codeReaderTab = Titanium.UI.createTab({
     icon: 'KS_nav_views.png',
     title: 'Scanner',
     window: root.CodeReaderController.window.win
   });
-  root.accountStore = new Zeebra.AccountSet();
-  root.AccountsController = new Zeebra.AccountsController(root.accountStore);
+  root.accountStore = new Citrus.AccountSet();
+  root.AccountsController = new Citrus.AccountsController(root.accountStore);
   accountsTab = Titanium.UI.createTab({
     icon: 'KS_nav_views.png',
     title: 'Accounts',
     window: root.AccountsController.window.win
   });
-  root.CodesWindow = new Zeebra.CodesWindow('Codes', 'No Codes scanned yet.');
+  root.CodesWindow = new Citrus.CodesWindow('Codes', 'No Codes scanned yet.');
   codesTab = Titanium.UI.createTab({
     icon: 'KS_nav_views.png',
     title: 'Scanned Codes',

@@ -14,7 +14,7 @@
     this.row.className = account.type + "Row";
     return this;
   };
-  __extends(AccountTableViewRow, Zeebra.Object);
+  __extends(AccountTableViewRow, Citrus.Object);
   AccountTableViewRow.prototype.getTableViewRowTemplate = function() {
     var photo, row;
     row = Ti.UI.createTableViewRow();
@@ -30,6 +30,6 @@
     row.add(photo);
     return row;
   };
-  Zeebra.AccountTableViewRow = AccountTableViewRow;
+  Citrus.AccountTableViewRow = AccountTableViewRow;
   Ti.include("/app/views/accounts/twitter_account_table_view_row.js");
 }).call(this);

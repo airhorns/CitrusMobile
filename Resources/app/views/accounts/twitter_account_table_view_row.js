@@ -41,6 +41,6 @@
     }
     return this;
   };
-  __extends(TwitterAccountTableViewRow, Zeebra.AccountTableViewRow);
-  Zeebra.TwitterAccountTableViewRow = TwitterAccountTableViewRow;
+  __extends(TwitterAccountTableViewRow, Citrus.AccountTableViewRow);
+  Citrus.TwitterAccountTableViewRow = TwitterAccountTableViewRow;
 }).call(this);

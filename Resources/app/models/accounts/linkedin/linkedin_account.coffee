@@ -1,4 +1,4 @@
-class LinkedInAccount extends Zeebra.Account
+class LinkedInAccount extends Citrus.Account
 	type: "LinkedInAccount"
 	
-Zeebra.registerAccount LinkedInAccount
+Citrus.registerAccount LinkedInAccount

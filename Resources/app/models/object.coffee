@@ -1,6 +1,6 @@
 Ti.include("/app/models/observable.js")
 
-class Object extends Zeebra.Observable
+class Object extends Citrus.Observable
 	constructor: () ->
 		this.tid = hex_sha1(String(Math.random()*10))
 		
@@ -16,4 +16,4 @@ class Object extends Zeebra.Observable
 	# 				if this[delegate]?
 	# 					this[delegate].apply(name, arguments)
 
-Zeebra.Object = Object
+Citrus.Object = Object

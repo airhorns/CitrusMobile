@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   RetweetAction = function() {
-    return Zeebra.TwitterAction.apply(this, arguments);
+    return Citrus.TwitterAction.apply(this, arguments);
   };
-  __extends(RetweetAction, Zeebra.TwitterAction);
+  __extends(RetweetAction, Citrus.TwitterAction);
   RetweetAction.prototype.type = "TwitterRetweetAction";
   RetweetAction.prototype.buttonText = "Retweet";
   RetweetAction.declares = ["status_id"];
@@ -21,5 +21,5 @@
   RetweetAction.prototype.actionName = function() {
     return "Retweet this user";
   };
-  Zeebra.Actions.Twitter.Retweet = RetweetAction;
+  Citrus.Actions.Twitter.Retweet = RetweetAction;
 }).call(this);

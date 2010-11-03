@@ -1,4 +1,4 @@
-class FollowAction extends Zeebra.TwitterAction
+class FollowAction extends Citrus.TwitterAction
 	@declares: ["followee_id"]
 
 	type: "TwitterFollowAction"
@@ -10,4 +10,4 @@ class FollowAction extends Zeebra.TwitterAction
 	actionName: () ->
 		"Follow "+@followee_id
 
-Zeebra.Actions.Twitter.Follow = FollowAction
+Citrus.Actions.Twitter.Follow = FollowAction

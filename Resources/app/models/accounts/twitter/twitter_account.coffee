@@ -1,7 +1,7 @@
 Ti.include('/app/controllers/oauthorization_controller.js')
 Ti.include('/vendor/spazcore/libs/spaztwit.js');
 
-class TwitterAccount extends Zeebra.Account
+class TwitterAccount extends Citrus.Account
 	type: "TwitterAccount"
 	persistableAttributes: ["screenName", "name", "accessToken", "accessTokenSecret"]	
 	constructor: (params) ->
@@ -77,7 +77,7 @@ class TwitterAccount extends Zeebra.Account
 			Ti.API.debug("Pin not found in loaded XML")
 
 		# Create controller to manage the PIN getting web view
-		controller = new Zeebra.OAuthorizationController(findPin, errorFindingPin)
+		controller = new Citrus.OAuthorizationController(findPin, errorFindingPin)
 		
 		@consumer.getRequestTokenAsync (token) =>
 			url = OAuth.addToURL(@consumer.getService().userAuthorizationUrl, {oauth_token : @consumer.requestToken})
@@ -111,4 +111,4 @@ class TwitterAccount extends Zeebra.Account
 		@api.setCredentials(@consumer)
 		super()
 
-Zeebra.registerAccount TwitterAccount
+Citrus.registerAccount TwitterAccount

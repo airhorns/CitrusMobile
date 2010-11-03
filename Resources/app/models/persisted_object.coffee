@@ -1,4 +1,4 @@
-class PersistedObject extends Zeebra.Object
+class PersistedObject extends Citrus.Object
 	# refresh interval in milliseconds
 	refreshInterval: 1000
 	markedToSynch: false
@@ -21,8 +21,8 @@ class PersistedObject extends Zeebra.Object
 				this.synch()
 
 	@loadFromPersistable: (persisted) ->
-		if _.isFunction(Zeebra[persisted.type])
-			obj = new Zeebra[persisted.type](persisted)
+		if _.isFunction(Citrus[persisted.type])
+			obj = new Citrus[persisted.type](persisted)
 			return obj
 		else
 			Ti.API.error("Unrecognized persisted type " + persisted.type + ". Persistable is :")
@@ -57,4 +57,4 @@ class PersistedObject extends Zeebra.Object
 		return true unless _.isDate(@lastSynched)
 		return (((new Date).getTime() - @refreshInterval) < @lastSynched.getTime())
 		
-Zeebra.PersistedObject = PersistedObject
+Citrus.PersistedObject = PersistedObject

@@ -12,6 +12,6 @@
     this.controller = controller;
     return this;
   };
-  __extends(GenericWindow, Zeebra.Observable);
-  Zeebra.GenericWindow = GenericWindow;
+  __extends(GenericWindow, Citrus.Observable);
+  Citrus.GenericWindow = GenericWindow;
 }).call(this);

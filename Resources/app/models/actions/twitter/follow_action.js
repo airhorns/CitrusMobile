@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   FollowAction = function() {
-    return Zeebra.TwitterAction.apply(this, arguments);
+    return Citrus.TwitterAction.apply(this, arguments);
   };
-  __extends(FollowAction, Zeebra.TwitterAction);
+  __extends(FollowAction, Citrus.TwitterAction);
   FollowAction.declares = ["followee_id"];
   FollowAction.prototype.type = "TwitterFollowAction";
   FollowAction.prototype.buttonText = "Follow";
@@ -21,5 +21,5 @@
   FollowAction.prototype.actionName = function() {
     return "Follow " + this.followee_id;
   };
-  Zeebra.Actions.Twitter.Follow = FollowAction;
+  Citrus.Actions.Twitter.Follow = FollowAction;
 }).call(this);

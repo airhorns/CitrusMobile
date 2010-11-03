@@ -1,6 +1,6 @@
 Ti.include("/app/models/actions/action.js")
 
-class Splash extends Zeebra.Object
+class Splash extends Citrus.Object
 	@shortcodeRE: /\/s\/([a-zA-Z0-9]+)/m
 	@backendURL: "http://localhost:3000/s/"
 
@@ -19,7 +19,7 @@ class Splash extends Zeebra.Object
 				dataType: "json"
 				success: (attributes, status, xhr) ->
 					Ti.API.debug("Success fetching splash!")
-					splash = new Zeebra.Splash(attributes)
+					splash = new Citrus.Splash(attributes)
 					success(splash) if _.isFunction(success)
 				error: (xhr, status, e) ->
 					Ti.API.error("Error retrieving splash data. Status:"+status+", code:"+xhr.status)
@@ -45,7 +45,7 @@ class Splash extends Zeebra.Object
 
 	setActions: (passed_actions) ->
 		for attrs in passed_actions
-			action = Zeebra.Actions.newFromJSON(attrs)
+			action = Citrus.Actions.newFromJSON(attrs)
 
 			# newFromJSON will return false if the action attributes aren't valid
 			if action != false
@@ -55,4 +55,4 @@ class Splash extends Zeebra.Object
 				Ti.API.error("Invalid/Unknown action! Attributes were:")
 				Ti.API.debug(attrs)
 
-Zeebra.Splash = Splash
+Citrus.Splash = Splash

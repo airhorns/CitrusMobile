@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   StatusUpdateAction = function() {
-    return Zeebra.TwitterAction.apply(this, arguments);
+    return Citrus.TwitterAction.apply(this, arguments);
   };
-  __extends(StatusUpdateAction, Zeebra.TwitterAction);
+  __extends(StatusUpdateAction, Citrus.TwitterAction);
   StatusUpdateAction.prototype.type = "TwitterStatusUpdateAction";
   StatusUpdateAction.prototype.buttonText = "Tweet";
   StatusUpdateAction.declares = ["text", "in_reply_to_id"];
@@ -21,5 +21,5 @@
   StatusUpdateAction.prototype.actionName = function() {
     return "Tweet about this";
   };
-  Zeebra.Actions.Twitter.StatusUpdateAction = StatusUpdateAction;
+  Citrus.Actions.Twitter.StatusUpdateAction = StatusUpdateAction;
 }).call(this);

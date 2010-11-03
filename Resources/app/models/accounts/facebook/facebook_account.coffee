@@ -1,3 +1,3 @@
-class FacebookAccount extends Zeebra.Account
+class FacebookAccount extends Citrus.Account
 	type: "FacebookAccount"
-Zeebra.registerAccount FacebookAccount
+Citrus.registerAccount FacebookAccount

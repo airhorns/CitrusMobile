@@ -58,6 +58,6 @@
     this.row.add(description);
     return this;
   };
-  __extends(SplashInfoTableViewRow, Zeebra.Object);
-  Zeebra.SplashInfoTableViewRow = SplashInfoTableViewRow;
+  __extends(SplashInfoTableViewRow, Citrus.Object);
+  Citrus.SplashInfoTableViewRow = SplashInfoTableViewRow;
 }).call(this);

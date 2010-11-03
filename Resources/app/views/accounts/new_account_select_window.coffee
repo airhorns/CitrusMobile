@@ -1,4 +1,4 @@
-class NewAccountSelectWindow extends Zeebra.GenericWindow
+class NewAccountSelectWindow extends Citrus.GenericWindow
 	constructor: (controller, callback) ->
 		Ti.API.debug("Creating select window")
 		super
@@ -8,7 +8,7 @@ class NewAccountSelectWindow extends Zeebra.GenericWindow
 				backgroundColor: "#000000"
 		}
 
-		data = for klass in Zeebra.AccountTypes
+		data = for klass in Citrus.AccountTypes
 			name = klass.prototype.type
 			item = Titanium.UI.createDashboardItem {
 				image: "images/account_icons/"+name+'_64.png'
@@ -33,4 +33,4 @@ class NewAccountSelectWindow extends Zeebra.GenericWindow
 		@win.add(@dashboard)
 		Ti.API.debug("Done creating select window")
 		
-Zeebra.NewAccountSelectWindow = NewAccountSelectWindow
+Citrus.NewAccountSelectWindow = NewAccountSelectWindow

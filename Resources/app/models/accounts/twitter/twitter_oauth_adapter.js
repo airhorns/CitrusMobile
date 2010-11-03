@@ -1,5 +1,5 @@
 (function() {
-  var TwitterOAuthAdapter, ZEEBRA_CONSUMER_SECRET;
+  var Citrus_CONSUMER_SECRET, TwitterOAuthAdapter;
   var __bind = function(func, context) {
     return function(){ return func.apply(context, arguments); };
   }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
@@ -12,12 +12,12 @@
   };
   Ti.include('vendor/sha1.js');
   Ti.include('vendor/oauth.js');
-  ZEEBRA_CONSUMER_SECRET = '1NrCi94u62mwaAvZyDjdznOVUN0vQdfsyLpiy2O4';
+  Citrus_CONSUMER_SECRET = '1NrCi94u62mwaAvZyDjdznOVUN0vQdfsyLpiy2O4';
   TwitterOAuthAdapter = function() {
-    return Zeebra.Account.apply(this, arguments);
+    return Citrus.Account.apply(this, arguments);
   };
-  __extends(TwitterOAuthAdapter, Zeebra.Account);
-  TwitterOAuthAdapter.prototype.consumerSecret = ZEEBRA_CONSUMER_SECRET;
+  __extends(TwitterOAuthAdapter, Citrus.Account);
+  TwitterOAuthAdapter.prototype.consumerSecret = Citrus_CONSUMER_SECRET;
   TwitterOAuthAdapter.prototype.consumerKey = 'at0rryC4zHWNcIRhbIW0Fw';
   TwitterOAuthAdapter.prototype.signatureMethod = 'HMAC-SHA1';
   TwitterOAuthAdapter.prototype.pin = null;
@@ -26,7 +26,7 @@
   TwitterOAuthAdapter.prototype.accessToken = null;
   TwitterOAuthAdapter.prototype.accessTokenSecret = null;
   TwitterOAuthAdapter.prototype.accessor = {
-    consumerSecret: ZEEBRA_CONSUMER_SECRET,
+    consumerSecret: Citrus_CONSUMER_SECRET,
     tokenSecret: ''
   };
   TwitterOAuthAdapter.prototype.authorizationWindow = null;
@@ -238,5 +238,5 @@
     }
     return this.requestAccessWithUI('https://api.twitter.com/oauth/authorize?' + token);
   };
-  Zeebra.TwitterOAuthAdapter = TwitterOAuthAdapter;
+  Citrus.TwitterOAuthAdapter = TwitterOAuthAdapter;
 }).call(this);

@@ -13,7 +13,7 @@
     this.load();
     return this;
   };
-  __extends(AccountSet, Zeebra.Object);
+  __extends(AccountSet, Citrus.Object);
   AccountSet.prototype.load = function() {
     var _i, _len, _ref, account, accounts, datas, datum;
     if (!(Ti.App.Properties.hasProperty(this.key()))) {
@@ -31,7 +31,7 @@
     _ref = datas;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       datum = _ref[_i];
-      account = Zeebra.PersistedObject.loadFromPersistable(datum);
+      account = Citrus.PersistedObject.loadFromPersistable(datum);
       if (account) {
         Ti.API.info("Loaded " + account.type + " from persistable.");
         accounts.push(account);
@@ -52,7 +52,7 @@
     return Ti.App.Properties.setString(this.key(), JSON.stringify(persistable_accounts));
   };
   AccountSet.prototype.key = function() {
-    return "ZeebraAccounts";
+    return "CitrusAccounts";
   };
   AccountSet.prototype.addAccount = function(account) {
     Ti.API.debug("Account Added to store.");
@@ -63,5 +63,5 @@
     this.accounts = _.without(this.accounts, account);
     return this.save();
   };
-  Zeebra.AccountSet = AccountSet;
+  Citrus.AccountSet = AccountSet;
 }).call(this);

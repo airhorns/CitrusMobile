@@ -1,4 +1,4 @@
-class PlaceholderWindow extends Zeebra.GenericWindow
+class PlaceholderWindow extends Citrus.GenericWindow
 	constructor: (controller, theTitle, theText) ->
 		super
 		@win = Ti.UI.createWindow({title:theTitle,backgroundColor:'#fff'})
@@ -14,4 +14,4 @@ class PlaceholderWindow extends Zeebra.GenericWindow
 		})
 		@win.add(label);
  
-Zeebra.PlaceholderWindow = PlaceholderWindow
+Citrus.PlaceholderWindow = PlaceholderWindow

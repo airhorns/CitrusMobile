@@ -1,7 +1,7 @@
 // App.js
 
 // Namespaces
-var Zeebra = {};
+var Citrus = {};
 var jQuery = {};
 
 // Debugging functions
@@ -9,7 +9,7 @@ var d = function(x) {
 	Titanium.API.debug(x)
 };
 
-//Ti.App.Properties.setString("ZeebraAccounts","")
+//Ti.App.Properties.setString("CitrusAccounts","")
 // Application level requires
 // Underscore JS
 Ti.include('vendor/underscore.js');
@@ -52,13 +52,13 @@ Ti.include('/vendor/spazcore/platforms/Titanium/helpers/sys.js');
 jQuery = Titanium.Network;
 sc.dumplevel = 999;
 
-// Zeebra Specific Abstractions
+// Citrus Specific Abstractions
 Ti.include('app/models/object.js');
 Ti.include('app/models/persisted_object.js');
 Ti.include('app/views/generic_window.js');
 Ti.include('app/views/placeholder_window.js');
 Ti.include('app/controllers/controller.js');
 
-var root = new Zeebra.Object(); // Make sure root gets event listeners
+var root = new Citrus.Object(); // Make sure root gets event listeners
 
 Ti.include('app/controllers/main.js');

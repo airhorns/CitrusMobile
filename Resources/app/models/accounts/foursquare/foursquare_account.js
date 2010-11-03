@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   FoursquareAccount = function() {
-    return Zeebra.Account.apply(this, arguments);
+    return Citrus.Account.apply(this, arguments);
   };
-  __extends(FoursquareAccount, Zeebra.Account);
+  __extends(FoursquareAccount, Citrus.Account);
   FoursquareAccount.prototype.type = "FoursquareAccount";
-  Zeebra.registerAccount(FoursquareAccount);
+  Citrus.registerAccount(FoursquareAccount);
 }).call(this);

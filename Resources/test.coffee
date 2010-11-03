@@ -1,1 +1,1 @@
-# new Zeebra.SplashController("http://localhost:3000/s/abc123", root.accountStore)
+# new Citrus.SplashController("http://localhost:3000/s/abc123", root.accountStore)

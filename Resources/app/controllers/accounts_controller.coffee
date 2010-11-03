@@ -4,7 +4,7 @@ Ti.include("/app/views/accounts/accounts_table_view_window.js")
 Ti.include("/app/views/accounts/account_table_view_row.js")
 Ti.include("/app/views/accounts/new_account_select_window.js")
 
-class AccountsController extends Zeebra.Controller
+class AccountsController extends Citrus.Controller
 	# List of accounts being watched by this controller
 	watchedAccounts: []
 
@@ -15,7 +15,7 @@ class AccountsController extends Zeebra.Controller
 		for account in @store.accounts
 			this.watchAccount(account)
 
-		@window = new Zeebra.AccountsTableViewWindow(this, @store.accounts)
+		@window = new Citrus.AccountsTableViewWindow(this, @store.accounts)
 
 		setTimeout( -> 
 					root.fireEvent("synch:start", {source: "accounts controller"})
@@ -28,7 +28,7 @@ class AccountsController extends Zeebra.Controller
 			alert("You aren't connected to the internet right now, so you won't be able to connect authorize the account. Please connect to the internet and try again.")
 			return false
 
-		@selectWindow ?= new Zeebra.NewAccountSelectWindow this, (type) =>
+		@selectWindow ?= new Citrus.NewAccountSelectWindow this, (type) =>
 			this.addNewAccountOfType(type)
 			@selectWindow.win.close()
 		
@@ -41,7 +41,7 @@ class AccountsController extends Zeebra.Controller
 		if _.isFunction(type)
 			account = new type()
 		else
-			account = new Zeebra[type]()
+			account = new Citrus[type]()
 		
 		if account?
 			this.watchAccount(account)	
@@ -83,4 +83,4 @@ class AccountsController extends Zeebra.Controller
 			delete account
 			delete e.row.wrapper
 			
-Zeebra.AccountsController = AccountsController
+Citrus.AccountsController = AccountsController

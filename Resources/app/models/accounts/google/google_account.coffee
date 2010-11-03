@@ -1,4 +1,4 @@
-class GoogleAccount extends Zeebra.Account
+class GoogleAccount extends Citrus.Account
 	type: "GoogleAccount"
 
-Zeebra.registerAccount GoogleAccount
+Citrus.registerAccount GoogleAccount

@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   TwitterAction = function() {
-    return Zeebra.Action.apply(this, arguments);
+    return Citrus.Action.apply(this, arguments);
   };
-  __extends(TwitterAction, Zeebra.Action);
+  __extends(TwitterAction, Citrus.Action);
   TwitterAction.declares = ["TESTING123"];
   TwitterAction.prototype.type = "TwitterAction";
   TwitterAction.prototype.buttonText = "TwitterAction";
@@ -25,7 +25,7 @@
       return true;
     }
   };
-  Zeebra.TwitterAction = TwitterAction;
+  Citrus.TwitterAction = TwitterAction;
   Ti.include("/app/models/actions/twitter/follow_action.js");
   Ti.include("/app/models/actions/twitter/retweet_action.js");
   Ti.include("/app/models/actions/twitter/status_update_action.js");

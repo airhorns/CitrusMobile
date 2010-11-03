@@ -1,4 +1,4 @@
-class TwitterAction extends Zeebra.Action
+class TwitterAction extends Citrus.Action
 	@declares: ["TESTING123"]
 	type: "TwitterAction"
 	buttonText: "TwitterAction"
@@ -13,7 +13,7 @@ class TwitterAction extends Zeebra.Action
 			return true
 
 		
-Zeebra.TwitterAction = TwitterAction
+Citrus.TwitterAction = TwitterAction
 
 Ti.include("/app/models/actions/twitter/follow_action.js")
 Ti.include("/app/models/actions/twitter/retweet_action.js")

@@ -56,7 +56,7 @@
     });
     return this;
   };
-  __extends(AccountsTableViewWindow, Zeebra.GenericWindow);
+  __extends(AccountsTableViewWindow, Citrus.GenericWindow);
   AccountsTableViewWindow.prototype.showLoading = function() {
     this.win.setToolbar([this.loading_indicator], {
       animated: true
@@ -88,7 +88,7 @@
   };
   AccountsTableViewWindow.prototype._getTableRowFromAccount = function(account) {
     var klass, rowView;
-    klass = Zeebra[account.type + "TableViewRow"];
+    klass = Citrus[account.type + "TableViewRow"];
     if (typeof klass !== "undefined" && klass !== null) {
       rowView = new klass(account);
       return rowView.row;
@@ -96,5 +96,5 @@
       return false;
     }
   };
-  Zeebra.AccountsTableViewWindow = AccountsTableViewWindow;
+  Citrus.AccountsTableViewWindow = AccountsTableViewWindow;
 }).call(this);

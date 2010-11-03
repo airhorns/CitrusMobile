@@ -17,18 +17,18 @@
     this.takeActionFromRow = function(){ return SplashController.prototype.takeActionFromRow.apply(_this, arguments); };
     this.store = accountStore;
     this.codeData = codeData;
-    this.window = new Zeebra.SplashWindow(this);
+    this.window = new Citrus.SplashWindow(this);
     root.tabGroup.activeTab.open(this.window.win, {
       animated: true
     });
     this.tryToShow();
     return this;
   };
-  __extends(SplashController, Zeebra.Controller);
+  __extends(SplashController, Citrus.Controller);
   SplashController.prototype.tryToShow = function() {
     d("Trying to show " + this.codeData);
     this.window.showLoading();
-    return Zeebra.Splash.newFromDecodedData(this.codeData, __bind(function(splash) {
+    return Citrus.Splash.newFromDecodedData(this.codeData, __bind(function(splash) {
       this.splash = splash;
       return this.window.displaySplash(this.splash);
     }, this), __bind(function(xhr, status, error) {
@@ -124,5 +124,5 @@
   SplashController.prototype._canAccountRunAction = function(account, action) {
     return action.accountType === account.type;
   };
-  Zeebra.SplashController = SplashController;
+  Citrus.SplashController = SplashController;
 }).call(this);

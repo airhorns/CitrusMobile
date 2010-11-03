@@ -29,7 +29,7 @@
     }
     return this;
   };
-  __extends(Action, Zeebra.Object);
+  __extends(Action, Citrus.Object);
   Action.declares = [];
   Action.prototype.valid = false;
   Action.prototype.icon = "images/account_icons/GenericAccount_16.png";
@@ -48,14 +48,14 @@
   Action.prototype.button = function() {
     return true;
   };
-  Zeebra.Action = Action;
-  Zeebra.Actions = {
+  Citrus.Action = Action;
+  Citrus.Actions = {
     Twitter: {},
     Facebook: {},
     LinkedIn: {},
     Foursquare: {}
   };
-  _.extend(Zeebra.Actions, {
+  _.extend(Citrus.Actions, {
     newFromJSON: function(passed_attributes) {
       var _i, _len, _ref, action, attributes, namespace, scope, type, types;
       attributes = _.clone(passed_attributes || {});
@@ -64,14 +64,14 @@
       if (type) {
         delete attributes['_type'];
         types = type.split("::");
-        scope = Zeebra;
+        scope = Citrus;
         _ref = types;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           namespace = _ref[_i];
           if (!(_.isUndefined(scope[namespace]))) {
             scope = scope[namespace];
           } else {
-            Ti.API.error("Unrecognized action namespace/type " + type + ". Looked at Zeebra." + types.join("."));
+            Ti.API.error("Unrecognized action namespace/type " + type + ". Looked at Citrus." + types.join("."));
             return false;
           }
         }
@@ -84,7 +84,7 @@
             return false;
           }
         } else {
-          Ti.API.error("Unrecognized action scope found at Zeebra." + types.join(".") + ", it wasn't a function!");
+          Ti.API.error("Unrecognized action scope found at Citrus." + types.join(".") + ", it wasn't a function!");
           return false;
         }
       } else {

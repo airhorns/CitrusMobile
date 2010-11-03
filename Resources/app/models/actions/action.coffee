@@ -1,4 +1,4 @@
-class Action extends Zeebra.Object
+class Action extends Citrus.Object
 	@declares: []
 	valid: false
 	icon: "images/account_icons/GenericAccount_16.png"
@@ -37,16 +37,16 @@ class Action extends Zeebra.Object
 		true
 		
 
-Zeebra.Action = Action
+Citrus.Action = Action
 
-Zeebra.Actions = {
+Citrus.Actions = {
 	Twitter: {}
 	Facebook: {}
 	LinkedIn: {}
 	Foursquare: {}
 }
 
-_.extend Zeebra.Actions, {
+_.extend Citrus.Actions, {
 	newFromJSON: (passed_attributes) ->
 		attributes = _.clone((passed_attributes || {}))
 		type = attributes['_type']
@@ -56,12 +56,12 @@ _.extend Zeebra.Actions, {
 			types = type.split("::")
 			
 			# Find the action object by looping over the namespaces.	
-			scope = Zeebra
+			scope = Citrus
 			for namespace in types
 				unless _.isUndefined(scope[namespace])
 					scope = scope[namespace]
 				else
-					Ti.API.error("Unrecognized action namespace/type "+ type + ". Looked at Zeebra."+types.join("."))
+					Ti.API.error("Unrecognized action namespace/type "+ type + ". Looked at Citrus."+types.join("."))
 					return false
 
 			# If the action was succesfully found, initialize it and return it.
@@ -73,7 +73,7 @@ _.extend Zeebra.Actions, {
 					Ti.API.error("Invalid action generated from attributes.")
 					return false
 			else
-				Ti.API.error("Unrecognized action scope found at Zeebra."+types.join(".")+", it wasn't a function!")
+				Ti.API.error("Unrecognized action scope found at Citrus."+types.join(".")+", it wasn't a function!")
 				return false
 		else
 			Ti.API.error("Couldn't build action because no type attribute was provided.")
