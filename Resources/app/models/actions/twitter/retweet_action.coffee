@@ -1,4 +1,4 @@
-class RetweetAction extends Zeebra.TwitterAction
+class RetweetAction extends Citrus.TwitterAction
 	type: "TwitterRetweetAction"
 	buttonText: "Retweet"
 	@declares: ["status_id"]
@@ -8,4 +8,4 @@ class RetweetAction extends Zeebra.TwitterAction
 
 	actionName: () ->
 		"Retweet this user"
-Zeebra.Actions.Twitter.Retweet = RetweetAction
+Citrus.Actions.Twitter.Retweet = RetweetAction

@@ -1,5 +1,5 @@
 (function() {
   var Controller;
   Controller = function() {};
-  Zeebra.Controller = Controller;
+  Citrus.Controller = Controller;
 }).call(this);

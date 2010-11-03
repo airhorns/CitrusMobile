@@ -34,13 +34,13 @@
     }, this));
     return this;
   };
-  __extends(PersistedObject, Zeebra.Object);
+  __extends(PersistedObject, Citrus.Object);
   PersistedObject.prototype.refreshInterval = 1000;
   PersistedObject.prototype.markedToSynch = false;
   PersistedObject.loadFromPersistable = function(persisted) {
     var obj;
-    if (_.isFunction(Zeebra[persisted.type])) {
-      obj = new Zeebra[persisted.type](persisted);
+    if (_.isFunction(Citrus[persisted.type])) {
+      obj = new Citrus[persisted.type](persisted);
       return obj;
     } else {
       Ti.API.error("Unrecognized persisted type " + persisted.type + ". Persistable is :");
@@ -84,5 +84,5 @@
     }
     return (((new Date()).getTime() - this.refreshInterval) < this.lastSynched.getTime());
   };
-  Zeebra.PersistedObject = PersistedObject;
+  Citrus.PersistedObject = PersistedObject;
 }).call(this);

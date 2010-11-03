@@ -1,4 +1,4 @@
-class FoursquareAccount extends Zeebra.Account
+class FoursquareAccount extends Citrus.Account
 	type: "FoursquareAccount"
 
-Zeebra.registerAccount FoursquareAccount
+Citrus.registerAccount FoursquareAccount

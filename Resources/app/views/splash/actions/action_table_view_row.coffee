@@ -1,4 +1,4 @@
-class ActionTableViewRow extends Zeebra.Object
+class ActionTableViewRow extends Citrus.Object
 	@InProgress: 1
 	@Error: 2
 	@Success: 3
@@ -11,7 +11,7 @@ class ActionTableViewRow extends Zeebra.Object
 		@clicked = clicked
 		@takeable = (takeable || false)
 		@row =  this.getRowTemplate()
-		@state = Zeebra.ActionTableViewRow.Ready
+		@state = Citrus.ActionTableViewRow.Ready
 
 		this.displayPhoto()
 		this.displayText()
@@ -92,14 +92,14 @@ class ActionTableViewRow extends Zeebra.Object
 	# Updates the row to show the user it's currently running its action
 	displayInProgress: ->
 		d("Trying to display progress")
-		@state = Zeebra.ActionTableViewRow.InProgress
+		@state = Citrus.ActionTableViewRow.InProgress
 		@takeable = false
 		this.displayButton(Titanium.UI.iPhone.SystemButton.ACTION, " ")
 
 	# Updates the row to show the user it's done running its action and it worked!
 	displaySuccess: ->
 		d("Trying to display success")
-		@state = Zeebra.ActionTableViewRow.Success
+		@state = Citrus.ActionTableViewRow.Success
 		@takeable = false
 		this.displayButton(Titanium.UI.iPhone.SystemButton.PLAIN, "Done!")
 		d("Success displayed")
@@ -108,7 +108,7 @@ class ActionTableViewRow extends Zeebra.Object
 	displayError: (retry) ->
 		d("Trying to display error")
 		retry ?= true
-		@state = Zeebra.ActionTableViewRow.Error
+		@state = Citrus.ActionTableViewRow.Error
 		@takeable = retry
 		this.displayButton(null, if retry then "Retry?" else "Error!")
 		d("Error displayed")
@@ -122,9 +122,9 @@ class ActionTableViewRow extends Zeebra.Object
 	text: ->
 		@action.actionName()
 
-Zeebra.ActionRows = {}
-Zeebra.registerActionViewRow = (klass) ->
-	Zeebra.ActionRows[klass::type] = klass
+Citrus.ActionRows = {}
+Citrus.registerActionViewRow = (klass) ->
+	Citrus.ActionRows[klass::type] = klass
 
-Zeebra.ActionTableViewRow = ActionTableViewRow
-Zeebra.registerActionViewRow ActionTableViewRow
+Citrus.ActionTableViewRow = ActionTableViewRow
+Citrus.registerActionViewRow ActionTableViewRow

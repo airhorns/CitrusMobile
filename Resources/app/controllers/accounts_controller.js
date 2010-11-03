@@ -23,7 +23,7 @@
       account = _ref[_i];
       this.watchAccount(account);
     }
-    this.window = new Zeebra.AccountsTableViewWindow(this, this.store.accounts);
+    this.window = new Citrus.AccountsTableViewWindow(this, this.store.accounts);
     setTimeout(function() {
       return root.fireEvent("synch:start", {
         source: "accounts controller"
@@ -31,14 +31,14 @@
     }, 500);
     return this;
   };
-  __extends(AccountsController, Zeebra.Controller);
+  __extends(AccountsController, Citrus.Controller);
   AccountsController.prototype.watchedAccounts = [];
   AccountsController.prototype.addNewAccount = function() {
     if (!Titanium.Network.online) {
       alert("You aren't connected to the internet right now, so you won't be able to connect authorize the account. Please connect to the internet and try again.");
       return false;
     }
-    this.selectWindow = (typeof this.selectWindow !== "undefined" && this.selectWindow !== null) ? this.selectWindow : new Zeebra.NewAccountSelectWindow(this, __bind(function(type) {
+    this.selectWindow = (typeof this.selectWindow !== "undefined" && this.selectWindow !== null) ? this.selectWindow : new Citrus.NewAccountSelectWindow(this, __bind(function(type) {
       this.addNewAccountOfType(type);
       return this.selectWindow.win.close();
     }, this));
@@ -52,7 +52,7 @@
     if (_.isFunction(type)) {
       account = new type();
     } else {
-      account = new Zeebra[type]();
+      account = new Citrus[type]();
     }
     if (typeof account !== "undefined" && account !== null) {
       this.watchAccount(account);
@@ -95,5 +95,5 @@
       return delete e.row.wrapper;
     }, this));
   };
-  Zeebra.AccountsController = AccountsController;
+  Citrus.AccountsController = AccountsController;
 }).call(this);

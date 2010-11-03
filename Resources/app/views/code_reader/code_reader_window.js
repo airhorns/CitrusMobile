@@ -17,6 +17,6 @@
     }, this));
     return this;
   };
-  __extends(CodeReaderWindow, Zeebra.PlaceholderWindow);
-  Zeebra.CodeReaderWindow = CodeReaderWindow;
+  __extends(CodeReaderWindow, Citrus.PlaceholderWindow);
+  Citrus.CodeReaderWindow = CodeReaderWindow;
 }).call(this);

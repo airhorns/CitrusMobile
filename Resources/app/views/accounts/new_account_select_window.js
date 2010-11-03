@@ -19,7 +19,7 @@
       backgroundColor: "#000000"
     });
     data = (function() {
-      _result = []; _ref = Zeebra.AccountTypes;
+      _result = []; _ref = Citrus.AccountTypes;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         klass = _ref[_i];
         _result.push((function() {
@@ -51,6 +51,6 @@
     Ti.API.debug("Done creating select window");
     return this;
   };
-  __extends(NewAccountSelectWindow, Zeebra.GenericWindow);
-  Zeebra.NewAccountSelectWindow = NewAccountSelectWindow;
+  __extends(NewAccountSelectWindow, Citrus.GenericWindow);
+  Citrus.NewAccountSelectWindow = NewAccountSelectWindow;
 }).call(this);

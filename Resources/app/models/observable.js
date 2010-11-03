@@ -78,7 +78,7 @@
     this.callback = null;
     return (this.scope = null);
   };
-  Zeebra.Observable = Observable;
-  Zeebra.EventSubscription = EventSubscription;
-  Zeebra.Event = Event;
+  Citrus.Observable = Observable;
+  Citrus.EventSubscription = EventSubscription;
+  Citrus.Event = Event;
 }).call(this);

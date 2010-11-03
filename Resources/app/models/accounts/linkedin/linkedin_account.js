@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   LinkedInAccount = function() {
-    return Zeebra.Account.apply(this, arguments);
+    return Citrus.Account.apply(this, arguments);
   };
-  __extends(LinkedInAccount, Zeebra.Account);
+  __extends(LinkedInAccount, Citrus.Account);
   LinkedInAccount.prototype.type = "LinkedInAccount";
-  Zeebra.registerAccount(LinkedInAccount);
+  Citrus.registerAccount(LinkedInAccount);
 }).call(this);

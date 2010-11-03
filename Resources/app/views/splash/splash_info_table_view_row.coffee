@@ -1,4 +1,4 @@
-class SplashInfoTableViewRow extends Zeebra.Object
+class SplashInfoTableViewRow extends Citrus.Object
 	constructor: (splash) ->
 		@row = Titanium.UI.createTableViewRow {
 			height: 80
@@ -55,5 +55,5 @@ class SplashInfoTableViewRow extends Zeebra.Object
 		#		}
 		#		@row.add(realName)
 	
-Zeebra.SplashInfoTableViewRow = SplashInfoTableViewRow
+Citrus.SplashInfoTableViewRow = SplashInfoTableViewRow
 	

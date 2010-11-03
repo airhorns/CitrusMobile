@@ -1,3 +1,3 @@
 class Controller
 	
-Zeebra.Controller = Controller
+Citrus.Controller = Controller

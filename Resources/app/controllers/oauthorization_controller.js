@@ -10,17 +10,17 @@
   };
   Ti.include("/app/views/accounts/authorization_web_view_window.js");
   OAuthorizationController = function(onload, onerror) {
-    this.window = new Zeebra.AuthorizationWebViewWindow();
+    this.window = new Citrus.AuthorizationWebViewWindow();
     this.window.addEventListener("load", onload);
     this.window.addEventListener("destroy", onerror);
     return this;
   };
-  __extends(OAuthorizationController, Zeebra.Controller);
+  __extends(OAuthorizationController, Citrus.Controller);
   OAuthorizationController.prototype.loadURL = function(url) {
     return this.window.loadURL(url);
   };
   OAuthorizationController.prototype.destroy = function() {
     return this.window.destroyAuthorizeUI();
   };
-  Zeebra.OAuthorizationController = OAuthorizationController;
+  Citrus.OAuthorizationController = OAuthorizationController;
 }).call(this);

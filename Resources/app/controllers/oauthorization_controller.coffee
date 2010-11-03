@@ -1,7 +1,7 @@
 Ti.include("/app/views/accounts/authorization_web_view_window.js");
-class OAuthorizationController extends Zeebra.Controller
+class OAuthorizationController extends Citrus.Controller
 	constructor: (onload, onerror)->
-		@window = new Zeebra.AuthorizationWebViewWindow()
+		@window = new Citrus.AuthorizationWebViewWindow()
 		@window.addEventListener("load", onload)
 		@window.addEventListener("destroy", onerror)
 	
@@ -11,4 +11,4 @@ class OAuthorizationController extends Zeebra.Controller
 	destroy: ->
 		@window.destroyAuthorizeUI()
 
-Zeebra.OAuthorizationController = OAuthorizationController
+Citrus.OAuthorizationController = OAuthorizationController

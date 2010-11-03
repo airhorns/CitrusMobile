@@ -28,6 +28,6 @@
     this.win.add(label);
     return this;
   };
-  __extends(PlaceholderWindow, Zeebra.GenericWindow);
-  Zeebra.PlaceholderWindow = PlaceholderWindow;
+  __extends(PlaceholderWindow, Citrus.GenericWindow);
+  Citrus.PlaceholderWindow = PlaceholderWindow;
 }).call(this);

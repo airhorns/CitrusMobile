@@ -1,4 +1,4 @@
-class TwitterAccountTableViewRow extends Zeebra.AccountTableViewRow 
+class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow 
 	constructor: (account) ->
 		super
 
@@ -25,4 +25,4 @@ class TwitterAccountTableViewRow extends Zeebra.AccountTableViewRow
 			}
 			@row.add(realName)
 		
-Zeebra.TwitterAccountTableViewRow = TwitterAccountTableViewRow
+Citrus.TwitterAccountTableViewRow = TwitterAccountTableViewRow

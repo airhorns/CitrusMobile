@@ -25,6 +25,6 @@
     this.win.add(this.table);
     return this;
   };
-  __extends(SplashLoadingWindow, Zeebra.GenericWindow);
-  Zeebra.SplashLoadingWindow = SplashLoadingWindow;
+  __extends(SplashLoadingWindow, Citrus.GenericWindow);
+  Citrus.SplashLoadingWindow = SplashLoadingWindow;
 }).call(this);

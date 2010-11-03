@@ -61,7 +61,7 @@
     this.authorizationView.animate(animation);
     return this;
   };
-  __extends(AuthorizationWebViewWindow, Zeebra.GenericWindow);
+  __extends(AuthorizationWebViewWindow, Citrus.GenericWindow);
   AuthorizationWebViewWindow.prototype.loadURL = function(url) {
     this.authorizationWebView.url = url;
     return this.authorizationWebView.reload();
@@ -80,5 +80,5 @@
       return Ti.API.error(ex);
     }
   };
-  Zeebra.AuthorizationWebViewWindow = AuthorizationWebViewWindow;
+  Citrus.AuthorizationWebViewWindow = AuthorizationWebViewWindow;
 }).call(this);

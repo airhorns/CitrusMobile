@@ -1,6 +1,6 @@
-Zeebra.AccountTypes = []
+Citrus.AccountTypes = []
 
-class Account extends Zeebra.PersistedObject
+class Account extends Citrus.PersistedObject
 	type: "GenericAccount"
 	lastSynched: false
 	refreshInterval: 1000*60*3 # 3 hours
@@ -18,11 +18,11 @@ class Account extends Zeebra.PersistedObject
 		this.fireEvent("authorization:complete")
 		true
 		
-Zeebra.Account = Account
+Citrus.Account = Account
 
-Zeebra.registerAccount = (account_klass) ->
-	Zeebra.AccountTypes.push account_klass
-	Zeebra[account_klass::type] = account_klass
+Citrus.registerAccount = (account_klass) ->
+	Citrus.AccountTypes.push account_klass
+	Citrus[account_klass::type] = account_klass
 	
 Ti.include("/app/models/accounts/twitter/twitter_account.js")
 Ti.include("/app/models/accounts/facebook/facebook_account.js")

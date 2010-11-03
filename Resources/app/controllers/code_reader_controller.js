@@ -12,11 +12,11 @@
   Ti.include('app/views/code_reader/code_reader_window.js');
   Ti.include('app/controllers/splash_controller.js');
   CodeReaderController = function() {
-    this.window = new Zeebra.CodeReaderWindow(this, 'Scanner', 'Scan a code!');
+    this.window = new Citrus.CodeReaderWindow(this, 'Scanner', 'Scan a code!');
     this.code = null;
     return this;
   };
-  __extends(CodeReaderController, Zeebra.Controller);
+  __extends(CodeReaderController, Citrus.Controller);
   CodeReaderController.prototype.focused = function(e) {
     var _ref;
     if (typeof (_ref = this.code) !== "undefined" && _ref !== null) {
@@ -39,7 +39,7 @@
         var _ref;
         if (typeof (_ref = (typeof data === "undefined" || data === null) ? undefined : data.barcode) !== "undefined" && _ref !== null) {
           Titanium.Media.vibrate();
-          return new Zeebra.SplashController(data.barcode, root.accountStore);
+          return new Citrus.SplashController(data.barcode, root.accountStore);
         }
       },
       cancel: function() {
@@ -50,5 +50,5 @@
       }
     });
   };
-  Zeebra.CodeReaderController = CodeReaderController;
+  Citrus.CodeReaderController = CodeReaderController;
 }).call(this);

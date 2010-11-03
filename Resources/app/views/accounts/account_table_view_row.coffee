@@ -1,4 +1,4 @@
-class AccountTableViewRow extends Zeebra.Object
+class AccountTableViewRow extends Citrus.Object
 	constructor: (account) ->
 		@account = account
 		@row = this.getTableViewRowTemplate()
@@ -27,6 +27,6 @@ class AccountTableViewRow extends Zeebra.Object
 		# row.add(image)
 		return row
 
-Zeebra.AccountTableViewRow = AccountTableViewRow
+Citrus.AccountTableViewRow = AccountTableViewRow
 
 Ti.include("/app/views/accounts/twitter_account_table_view_row.js")

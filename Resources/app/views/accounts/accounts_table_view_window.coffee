@@ -1,4 +1,4 @@
-class AccountsTableViewWindow extends Zeebra.GenericWindow
+class AccountsTableViewWindow extends Citrus.GenericWindow
 	constructor: (controller, initialAccounts) ->
 		super
 		@win = Ti.UI.createWindow({title:"Accounts",backgroundColor:'#fff'})
@@ -63,7 +63,7 @@ class AccountsTableViewWindow extends Zeebra.GenericWindow
 		@table.appendRow(row, {animated:true})
 
 	_getTableRowFromAccount: (account) ->
-		klass = Zeebra[account.type+"TableViewRow"]
+		klass = Citrus[account.type+"TableViewRow"]
 
 		if klass?
 			rowView = new klass(account)
@@ -71,4 +71,4 @@ class AccountsTableViewWindow extends Zeebra.GenericWindow
 		else
 			return false
 
-Zeebra.AccountsTableViewWindow = AccountsTableViewWindow
+Citrus.AccountsTableViewWindow = AccountsTableViewWindow

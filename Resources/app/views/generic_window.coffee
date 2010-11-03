@@ -1,5 +1,5 @@
-class GenericWindow extends Zeebra.Observable
+class GenericWindow extends Citrus.Observable
 	constructor: (controller) ->
 		@controller = controller
  
-Zeebra.GenericWindow = GenericWindow
+Citrus.GenericWindow = GenericWindow

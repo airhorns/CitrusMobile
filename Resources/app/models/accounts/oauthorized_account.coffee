@@ -1,9 +1,9 @@
 Ti.include('vendor/sha1.js')
 Ti.include('vendor/oauth.js')
 
-class OAuthorizedAccount extends Zeebra.Account
-	# ZEEBRA SPECIFIC SETTINGS
-	consumerSecret: ZEEBRA_CONSUMER_SECRET
+class OAuthorizedAccount extends Citrus.Account
+	# Citrus SPECIFIC SETTINGS
+	consumerSecret: Citrus_CONSUMER_SECRET
 	consumerKey: 'at0rryC4zHWNcIRhbIW0Fw'
 	signatureMethod: 'HMAC-SHA1' #standard
 	# the pin or oauth_verifier returned by the authorization process window
@@ -16,7 +16,7 @@ class OAuthorizedAccount extends Zeebra.Account
 
 	# the accessor is used when communicating with the OAuth libraries to sign the messages
 	accessor: {
-		consumerSecret: ZEEBRA_CONSUMER_SECRET,
+		consumerSecret: Citrus_CONSUMER_SECRET,
 		tokenSecret: ''
 	}
 
@@ -256,4 +256,4 @@ class OAuthorizedAccount extends Zeebra.Account
 
 		this.requestAccessWithUI('https://api.twitter.com/oauth/authorize?' + token)
 		
-Zeebra.TwitterOAuthAdapter = TwitterOAuthAdapter
+Citrus.TwitterOAuthAdapter = TwitterOAuthAdapter

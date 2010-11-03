@@ -18,13 +18,13 @@
     this.clicked = clicked;
     this.takeable = (takeable || false);
     this.row = this.getRowTemplate();
-    this.state = Zeebra.ActionTableViewRow.Ready;
+    this.state = Citrus.ActionTableViewRow.Ready;
     this.displayPhoto();
     this.displayText();
     this.displayButton();
     return this;
   };
-  __extends(ActionTableViewRow, Zeebra.Object);
+  __extends(ActionTableViewRow, Citrus.Object);
   ActionTableViewRow.InProgress = 1;
   ActionTableViewRow.Error = 2;
   ActionTableViewRow.Success = 3;
@@ -110,13 +110,13 @@
   };
   ActionTableViewRow.prototype.displayInProgress = function() {
     d("Trying to display progress");
-    this.state = Zeebra.ActionTableViewRow.InProgress;
+    this.state = Citrus.ActionTableViewRow.InProgress;
     this.takeable = false;
     return this.displayButton(Titanium.UI.iPhone.SystemButton.ACTION, " ");
   };
   ActionTableViewRow.prototype.displaySuccess = function() {
     d("Trying to display success");
-    this.state = Zeebra.ActionTableViewRow.Success;
+    this.state = Citrus.ActionTableViewRow.Success;
     this.takeable = false;
     this.displayButton(Titanium.UI.iPhone.SystemButton.PLAIN, "Done!");
     return d("Success displayed");
@@ -124,7 +124,7 @@
   ActionTableViewRow.prototype.displayError = function(retry) {
     d("Trying to display error");
     retry = (typeof retry !== "undefined" && retry !== null) ? retry : true;
-    this.state = Zeebra.ActionTableViewRow.Error;
+    this.state = Citrus.ActionTableViewRow.Error;
     this.takeable = retry;
     this.displayButton(null, retry ? "Retry?" : "Error!");
     return d("Error displayed");
@@ -138,10 +138,10 @@
   ActionTableViewRow.prototype.text = function() {
     return this.action.actionName();
   };
-  Zeebra.ActionRows = {};
-  Zeebra.registerActionViewRow = function(klass) {
-    return (Zeebra.ActionRows[klass.prototype.type] = klass);
+  Citrus.ActionRows = {};
+  Citrus.registerActionViewRow = function(klass) {
+    return (Citrus.ActionRows[klass.prototype.type] = klass);
   };
-  Zeebra.ActionTableViewRow = ActionTableViewRow;
-  Zeebra.registerActionViewRow(ActionTableViewRow);
+  Citrus.ActionTableViewRow = ActionTableViewRow;
+  Citrus.registerActionViewRow(ActionTableViewRow);
 }).call(this);

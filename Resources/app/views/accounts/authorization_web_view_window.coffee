@@ -1,4 +1,4 @@
-class AuthorizationWebViewWindow extends Zeebra.GenericWindow
+class AuthorizationWebViewWindow extends Citrus.GenericWindow
 	constructor: (controller) ->
 		super
 		
@@ -71,4 +71,4 @@ class AuthorizationWebViewWindow extends Zeebra.GenericWindow
 			Ti.API.debug('Cannot destroy the authorize UI. Ignoring. Error:')
 			Ti.API.error(ex)
 
-Zeebra.AuthorizationWebViewWindow = AuthorizationWebViewWindow
+Citrus.AuthorizationWebViewWindow = AuthorizationWebViewWindow

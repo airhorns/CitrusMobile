@@ -1,4 +1,4 @@
-class AccountSet extends Zeebra.Object
+class AccountSet extends Citrus.Object
 	
 	constructor: () ->
 		@accounts = []
@@ -8,7 +8,7 @@ class AccountSet extends Zeebra.Object
 	# Loads the account set from the app properties
 	load: ->
 		# Ti.API.debug("Loading accounts from : ")
-		# Ti.API.debug(Ti.App.Properties.getString("ZeebraAccounts"))
+		# Ti.API.debug(Ti.App.Properties.getString("CitrusAccounts"))
 		
 		return [] unless Ti.App.Properties.hasProperty(this.key())
 		try
@@ -21,7 +21,7 @@ class AccountSet extends Zeebra.Object
 		datas ?= []
 		accounts = []
 		for datum in datas
-			account = Zeebra.PersistedObject.loadFromPersistable(datum)
+			account = Citrus.PersistedObject.loadFromPersistable(datum)
 			if account
 				Ti.API.info("Loaded "+account.type+" from persistable.")
 				accounts.push account
@@ -41,7 +41,7 @@ class AccountSet extends Zeebra.Object
 		return Ti.App.Properties.setString(this.key(), JSON.stringify(persistable_accounts))
 		
 	key: ->
-		return "ZeebraAccounts"
+		return "CitrusAccounts"
 
 	addAccount: (account) ->
 		Ti.API.debug("Account Added to store.")
@@ -52,4 +52,4 @@ class AccountSet extends Zeebra.Object
 		@accounts = _.without(@accounts, account)
 		this.save()
 		
-Zeebra.AccountSet = AccountSet
+Citrus.AccountSet = AccountSet

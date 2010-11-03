@@ -1,4 +1,4 @@
-class StatusUpdateAction extends Zeebra.TwitterAction
+class StatusUpdateAction extends Citrus.TwitterAction
 	type: "TwitterStatusUpdateAction"
 	buttonText: "Tweet"
 	@declares: ["text", "in_reply_to_id"]
@@ -9,4 +9,4 @@ class StatusUpdateAction extends Zeebra.TwitterAction
 	actionName: () ->
 		"Tweet about this"
 	
-Zeebra.Actions.Twitter.StatusUpdateAction = StatusUpdateAction
+Citrus.Actions.Twitter.StatusUpdateAction = StatusUpdateAction

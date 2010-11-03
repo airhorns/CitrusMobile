@@ -2,7 +2,7 @@ Ti.include("/app/views/splash/splash_info_table_view_row.js")
 Ti.include("/app/views/splash/actions/action_table_view_row.js")
 Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
 
-class SplashWindow extends Zeebra.GenericWindow
+class SplashWindow extends Citrus.GenericWindow
 	# Sets up the loading indicator
 	constructor: (controller) ->
 		super
@@ -76,7 +76,7 @@ class SplashWindow extends Zeebra.GenericWindow
 
 
 	getInfoRow: () ->
-		row = new Zeebra.SplashInfoTableViewRow(@splash)
+		row = new Citrus.SplashInfoTableViewRow(@splash)
 		return row.row
 
 	# Gets all the TableViewRow objects corresponding to the splash's actions.
@@ -84,12 +84,12 @@ class SplashWindow extends Zeebra.GenericWindow
 		rows = for action in @splash.actions
 			takeable = @controller.isActionTakeable(action)
 			callback = @controller.takeActionFromRow
-			klass = Zeebra.ActionRows[action.tableViewRow]
+			klass = Citrus.ActionRows[action.tableViewRow]
 			if klass?
 				row = new klass(action, takeable, callback)
 			else
 				Ti.API.debug("Warning: couldn't find table view row class "+action.tableViewRow+". Instantiating generic.")
-				row = new Zeebra.ActionRows.ActionTableViewRow(action, takeable, callback)
+				row = new Citrus.ActionRows.ActionTableViewRow(action, takeable, callback)
 
 			row.row
 		rows
@@ -100,4 +100,4 @@ class SplashWindow extends Zeebra.GenericWindow
 	hideLoading: () ->
 		@loadingIndicator.hide()
 
-Zeebra.SplashWindow = SplashWindow
+Citrus.SplashWindow = SplashWindow

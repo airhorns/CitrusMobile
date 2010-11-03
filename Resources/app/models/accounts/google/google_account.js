@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   GoogleAccount = function() {
-    return Zeebra.Account.apply(this, arguments);
+    return Citrus.Account.apply(this, arguments);
   };
-  __extends(GoogleAccount, Zeebra.Account);
+  __extends(GoogleAccount, Citrus.Account);
   GoogleAccount.prototype.type = "GoogleAccount";
-  Zeebra.registerAccount(GoogleAccount);
+  Citrus.registerAccount(GoogleAccount);
 }).call(this);

@@ -13,6 +13,6 @@
     this.tid = hex_sha1(String(Math.random() * 10));
     return this;
   };
-  __extends(Object, Zeebra.Observable);
-  Zeebra.Object = Object;
+  __extends(Object, Citrus.Observable);
+  Citrus.Object = Object;
 }).call(this);

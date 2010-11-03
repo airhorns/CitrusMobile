@@ -1,10 +1,10 @@
 Ti.include("/app/views/splash/splash_window.js")
 
-class SplashController extends Zeebra.Controller
+class SplashController extends Citrus.Controller
 	constructor: (codeData, accountStore) ->
 		@store = accountStore
 		@codeData = codeData
-		@window = new Zeebra.SplashWindow(this)
+		@window = new Citrus.SplashWindow(this)
 		root.tabGroup.activeTab.open @window.win, {animated:true}
 
 		this.tryToShow()
@@ -13,7 +13,7 @@ class SplashController extends Zeebra.Controller
 		d("Trying to show "+@codeData)
 		@window.showLoading()
 
-		Zeebra.Splash.newFromDecodedData(@codeData, (splash) =>
+		Citrus.Splash.newFromDecodedData(@codeData, (splash) =>
 			@splash = splash
 			@window.displaySplash(@splash)
 		, (xhr, status, error) =>
@@ -107,4 +107,4 @@ class SplashController extends Zeebra.Controller
 	_canAccountRunAction: (account, action) ->
 		return action.accountType == account.type
 
-Zeebra.SplashController = SplashController
+Citrus.SplashController = SplashController

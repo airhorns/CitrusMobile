@@ -1,3 +1,3 @@
-class CodesWindow extends Zeebra.PlaceholderWindow
+class CodesWindow extends Citrus.PlaceholderWindow
 
-Zeebra.CodesWindow = CodesWindow
+Citrus.CodesWindow = CodesWindow

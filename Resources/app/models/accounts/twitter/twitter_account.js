@@ -25,7 +25,7 @@
     }
     return this;
   };
-  __extends(TwitterAccount, Zeebra.Account);
+  __extends(TwitterAccount, Citrus.Account);
   TwitterAccount.prototype.type = "TwitterAccount";
   TwitterAccount.prototype.persistableAttributes = ["screenName", "name", "accessToken", "accessTokenSecret"];
   TwitterAccount.prototype.synch = function() {
@@ -92,7 +92,7 @@
       }
       return Ti.API.debug("Pin not found in loaded XML");
     }, this);
-    controller = new Zeebra.OAuthorizationController(findPin, errorFindingPin);
+    controller = new Citrus.OAuthorizationController(findPin, errorFindingPin);
     return this.consumer.getRequestTokenAsync(__bind(function(token) {
       var url;
       url = OAuth.addToURL(this.consumer.getService().userAuthorizationUrl, {
@@ -134,5 +134,5 @@
     this.api.setCredentials(this.consumer);
     return TwitterAccount.__super__.completeAuthorization.call(this);
   };
-  Zeebra.registerAccount(TwitterAccount);
+  Citrus.registerAccount(TwitterAccount);
 }).call(this);

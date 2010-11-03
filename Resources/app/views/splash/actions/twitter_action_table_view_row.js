@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   TwitterActionTableViewRow = function() {
-    return Zeebra.ActionRows.ActionTableViewRow.apply(this, arguments);
+    return Citrus.ActionRows.ActionTableViewRow.apply(this, arguments);
   };
-  __extends(TwitterActionTableViewRow, Zeebra.ActionRows.ActionTableViewRow);
+  __extends(TwitterActionTableViewRow, Citrus.ActionRows.ActionTableViewRow);
   TwitterActionTableViewRow.prototype.type = "TwitterActionTableViewRow";
   TwitterActionTableViewRow.prototype.icon = function() {
     return "images/account_icons/TwitterAccount_32.png";
@@ -19,5 +19,5 @@
   TwitterActionTableViewRow.prototype.buttonText = function() {
     return this.action.buttonText;
   };
-  Zeebra.registerActionViewRow(TwitterActionTableViewRow);
+  Citrus.registerActionViewRow(TwitterActionTableViewRow);
 }).call(this);

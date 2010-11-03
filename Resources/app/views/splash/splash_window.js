@@ -31,7 +31,7 @@
     this.win.add(this.loadingIndicator);
     return this;
   };
-  __extends(SplashWindow, Zeebra.GenericWindow);
+  __extends(SplashWindow, Citrus.GenericWindow);
   SplashWindow.prototype.displaySplash = function(splash) {
     var _ref, rows;
     Ti.API.debug("Displaying splash \"" + splash.name + "\", tid:" + splash.tid);
@@ -100,7 +100,7 @@
   };
   SplashWindow.prototype.getInfoRow = function() {
     var row;
-    row = new Zeebra.SplashInfoTableViewRow(this.splash);
+    row = new Citrus.SplashInfoTableViewRow(this.splash);
     return row.row;
   };
   SplashWindow.prototype.getActionRows = function() {
@@ -112,12 +112,12 @@
         _result.push((function() {
           takeable = this.controller.isActionTakeable(action);
           callback = this.controller.takeActionFromRow;
-          klass = Zeebra.ActionRows[action.tableViewRow];
+          klass = Citrus.ActionRows[action.tableViewRow];
           if (typeof klass !== "undefined" && klass !== null) {
             row = new klass(action, takeable, callback);
           } else {
             Ti.API.debug("Warning: couldn't find table view row class " + action.tableViewRow + ". Instantiating generic.");
-            row = new Zeebra.ActionRows.ActionTableViewRow(action, takeable, callback);
+            row = new Citrus.ActionRows.ActionTableViewRow(action, takeable, callback);
           }
           return row.row;
         }).call(this));
@@ -132,5 +132,5 @@
   SplashWindow.prototype.hideLoading = function() {
     return this.loadingIndicator.hide();
   };
-  Zeebra.SplashWindow = SplashWindow;
+  Citrus.SplashWindow = SplashWindow;
 }).call(this);

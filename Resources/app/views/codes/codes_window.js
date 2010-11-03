@@ -9,8 +9,8 @@
     child.__super__ = parent.prototype;
   };
   CodesWindow = function() {
-    return Zeebra.PlaceholderWindow.apply(this, arguments);
+    return Citrus.PlaceholderWindow.apply(this, arguments);
   };
-  __extends(CodesWindow, Zeebra.PlaceholderWindow);
-  Zeebra.CodesWindow = CodesWindow;
+  __extends(CodesWindow, Citrus.PlaceholderWindow);
+  Citrus.CodesWindow = CodesWindow;
 }).call(this);
