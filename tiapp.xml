@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.harrybrundage.citrus</id>
-    <name>Citrus</name>
-    <version>1.0</version>
-    <publisher>not specified</publisher>
-    <url>not specified</url>
-    <description>not specified</description>
-    <copyright>not specified</copyright>
-    <icon>appicon.png</icon>
+<id>com.harrybrundage.citrus</id>
+<name>Citrus</name>
+<version>1.0</version>
+<publisher>Citrus App LLC</publisher>
+<url>http://citrusapp.com/</url>
+<description>Citrus QR Code App</description>
+<copyright>2010 by Harry Brundage</copyright>
+<icon>default_app_logo.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
