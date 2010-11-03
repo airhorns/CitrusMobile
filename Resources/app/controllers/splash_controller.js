@@ -29,23 +29,33 @@
     d("Trying to show " + this.codeData);
     this.window.showLoading();
     return Citrus.Splash.newFromDecodedData(this.codeData, __bind(function(splash) {
+      d("Found a splash in the decoded data, with shortcode " + splash.shortcode);
       this.splash = splash;
       return this.window.displaySplash(this.splash);
     }, this), __bind(function(xhr, status, error) {
       var msg, retry;
-      if (!Titanium.Network.online) {
-        msg = "You need to be connected to the internet to scan this code. Please connect and then retry.";
-        retry = true;
-      } else if (xhr.status === 404) {
-        msg = "This code couldn't be found in our database, probably because it's been deleted!";
-        retry = false;
+      d("Error finding a Citrus splash from the decoded data. Status: " + status);
+      if (xhr) {
+        if (!Titanium.Network.online) {
+          msg = "You need to be connected to the internet to scan this code. Please connect and then retry.";
+          retry = true;
+        } else if (xhr.status === 404) {
+          msg = "This code couldn't be found in our database, probably because it's been deleted!";
+          retry = false;
+        } else {
+          msg = "There was an error fetching this code from the server! Please try again.";
+          retry = true;
+        }
       } else {
-        msg = "There was an error fetchng this code from the server! Please try again.";
-        retry = true;
+        if (status === "not_citrus_code") {
+          this.window.displayDecodedData(this.codeData);
+          return true;
+        }
       }
-      return this.window.displayError(msg, retry, __bind(function() {
+      this.window.displayError(msg, retry, __bind(function() {
         return this.tryToShow();
       }, this));
+      return false;
     }, this));
   };
   SplashController.prototype.takeActionFromRow = function(row, e) {
@@ -105,7 +115,6 @@
       }, this));
       return this.dialog.show();
     } else {
-      d("BLAH");
       d("running on " + accounts[0]);
       runAction(accounts[0]);
       return true;

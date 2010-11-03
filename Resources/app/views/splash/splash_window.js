@@ -18,7 +18,6 @@
       backgroundColor: '#fff'
     });
     this.loadingIndicator = Titanium.UI.createActivityIndicator({
-      style: Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN,
       font: {
         fontFamily: 'Helvetica Neue',
         fontSize: 20,
@@ -53,18 +52,21 @@
   SplashWindow.prototype.displayError = function(msg, retry, callback) {
     var _ref;
     this.hideLoading();
-    this.errorLabel = (typeof this.errorLabel !== "undefined" && this.errorLabel !== null) ? this.errorLabel : Ti.UI.createLabel({
-      color: '#000',
-      font: {
-        fontSize: 20,
-        fontWeight: 'bold'
-      },
-      top: 100,
-      height: 'auto',
-      width: 300
-    });
+    if (!(typeof (_ref = this.errorLabel) !== "undefined" && _ref !== null)) {
+      this.errorLabel = Ti.UI.createLabel({
+        color: '#000',
+        font: {
+          fontSize: 20,
+          fontWeight: 'bold'
+        },
+        top: 100,
+        height: 'auto',
+        width: 300
+      });
+      this.win.add(this.errorLabel);
+    }
     this.errorLabel.text = msg;
-    this.win.add(this.errorLabel);
+    this.errorLabel.show();
     if (retry) {
       if (!(typeof (_ref = this.retryButton) !== "undefined" && _ref !== null)) {
         this.retryButton = Titanium.UI.createButton({
@@ -85,14 +87,58 @@
         this.retryButton.addEventListener("click", function(e) {
           return callback(e);
         });
+        this.win.add(this.retryButton);
       }
-      return this.win.add(this.retryButton);
+      return this.retryButton.show();
     }
+  };
+  SplashWindow.prototype.displayDecodedData = function(data) {
+    var _ref;
+    this.hideLoading();
+    if (!(typeof (_ref = this.noticeLabel) !== "undefined" && _ref !== null)) {
+      this.noticeLabel = Ti.UI.createLabel({
+        color: '#000',
+        font: {
+          fontSize: 16,
+          fontWeight: 'bold'
+        },
+        top: 50,
+        height: 'auto',
+        width: 300,
+        text: "Warning: this code doesn't seem to be a Citrus enabled code! Here's the data that was in it:"
+      });
+      this.win.add(this.noticeLabel);
+    }
+    if (!(typeof (_ref = this.dataLabel) !== "undefined" && _ref !== null)) {
+      this.dataLabel = Ti.UI.createLabel({
+        color: '#000',
+        font: {
+          fontSize: 20,
+          fontWeight: 'bold'
+        },
+        top: 200,
+        height: 'auto',
+        width: 300,
+        text: data
+      });
+      this.win.add(this.dataLabel);
+    }
+    this.noticeLabel.show();
+    return this.dataLabel.show();
   };
   SplashWindow.prototype.hideError = function() {
     var _ref;
     if (typeof (_ref = this.errorLabel) !== "undefined" && _ref !== null) {
       this.win.remove(this.errorLabel);
+    }
+    if (typeof (_ref = this.noticeLabel) !== "undefined" && _ref !== null) {
+      this.win.remove(this.noticeLabel);
+    }
+    if (typeof (_ref = this.dataLabel) !== "undefined" && _ref !== null) {
+      this.win.remove(this.dataLabel);
+    }
+    if (typeof (_ref = this.goButton) !== "undefined" && _ref !== null) {
+      this.win.remove(this.goButton);
     }
     if (typeof (_ref = this.retryButton) !== "undefined" && _ref !== null) {
       return this.win.remove(this.retryButton);
@@ -127,10 +173,11 @@
     return rows;
   };
   SplashWindow.prototype.showLoading = function() {
+    d("Showing loading indicator");
     return this.loadingIndicator.show();
   };
   SplashWindow.prototype.hideLoading = function() {
-    return this.loadingIndicator.hide();
+    return d("Hiding loading indicator");
   };
   Citrus.SplashWindow = SplashWindow;
 }).call(this);
