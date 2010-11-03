@@ -36,9 +36,9 @@ class CodeReaderController extends Citrus.Controller
 				Titanium.Media.vibrate()
 				new Citrus.SplashController(data.barcode, root.accountStore)
 		cancel: ->
-			alert("Canceled")
+			# alert("Canceled")
 		error: ->
-			alert("Error")
+			alert("Error reading the code! Please try again.")
 		})
 
 
