@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>movement test</title>
+	
+	<link rel="stylesheet" href="css/base.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	
+	<style type="text/css" media="screen">
+	
+		#timeline {
+			width: 500px;
+			position:absolute;
+			top:   35px;
+			bottom:10px;
+			border:4px solid #999;
+			overflow:auto;
+		}
+	
+		.ui-selected {
+			background:#FFFFCC;
+		}
+		
+		.entry {
+			padding: 5px;
+			margin:  5px;
+			border:  1px solid black;
+		}
+		
+	</style>
+	
+	<script src="../vendors/jquery-1.4.2.js" type="text/javascript" charset="utf-8"></script>
+	<script src="spazcore-standard.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="../libs/spaztimelinenav.js" type="text/javascript" charset="utf-8"></script>
+	
+	
+	
+	<script type="text/javascript" charset="utf-8">
+
+
+		
+		
+		
+		jQuery().ready(function() {
+
+			tlNav = new SpazTimelineNav({
+			    'keyup':'k',
+			    'keydown':'j'
+			});
+			
+			jQuery('#move-up').bind('click', function(e) {
+				tlNav.move('up');
+			});
+			jQuery('#move-down').bind('click', function(e) {
+				tlNav.move('down');
+			});
+			
+			jQuery('#enabled').bind('click', function(e) {
+			    var checked = jQuery(this).is(':checked');
+			    tlNav.enable(checked);
+			})
+			
+			
+		});
+		
+	</script>
+	
+	
+	</head>
+	
+	<body>
+		
+		<input type="button" name="move-up" value="&#x2191;" id="move-up">
+		<input type="button" name="move-down" value="&#x2193;" id="move-down">
+		
+		<input type="checkbox" name="enabled" value="1" id="enabled" checked='true'><label for="enabled">Enabled</label>
+		
+		
+		
+		<div id="timeline">
+			<div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+			</div>
+			<div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante. Duis scelerisque eleifend metus. Sed non odio id odio varius rutrum. Pellentesque congue commodo lacus. In semper pede lacinia felis. Morbi mollis molestie lorem. Morbi suscipit libero. Quisque ut erat sit amet elit aliquam nonummy. Donec tortor. Aliquam gravida ullamcorper pede. Praesent eros. Sed fringilla ligula sed odio pharetra imperdiet. Integer aliquet quam vitae nibh. Nam pretium, neque non congue vulputate, odio odio vehicula augue, sit amet gravida pede massa ac lectus. Curabitur a libero vitae dui sagittis aliquet. Ut suscipit. Curabitur accumsan sem a urna. Ut elit pede, vulputate sed, feugiat quis, congue sed, lacus.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+			</div>
+			<div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+				<div class="entry">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus nisl dolor, pulvinar id, pharetra a, egestas nec, ante.
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
