@@ -28,8 +28,8 @@
   CodeReaderController.prototype.attemptScan = function() {
     return Titanium.TiBar.scan({
       configure: {
-        classType: "ZBarReaderViewController",
-        sourceType: "Camera",
+        classType: "ZBarReaderController",
+        sourceType: "Album",
         cameraMode: "Default",
         symbol: {
           "QR-Code": true
