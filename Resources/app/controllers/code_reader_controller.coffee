@@ -15,22 +15,22 @@ class CodeReaderController extends Citrus.Controller
 			
 	attemptScan: ->
 		Titanium.TiBar.scan({
-		# configure: {
-     #     classType: "ZBarReaderViewController"
-     #     sourceType: "Camera"
-     #     cameraMode: "Default"
-     #     symbol: {
-     #         "QR-Code":true
-     #     }
-     # }
-		 configure: {
-        classType: "ZBarReaderController"
-        sourceType: "Album"
-        cameraMode: "Default"
-        symbol: {
-            "QR-Code":true
-        }
-    }
+			configure: {
+         classType: "ZBarReaderViewController"
+         sourceType: "Camera"
+         cameraMode: "Default"
+         symbol: {
+             "QR-Code":true
+         }
+     }
+#		 configure: {
+#         classType: "ZBarReaderController"
+#         sourceType: "Album"
+#         cameraMode: "Default"
+#         symbol: {
+#             "QR-Code":true
+#         }
+#     }
 		success: (data) ->
 			if data?.barcode?
 				Titanium.Media.vibrate()
