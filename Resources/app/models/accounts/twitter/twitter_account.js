@@ -52,9 +52,14 @@
     return this.consumer.isAuthorized();
   };
   TwitterAccount.prototype.authorize = function(callback) {
-    var controller, errorFindingPin, findPin;
     TwitterAccount.__super__.authorize.apply(this, arguments);
+    return Citrus.Config.TWITTER_XAUTH ? this.xAuthAuthorize(callback) : this.oAuthAuthorize(callback);
+  };
+  TwitterAccount.prototype.xAuthAuthorize = function(callback) {};
+  TwitterAccount.prototype.oAuthAuthorize = function(callback) {
+    var controller, errorFindingPin, findPin, tokenError, tokenSuccess;
     controller = {};
+    d("Starting OAuth Twitter Authorization");
     this.addEventListener("authorization:error", __bind(function(e) {
       return controller.destroy();
     }, this));
@@ -93,17 +98,19 @@
       return Ti.API.debug("Pin not found in loaded XML");
     }, this);
     controller = new Citrus.OAuthorizationController(findPin, errorFindingPin);
-    return this.consumer.getRequestTokenAsync(__bind(function(token) {
+    tokenSuccess = __bind(function(token) {
       var url;
       url = OAuth.addToURL(this.consumer.getService().userAuthorizationUrl, {
         oauth_token: this.consumer.requestToken
       });
       Ti.API.debug("Sending user to url to authorize: " + url);
       return controller.loadURL(url);
-    }, this), __bind(function(xhr) {
-      Ti.API.error("Couldn't get request token!");
+    }, this);
+    tokenError = __bind(function(xhr, status, error) {
+      e("Couldn't get request token!", status, error, xhr.status);
       return this.fireEvent("authorization:error");
-    }, this));
+    }, this);
+    return this.consumer.getRequestTokenAsync(tokenSuccess, tokenError);
   };
   TwitterAccount.prototype._getAccessToken = function(accessPin) {
     var _ref, msg;

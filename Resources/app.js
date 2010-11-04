@@ -14,7 +14,14 @@ Citrus.Config = {
 
 // Debugging functions
 var d = function(x) {
-	Titanium.API.debug(x)
+	for(var i = 0; i < arguments.length; i++) {
+		Titanium.API.debug(arguments[i]);
+	}
+};
+var e = function() {
+	for(var i = 0; i < arguments.length; i++) {
+		Titanium.API.error(arguments[i]);
+	}
 };
 
 //Ti.App.Properties.setString("CitrusAccounts","")

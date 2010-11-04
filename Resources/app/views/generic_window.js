@@ -9,7 +9,11 @@
     child.__super__ = parent.prototype;
   };
   GenericWindow = function(controller) {
-    this.controller = controller;
+    if (controller) {
+      this.controller = controller;
+    } else {
+      Titanium.API.warn("Warning! No controller was passed to the constructor of a window!");
+    }
     return this;
   };
   __extends(GenericWindow, Citrus.Observable);

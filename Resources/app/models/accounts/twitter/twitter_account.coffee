@@ -42,15 +42,15 @@ class TwitterAccount extends Citrus.Account
 	authorize: (callback) ->
 		super
 		if Citrus.Config.TWITTER_XAUTH
-			xAuthAuthorize(callback)
+			this.xAuthAuthorize(callback)
 		else
-			oAuthAuthorize(callback)
-	
-	xAuthAuthorize: (callbakc) ->
+			this.oAuthAuthorize(callback)
+
+	xAuthAuthorize: (callback) ->
 
 	oAuthAuthorize: (callback) ->
 		controller = {}
-
+		d("Starting OAuth Twitter Authorization")
 		this.addEventListener "authorization:error", (e) =>
 			controller.destroy()
 
@@ -86,14 +86,17 @@ class TwitterAccount extends Citrus.Account
 
 		# Create controller to manage the PIN getting web view
 		controller = new Citrus.OAuthorizationController(findPin, errorFindingPin)
-
-		@consumer.getRequestTokenAsync (token) =>
+		
+		tokenSuccess = (token) =>
 			url = OAuth.addToURL(@consumer.getService().userAuthorizationUrl, {oauth_token : @consumer.requestToken})
 			Ti.API.debug("Sending user to url to authorize: "+url)
 			controller.loadURL(url)
-		, (xhr) =>
-			Ti.API.error("Couldn't get request token!")
+		
+		tokenError = (xhr, status, error) =>
+			e("Couldn't get request token!", status, error, xhr.status)
 			this.fireEvent("authorization:error")
+		
+		@consumer.getRequestTokenAsync(tokenSuccess, tokenError)
 
 	_getAccessToken: (accessPin) ->
 		Ti.API.debug("Trying to complete authorization with pin: "+accessPin)
