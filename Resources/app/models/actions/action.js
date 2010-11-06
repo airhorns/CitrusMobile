@@ -9,14 +9,15 @@
     child.__super__ = parent.prototype;
   };
   Action = function(attributes) {
-    var _ref, decs, k, v;
-    decs = this.constructor.declares;
-    if (_.keys(attributes).length === decs.length) {
+    var _ref, k, v;
+    if (_.keys(attributes).length === (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length)) {
       this.valid = true;
       _ref = attributes;
       for (k in _ref) {
         if (!__hasProp.call(_ref, k)) continue;
         v = _ref[k];
+        d("Trying to set k => " + k.camelize(true) + " to " + v);
+        k = k.camelize(true);
         if (_.isFunction(this[k])) {
           this.valid = (this.valid && this[k].call(v));
         } else {
@@ -31,8 +32,10 @@
   };
   __extends(Action, Citrus.Object);
   Action.declares = [];
+  Action.alwaysDeclared = ["actionText"];
   Action.prototype.valid = false;
   Action.prototype.icon = "images/account_icons/GenericAccount_16.png";
+  Action.prototype.actionText = "";
   Action.prototype.readyToRun = function(account) {
     return true;
   };
@@ -42,7 +45,7 @@
   Action.prototype.action = function(account, success, failure) {
     return success();
   };
-  Action.prototype.actionName = function() {
+  Action.prototype.actionText = function() {
     return "An action";
   };
   Action.prototype.button = function() {

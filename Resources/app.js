@@ -40,12 +40,15 @@ Ti.include('/vendor/sha1.js');
 Ti.include('/vendor/oauth.js');
 
 // Jester 
-Ti.include('/vendor/jester.js');
-Ti.include('/vendor/titanium_jester.js');
-Jester.defaultPrefix = "http://localhost:3000/";
+// Ti.include('/vendor/jester.js');
+// Ti.include('/vendor/titanium_jester.js');
+// Jester.defaultPrefix = "http://localhost:3000/";
 
 // Backbone.js
 // Ti.include('/vendor/backbone.js');
+
+// Inflections
+Ti.include('/vendor/inflections.js')
 
 // Spazcore Library
 Ti.include('/vendor/spazcore/libs/spazcore.js');

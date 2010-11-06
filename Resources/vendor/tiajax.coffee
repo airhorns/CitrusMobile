@@ -4,7 +4,7 @@ defaultAjaxSettings = {
 	contentType: "application/x-www-form-urlencoded"
 	processData: true
 	async: true
-	timeout: 5000
+	timeout: 300000
 	# Create the request object; In Titanium it's always going to be the Ti.createHTTPClient
 	# implement the XMLHttpRequest in IE7 (can't request local files),
 	# so we use the ActiveXObject when it is available

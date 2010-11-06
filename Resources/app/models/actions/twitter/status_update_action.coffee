@@ -6,7 +6,5 @@ class StatusUpdateAction extends Citrus.TwitterAction
 	action: (account, success, failure) ->
 		account.api.update(@text, null, @in_reply_to_id, success, failure)
 
-	actionName: () ->
-		"Tweet about this"
 	
 Citrus.Actions.Twitter.StatusUpdateAction = StatusUpdateAction

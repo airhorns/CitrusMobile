@@ -136,7 +136,7 @@
     return "Run";
   };
   ActionTableViewRow.prototype.text = function() {
-    return this.action.actionName();
+    return this.action.actionText();
   };
   Citrus.ActionRows = {};
   Citrus.registerActionViewRow = function(klass) {
