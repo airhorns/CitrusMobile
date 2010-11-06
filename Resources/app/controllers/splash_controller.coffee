@@ -18,7 +18,8 @@ class SplashController extends Citrus.Controller
 			@splash = splash
 			@window.displaySplash(@splash)
 		, (xhr, status, error) =>
-			d("Error finding a Citrus splash from the decoded data. Status: "+status)
+			e("Error finding a Citrus splash from the decoded data. Status: "+status)
+			e(xhr.responseText)
 			if xhr
 				# The scanned code was a citrus code but there was a problem connecting to the backend.
 				if !Titanium.Network.online
