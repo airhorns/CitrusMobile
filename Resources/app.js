@@ -6,7 +6,7 @@ var jQuery = {};
 
 // Global configuration variables
 Citrus.Config = {
-	REMOTE_URL: "http://localhost:3000/",
+	REMOTE_URL: "http://citrus.heroku.com/",
 	SHORTENER_PREFIX: "s/",
 	SHORTCODE_RE: "s/([a-zA-Z0-9]+)",	
 	TWITTER_XAUTH: false
