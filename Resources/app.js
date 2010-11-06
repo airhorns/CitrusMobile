@@ -14,7 +14,14 @@ Citrus.Config = {
 
 // Debugging functions
 var d = function(x) {
-	Titanium.API.debug(x)
+	for(var i = 0; i < arguments.length; i++) {
+		Titanium.API.debug(arguments[i]);
+	}
+};
+var e = function() {
+	for(var i = 0; i < arguments.length; i++) {
+		Titanium.API.error(arguments[i]);
+	}
 };
 
 //Ti.App.Properties.setString("CitrusAccounts","")
@@ -33,12 +40,15 @@ Ti.include('/vendor/sha1.js');
 Ti.include('/vendor/oauth.js');
 
 // Jester 
-Ti.include('/vendor/jester.js');
-Ti.include('/vendor/titanium_jester.js');
-Jester.defaultPrefix = "http://localhost:3000/";
+// Ti.include('/vendor/jester.js');
+// Ti.include('/vendor/titanium_jester.js');
+// Jester.defaultPrefix = "http://localhost:3000/";
 
 // Backbone.js
 // Ti.include('/vendor/backbone.js');
+
+// Inflections
+Ti.include('/vendor/inflections.js')
 
 // Spazcore Library
 Ti.include('/vendor/spazcore/libs/spazcore.js');

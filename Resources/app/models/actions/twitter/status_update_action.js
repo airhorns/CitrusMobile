@@ -18,8 +18,5 @@
   StatusUpdateAction.prototype.action = function(account, success, failure) {
     return account.api.update(this.text, null, this.in_reply_to_id, success, failure);
   };
-  StatusUpdateAction.prototype.actionName = function() {
-    return "Tweet about this";
-  };
   Citrus.Actions.Twitter.StatusUpdateAction = StatusUpdateAction;
 }).call(this);

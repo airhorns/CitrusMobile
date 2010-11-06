@@ -7,7 +7,7 @@
     contentType: "application/x-www-form-urlencoded",
     processData: true,
     async: true,
-    timeout: 5000,
+    timeout: 300000,
     xhr: function() {
       return Ti.Network.createHTTPClient();
     },

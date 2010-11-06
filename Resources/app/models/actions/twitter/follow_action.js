@@ -18,8 +18,5 @@
   FollowAction.prototype.action = function(account, success, failure) {
     return account.api.addFriend(this.followee_id, success, failure);
   };
-  FollowAction.prototype.actionName = function() {
-    return "Follow " + this.followee_id;
-  };
   Citrus.Actions.Twitter.Follow = FollowAction;
 }).call(this);

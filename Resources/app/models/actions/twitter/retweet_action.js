@@ -18,8 +18,5 @@
   RetweetAction.prototype.action = function(account, success, failure) {
     return account.api.retweet(this.status_id, success, failure);
   };
-  RetweetAction.prototype.actionName = function() {
-    return "Retweet this user";
-  };
   Citrus.Actions.Twitter.Retweet = RetweetAction;
 }).call(this);

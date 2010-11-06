@@ -1,7 +1,8 @@
-Ti.include("/app/views/accounts/authorization_web_view_window.js");
+Ti.include("/app/views/accounts/authorization_web_view_window.js")
+
 class OAuthorizationController extends Citrus.Controller
-	constructor: (onload, onerror)->
-		@window = new Citrus.AuthorizationWebViewWindow()
+	constructor: (onload, onerror) ->
+		@window = new Citrus.AuthorizationWebViewWindow(this)
 		@window.addEventListener("load", onload)
 		@window.addEventListener("destroy", onerror)
 	
