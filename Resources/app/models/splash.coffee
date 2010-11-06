@@ -7,7 +7,7 @@ class Splash extends Citrus.Object
 	@newFromDecodedData: (data, success, error) ->
 		matches = @shortcodeRE.exec(data)
 
-		if matches? && matches.length > 1
+		if @backendURL.match(data) && matches? && matches.length > 1
 			shortcode = matches[1]
 
 			data.replace(/\.(html|xml|json)/, ".json")
