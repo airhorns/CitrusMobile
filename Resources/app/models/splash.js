@@ -33,7 +33,7 @@
   Splash.newFromDecodedData = function(data, success, error) {
     var matches, shortcode;
     matches = this.shortcodeRE.exec(data);
-    if ((typeof matches !== "undefined" && matches !== null) && matches.length > 1) {
+    if (this.backendURL.match(data) && (typeof matches !== "undefined" && matches !== null) && matches.length > 1) {
       shortcode = matches[1];
       data.replace(/\.(html|xml|json)/, ".json");
       if (!(data.match(".json"))) {

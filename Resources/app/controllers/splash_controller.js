@@ -34,7 +34,8 @@
       return this.window.displaySplash(this.splash);
     }, this), __bind(function(xhr, status, error) {
       var msg, retry;
-      d("Error finding a Citrus splash from the decoded data. Status: " + status);
+      e("Error finding a Citrus splash from the decoded data. Status: " + status);
+      e(xhr.responseText);
       if (xhr) {
         if (!Titanium.Network.online) {
           msg = "You need to be connected to the internet to scan this code. Please connect and then retry.";
