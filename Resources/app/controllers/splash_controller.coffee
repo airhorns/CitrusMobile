@@ -41,26 +41,26 @@ class SplashController extends Citrus.Controller
 			return false
 		)
 
+	takeActionFromRow: (row, e) =>
+		action = row.action
+		if action.requiresAccount()
+			this.takeAccountBasedActionFromRow(row, e)
+		else
+			this.takeAccountlessActionFromRow(row, e)
+	
+	takeAccountlessActionFromRow: (row, e) ->
+		action = row.action
+		action.run(_.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row))
+	
 	# Gets passed the row object wrapper and the click event for a button in the list of actions.
 	# Runs the action on the available accounts.
-	takeActionFromRow: (row, e) =>
+	takeActionFromRow: (row, e) ->
 		action = row.action
 		accounts = this.possibleAccountsForAction(action)
 
-		actionSuccess = (e) =>
-			Titanium.API.debug("Action complete!")
-			row.displaySuccess()
-
-		actionFailure = (xhr, status, error) =>
-			Titanium.API.error("Action failed!")
-			Titanium.API.error(status)
-			d(error)
-			d(xhr.responseText)
-			row.displayError()
-
 		runAction = (account) =>
 			row.displayInProgress()
-			action.run(account, actionSuccess, actionFailure)
+			action.run(account, _.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row))
 
 		if accounts.length > 1
 			# Create a selection popup with options for accounts
@@ -115,5 +115,16 @@ class SplashController extends Citrus.Controller
 	# Gets the second argument curried from the functions above
 	_canAccountRunAction: (account, action) ->
 		return action.accountType == account.type
+	
+	_actionSuccess: (row, e) ->
+		Titanium.API.debug("Action complete!")
+		row.displaySuccess()
+
+	_actionFailure: (row, xhr, status, error) ->
+		Titanium.API.error("Action failed!")
+		Titanium.API.error(status)
+		d(error)
+		d(xhr.responseText)
+		row.displayError()
 
 Citrus.SplashController = SplashController

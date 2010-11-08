@@ -34,7 +34,8 @@
       return this.window.displaySplash(this.splash);
     }, this), __bind(function(xhr, status, error) {
       var msg, retry;
-      d("Error finding a Citrus splash from the decoded data. Status: " + status);
+      e("Error finding a Citrus splash from the decoded data. Status: " + status);
+      e(xhr.responseText);
       if (xhr) {
         if (!Titanium.Network.online) {
           msg = "You need to be connected to the internet to scan this code. Please connect and then retry.";
@@ -59,23 +60,22 @@
     }, this));
   };
   SplashController.prototype.takeActionFromRow = function(row, e) {
-    var accounts, action, actionFailure, actionSuccess, all_index, cancel_index, opts, runAction;
+    var action;
+    action = row.action;
+    return action.requiresAccount() ? this.takeAccountBasedActionFromRow(row, e) : this.takeAccountlessActionFromRow(row, e);
+  };
+  SplashController.prototype.takeAccountlessActionFromRow = function(row, e) {
+    var action;
+    action = row.action;
+    return action.run(_.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row));
+  };
+  SplashController.prototype.takeActionFromRow = function(row, e) {
+    var accounts, action, all_index, cancel_index, opts, runAction;
     action = row.action;
     accounts = this.possibleAccountsForAction(action);
-    actionSuccess = __bind(function(e) {
-      Titanium.API.debug("Action complete!");
-      return row.displaySuccess();
-    }, this);
-    actionFailure = __bind(function(xhr, status, error) {
-      Titanium.API.error("Action failed!");
-      Titanium.API.error(status);
-      d(error);
-      d(xhr.responseText);
-      return row.displayError();
-    }, this);
     runAction = __bind(function(account) {
       row.displayInProgress();
-      return action.run(account, actionSuccess, actionFailure);
+      return action.run(account, _.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row));
     }, this);
     if (accounts.length > 1) {
       opts = _.map(accounts, function(account) {
@@ -132,6 +132,17 @@
   };
   SplashController.prototype._canAccountRunAction = function(account, action) {
     return action.accountType === account.type;
+  };
+  SplashController.prototype._actionSuccess = function(row, e) {
+    Titanium.API.debug("Action complete!");
+    return row.displaySuccess();
+  };
+  SplashController.prototype._actionFailure = function(row, xhr, status, error) {
+    Titanium.API.error("Action failed!");
+    Titanium.API.error(status);
+    d(error);
+    d(xhr.responseText);
+    return row.displayError();
   };
   Citrus.SplashController = SplashController;
 }).call(this);

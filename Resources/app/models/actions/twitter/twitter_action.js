@@ -9,10 +9,10 @@
     child.__super__ = parent.prototype;
   };
   TwitterAction = function() {
-    return Citrus.Action.apply(this, arguments);
+    return Citrus.AccountBasedAction.apply(this, arguments);
   };
-  __extends(TwitterAction, Citrus.Action);
-  TwitterAction.declares = ["TESTING123"];
+  __extends(TwitterAction, Citrus.AccountBasedAction);
+  TwitterAction.declares = [];
   TwitterAction.prototype.type = "TwitterAction";
   TwitterAction.prototype.buttonText = "TwitterAction";
   TwitterAction.prototype.accountType = "TwitterAccount";

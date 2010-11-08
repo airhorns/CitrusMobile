@@ -120,7 +120,7 @@ class ActionTableViewRow extends Citrus.Object
 		return "Run"
 
 	text: ->
-		@action.actionText()
+		@action.actionText
 
 Citrus.ActionRows = {}
 Citrus.registerActionViewRow = (klass) ->

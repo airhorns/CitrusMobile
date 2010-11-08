@@ -1,5 +1,5 @@
-class TwitterAction extends Citrus.Action
-	@declares: ["TESTING123"]
+class TwitterAction extends Citrus.AccountBasedAction
+	@declares: []
 	type: "TwitterAction"
 	buttonText: "TwitterAction"
 	accountType: "TwitterAccount"

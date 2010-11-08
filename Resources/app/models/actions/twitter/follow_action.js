@@ -12,11 +12,11 @@
     return Citrus.TwitterAction.apply(this, arguments);
   };
   __extends(FollowAction, Citrus.TwitterAction);
-  FollowAction.declares = ["followee_id"];
+  FollowAction.declares = ["followeeId"];
   FollowAction.prototype.type = "TwitterFollowAction";
   FollowAction.prototype.buttonText = "Follow";
   FollowAction.prototype.action = function(account, success, failure) {
-    return account.api.addFriend(this.followee_id, success, failure);
+    return account.api.addFriend(this.followeeId, success, failure);
   };
-  Citrus.Actions.Twitter.Follow = FollowAction;
+  Citrus.Actions.Twitter.FollowAction = FollowAction;
 }).call(this);
