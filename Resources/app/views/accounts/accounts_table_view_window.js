@@ -82,6 +82,8 @@
   AccountsTableViewWindow.prototype._addAccountToTable = function(account) {
     var row;
     row = this._getTableRowFromAccount(account);
+    d("Adding row to the table");
+    d(row);
     return this.table.appendRow(row, {
       animated: true
     });

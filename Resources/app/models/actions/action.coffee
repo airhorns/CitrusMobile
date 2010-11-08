@@ -9,7 +9,6 @@ class Action extends Citrus.Object
 		if (_.keys(attributes).length == (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length))
 			@valid = true
 			for k, v of attributes
-				d("Trying to set k => "+k.camelize(true)+" to "+v)
 				k = k.camelize(true) # Camel case the underscored lowercase Rails text
 				if _.isFunction(this[k])
 					@valid = (@valid && this[k].call(v))
@@ -56,8 +55,11 @@ class AccountBasedAction extends Action
 		success()
 
 Citrus.Action = Action
+Citrus.AccountBasedAction = AccountBasedAction
+Citrus.AccountlessAction = AccountlessAction
 
 Citrus.Actions = {
+	Platform: {}
 	Twitter: {}
 	Facebook: {}
 	LinkedIn: {}

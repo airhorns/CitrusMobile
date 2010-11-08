@@ -1,21 +1,23 @@
 class SplashInfoTableViewRow extends Citrus.Object
 	constructor: (splash) ->
 		@row = Titanium.UI.createTableViewRow {
-			height: 80
 			className: "codeInfoRow"
+			height: "auto"
 		}
 
 		@splash = splash
 		@row.object = this
 		
 		if splash.photo?
-			text_offset = 70
+			text_offset = 74
 			photo = Ti.UI.createImageView {
 				image: splash.photo
-				size: {height: 60, width: 60}
-				top: 5
-				left: 5
+				height: 60
+				width: 60
+				top: 4
+				left: 7
 			}
+			@row.add(photo)
 		else
 			text_offset = 5
 		
@@ -23,7 +25,7 @@ class SplashInfoTableViewRow extends Citrus.Object
 			color:'#000'
 			text: splash.name
 			font:{fontSize:30, fontWeight:'bold'}
-			top:5
+			top:4
 			left:text_offset
 			height:'auto'
 			width:'auto'
@@ -33,9 +35,9 @@ class SplashInfoTableViewRow extends Citrus.Object
 		
 		description = Ti.UI.createLabel {
 			color:'#000'
-			text: splash.description
+			text: splash.text
 			font:{fontSize:20, fontWeight:'bold'}
-			top:45
+			top:40
 			left: text_offset
 			height:'auto'
 			width:'auto'

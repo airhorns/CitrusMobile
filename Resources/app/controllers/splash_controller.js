@@ -67,15 +67,15 @@
   SplashController.prototype.takeAccountlessActionFromRow = function(row, e) {
     var action;
     action = row.action;
-    return action.run(_.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row));
+    return action.run(_.bind(this._actionSuccess, this, row), _.bind(this._actionFailure, this, row));
   };
-  SplashController.prototype.takeActionFromRow = function(row, e) {
+  SplashController.prototype.takeAccountBasedActionFromRow = function(row, e) {
     var accounts, action, all_index, cancel_index, opts, runAction;
     action = row.action;
     accounts = this.possibleAccountsForAction(action);
     runAction = __bind(function(account) {
       row.displayInProgress();
-      return action.run(account, _.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row));
+      return action.run(account, _.bind(this._actionSuccess, this, row), _.bind(this._actionFailure, this, row));
     }, this);
     if (accounts.length > 1) {
       opts = _.map(accounts, function(account) {
@@ -98,7 +98,6 @@
         if (e.index === cancel_index) {
           return Titanium.API.debug("Account select dialog was canceled.");
         } else if (e.index === all_index) {
-          Titanium.API.debug("Running on all accounts");
           _result = []; _ref = accounts;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             account = _ref[_i];
@@ -107,23 +106,23 @@
           return _result;
         } else {
           account = accounts[e.index];
-          if (typeof account !== "undefined" && account !== null) {
-            Titanium.API.debug("Running on account " + account.screenName);
-            return runAction(account);
-          }
+          return (typeof account !== "undefined" && account !== null) ? runAction(account) : null;
         }
       }, this));
       return this.dialog.show();
     } else {
-      d("running on " + accounts[0]);
       runAction(accounts[0]);
       return true;
     }
   };
   SplashController.prototype.isActionTakeable = function(action) {
-    return _.any(this.store.accounts, __bind(function(account) {
-      return this._canAccountRunAction(account, action);
-    }, this));
+    if (action.requiresAccount()) {
+      return _.any(this.store.accounts, __bind(function(account) {
+        return this._canAccountRunAction(account, action);
+      }, this));
+    } else {
+      return action.readyToRun();
+    }
   };
   SplashController.prototype.possibleAccountsForAction = function(action) {
     return _.select(this.store.accounts, __bind(function(account) {

@@ -50,17 +50,17 @@ class SplashController extends Citrus.Controller
 	
 	takeAccountlessActionFromRow: (row, e) ->
 		action = row.action
-		action.run(_.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row))
+		action.run(_.bind(this._actionSuccess, this, row), _.bind(this._actionFailure, this, row))
 	
 	# Gets passed the row object wrapper and the click event for a button in the list of actions.
 	# Runs the action on the available accounts.
-	takeActionFromRow: (row, e) ->
+	takeAccountBasedActionFromRow: (row, e) ->
 		action = row.action
 		accounts = this.possibleAccountsForAction(action)
 
 		runAction = (account) =>
 			row.displayInProgress()
-			action.run(account, _.bind(this._actionSuccess, this, row), _bind(this._actionFailure, this, row))
+			action.run(account, _.bind(this._actionSuccess, this, row), _.bind(this._actionFailure, this, row))
 
 		if accounts.length > 1
 			# Create a selection popup with options for accounts
@@ -84,29 +84,29 @@ class SplashController extends Citrus.Controller
 					# Dialog was canceled, do nothing.
 				else if e.index == all_index
 					# All accounts.
-					Titanium.API.debug("Running on all accounts")
 					for account in accounts
 						runAction(account)
 				else
 					# Account at index e.index - 2
 					account = accounts[e.index]
 					if account?
-						Titanium.API.debug("Running on account "+account.screenName)
 						runAction(account)
 
 			@dialog.show() # Show the selection dialog
 		else
 			# Only one account
-			d("running on "+accounts[0])
 			runAction(accounts[0])
 			return true
 
 
 	# Boolean return if an action can be taken by any of the accounts available
 	isActionTakeable: (action) ->
-		_.any @store.accounts, (account) =>
-			return this._canAccountRunAction(account, action)
-
+		if action.requiresAccount()
+			_.any @store.accounts, (account) =>
+				return this._canAccountRunAction(account, action)
+		else
+			return action.readyToRun()
+	
 	# List of accounts that can take an action
 	possibleAccountsForAction: (action) ->
 		_.select @store.accounts, (account) =>

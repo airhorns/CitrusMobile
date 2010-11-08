@@ -16,7 +16,6 @@
       for (k in _ref) {
         if (!__hasProp.call(_ref, k)) continue;
         v = _ref[k];
-        d("Trying to set k => " + k.camelize(true) + " to " + v);
         k = k.camelize(true);
         if (_.isFunction(this[k])) {
           this.valid = (this.valid && this[k].call(v));
@@ -72,7 +71,10 @@
     return success();
   };
   Citrus.Action = Action;
+  Citrus.AccountBasedAction = AccountBasedAction;
+  Citrus.AccountlessAction = AccountlessAction;
   Citrus.Actions = {
+    Platform: {},
     Twitter: {},
     Facebook: {},
     LinkedIn: {},
