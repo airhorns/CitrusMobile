@@ -29,11 +29,11 @@
   };
   __extends(Splash, Citrus.Object);
   Splash.shortcodeRE = new RegExp(Citrus.Config.SHORTCODE_RE);
-  Splash.backendURL = new RegExp(Citrus.Config.BACKEND_URL + Citrus.Config.SHORTENER_PREFIX);
+  Splash.backendURL = new RegExp(Citrus.Config.REMOTE_URL + Citrus.Config.SHORTENER_PREFIX);
   Splash.newFromDecodedData = function(data, success, error) {
     var matches, shortcode;
     matches = this.shortcodeRE.exec(data);
-    if ((typeof matches !== "undefined" && matches !== null) && matches.length > 1) {
+    if (this.backendURL.test(data) && (typeof matches !== "undefined" && matches !== null) && matches.length > 1) {
       shortcode = matches[1];
       data.replace(/\.(html|xml|json)/, ".json");
       if (!(data.match(".json"))) {
