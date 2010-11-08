@@ -1,4 +1,4 @@
 tmp
-build
-build/**/*
+build/iphone/*
+build/android/*
 *.swp
