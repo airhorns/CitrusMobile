@@ -2,12 +2,12 @@ Ti.include("/app/models/actions/action.js")
 
 class Splash extends Citrus.Object
 	@shortcodeRE: new RegExp(Citrus.Config.SHORTCODE_RE)
-	@backendURL: new RegExp(Citrus.Config.BACKEND_URL + Citrus.Config.SHORTENER_PREFIX)
+	@backendURL: new RegExp(Citrus.Config.REMOTE_URL + Citrus.Config.SHORTENER_PREFIX)
 
 	@newFromDecodedData: (data, success, error) ->
 		matches = @shortcodeRE.exec(data)
 
-		if @backendURL.match(data) && matches? && matches.length > 1
+		if @backendURL.test(data) && matches? && matches.length > 1
 			shortcode = matches[1]
 
 			data.replace(/\.(html|xml|json)/, ".json")
