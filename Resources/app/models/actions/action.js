@@ -1,5 +1,5 @@
 (function() {
-  var Action;
+  var AccountBasedAction, AccountlessAction, Action;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     var ctor = function(){};
     ctor.prototype = parent.prototype;
@@ -16,7 +16,6 @@
       for (k in _ref) {
         if (!__hasProp.call(_ref, k)) continue;
         v = _ref[k];
-        d("Trying to set k => " + k.camelize(true) + " to " + v);
         k = k.camelize(true);
         if (_.isFunction(this[k])) {
           this.valid = (this.valid && this[k].call(v));
@@ -36,23 +35,46 @@
   Action.prototype.valid = false;
   Action.prototype.icon = "images/account_icons/GenericAccount_16.png";
   Action.prototype.actionText = "";
-  Action.prototype.readyToRun = function(account) {
+  Action.prototype.readyToRun = function() {
     return true;
   };
-  Action.prototype.run = function(account, success, failure) {
-    return this.readyToRun(account) ? this.action(account, success, failure) : this.failure(null, "Not ready to run!");
+  Action.prototype.run = function(success, failure) {
+    return this.readyToRun() ? this.action(success, failure) : this.failure(null, "Not ready to run!");
   };
-  Action.prototype.action = function(account, success, failure) {
+  Action.prototype.action = function(success, failure) {
     return success();
-  };
-  Action.prototype.actionText = function() {
-    return "An action";
   };
   Action.prototype.button = function() {
     return true;
   };
+  AccountlessAction = function() {
+    return Action.apply(this, arguments);
+  };
+  __extends(AccountlessAction, Action);
+  AccountlessAction.prototype.requiresAccount = function() {
+    return false;
+  };
+  AccountBasedAction = function() {
+    return Action.apply(this, arguments);
+  };
+  __extends(AccountBasedAction, Action);
+  AccountBasedAction.prototype.requiresAccount = function() {
+    return true;
+  };
+  AccountBasedAction.prototype.readyToRun = function(account) {
+    return true;
+  };
+  AccountBasedAction.prototype.run = function(account, success, failure) {
+    return this.readyToRun(account) ? this.action(account, success, failure) : this.failure(null, "Not ready to run!");
+  };
+  AccountBasedAction.prototype.action = function(account, success, failure) {
+    return success();
+  };
   Citrus.Action = Action;
+  Citrus.AccountBasedAction = AccountBasedAction;
+  Citrus.AccountlessAction = AccountlessAction;
   Citrus.Actions = {
+    Platform: {},
     Twitter: {},
     Facebook: {},
     LinkedIn: {},
@@ -96,5 +118,7 @@
       }
     }
   });
+  Ti.include("/app/models/actions/platform/platform_action.js");
   Ti.include("/app/models/actions/twitter/twitter_action.js");
+  Ti.include("/app/models/actions/foursquare/foursquare_action.js");
 }).call(this);

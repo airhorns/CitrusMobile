@@ -9,7 +9,6 @@ class Action extends Citrus.Object
 		if (_.keys(attributes).length == (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length))
 			@valid = true
 			for k, v of attributes
-				d("Trying to set k => "+k.camelize(true)+" to "+v)
 				k = k.camelize(true) # Camel case the underscored lowercase Rails text
 				if _.isFunction(this[k])
 					@valid = (@valid && this[k].call(v))
@@ -19,6 +18,29 @@ class Action extends Citrus.Object
 		else
 			Ti.API.debug("Wrong amount of arguments passed to action constructor!")
 			@valid = false
+
+	readyToRun: () ->
+		return true
+
+	run: (success, failure) ->
+		if this.readyToRun()
+			this.action(success, failure)
+		else
+			this.failure(null, "Not ready to run!")
+
+	action: (success, failure) ->
+		success()
+
+	button: () ->
+		true
+
+class AccountlessAction extends Action
+	requiresAccount: () ->
+		return false
+
+class AccountBasedAction extends Action
+	requiresAccount: () ->
+		return true
 
 	readyToRun: (account) ->
 		return true
@@ -32,22 +54,19 @@ class Action extends Citrus.Object
 	action: (account, success, failure) ->
 		success()
 
-	actionText: () ->
-		"An action"
-
-	button: () ->
-		true
-
-
 Citrus.Action = Action
+Citrus.AccountBasedAction = AccountBasedAction
+Citrus.AccountlessAction = AccountlessAction
 
 Citrus.Actions = {
+	Platform: {}
 	Twitter: {}
 	Facebook: {}
 	LinkedIn: {}
 	Foursquare: {}
 }
 
+# Defines the constructor for new polymorphic actions
 _.extend Citrus.Actions, {
 	newFromJSON: (passed_attributes) ->
 		attributes = _.clone((passed_attributes || {}))
@@ -82,4 +101,6 @@ _.extend Citrus.Actions, {
 			return false
 }
 
+Ti.include("/app/models/actions/platform/platform_action.js")
 Ti.include("/app/models/actions/twitter/twitter_action.js")
+Ti.include("/app/models/actions/foursquare/foursquare_action.js")

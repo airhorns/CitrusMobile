@@ -1,10 +1,10 @@
 class FollowAction extends Citrus.TwitterAction
-	@declares: ["followee_id"]
+	@declares: ["followeeId"]
 
 	type: "TwitterFollowAction"
 	buttonText: "Follow"
 
 	action: (account, success, failure) ->
-		account.api.addFriend(@followee_id, success, failure)
+		account.api.addFriend(@followeeId, success, failure)
 
-Citrus.Actions.Twitter.Follow = FollowAction
+Citrus.Actions.Twitter.FollowAction = FollowAction
