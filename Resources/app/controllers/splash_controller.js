@@ -31,6 +31,7 @@
     return Citrus.Splash.newFromDecodedData(this.codeData, __bind(function(splash) {
       d("Found a splash in the decoded data, with shortcode " + splash.shortcode);
       this.splash = splash;
+      this.splash.actions = this._prepareActions(this.splash.actions);
       return this.window.displaySplash(this.splash);
     }, this), __bind(function(xhr, status, error) {
       var msg, retry;
@@ -142,6 +143,17 @@
     d(error);
     d(xhr.responseText);
     return row.displayError();
+  };
+  SplashController.prototype._prepareActions = function(actions) {
+    var _i, _len, _ref, action;
+    _ref = actions;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      action = _ref[_i];
+      if (action.requiresResponders()) {
+        action.respondWith(_actionSuccess, _actionFailure);
+      }
+    }
+    return actions;
   };
   Citrus.SplashController = SplashController;
 }).call(this);

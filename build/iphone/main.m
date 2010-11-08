@@ -7,7 +7,7 @@
 #define _QUOTEME(x) #x
 #define STRING(x) _QUOTEME(x)
 
-NSString * const TI_APPLICATION_DEPLOYTYPE = @"test";
+NSString * const TI_APPLICATION_DEPLOYTYPE = @"development";
 NSString * const TI_APPLICATION_ID = @"com.harrybrundage.citrus";
 NSString * const TI_APPLICATION_PUBLISHER = @"Citrus App LLC";
 NSString * const TI_APPLICATION_URL = @"http://citrusapp.com/";
@@ -19,7 +19,7 @@ NSString * const TI_APPLICATION_GUID = @"6f370fed-dc4e-4b08-8c05-db18daf536db";
 BOOL const TI_APPLICATION_ANALYTICS = true;
 
 #ifdef TARGET_IPHONE_SIMULATOR
-NSString * const TI_APPLICATION_RESOURCE_DIR = @"";
+NSString * const TI_APPLICATION_RESOURCE_DIR = @"/Users/hornairs/Code/CitrusMobile/Resources";
 #endif
 
 int main(int argc, char *argv[]) {

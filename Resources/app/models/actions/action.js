@@ -1,5 +1,5 @@
 (function() {
-  var AccountBasedAction, AccountlessAction, Action;
+  var Action;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     var ctor = function(){};
     ctor.prototype = parent.prototype;
@@ -7,6 +7,14 @@
     child.prototype.constructor = child;
     if (typeof parent.extended === "function") parent.extended(child);
     child.__super__ = parent.prototype;
+  };
+  Citrus.Actions = {
+    Platform: {},
+    Twitter: {},
+    Paypal: {},
+    Facebook: {},
+    LinkedIn: {},
+    Foursquare: {}
   };
   Action = function(attributes) {
     var _ref, k, v;
@@ -47,39 +55,16 @@
   Action.prototype.button = function() {
     return true;
   };
-  AccountlessAction = function() {
-    return Action.apply(this, arguments);
-  };
-  __extends(AccountlessAction, Action);
-  AccountlessAction.prototype.requiresAccount = function() {
+  Action.prototype.requiresAccount = function() {
     return false;
   };
-  AccountBasedAction = function() {
-    return Action.apply(this, arguments);
-  };
-  __extends(AccountBasedAction, Action);
-  AccountBasedAction.prototype.requiresAccount = function() {
-    return true;
-  };
-  AccountBasedAction.prototype.readyToRun = function(account) {
-    return true;
-  };
-  AccountBasedAction.prototype.run = function(account, success, failure) {
-    return this.readyToRun(account) ? this.action(account, success, failure) : this.failure(null, "Not ready to run!");
-  };
-  AccountBasedAction.prototype.action = function(account, success, failure) {
-    return success();
+  Action.prototype.requiresResponders = function() {
+    return false;
   };
   Citrus.Action = Action;
-  Citrus.AccountBasedAction = AccountBasedAction;
-  Citrus.AccountlessAction = AccountlessAction;
-  Citrus.Actions = {
-    Platform: {},
-    Twitter: {},
-    Facebook: {},
-    LinkedIn: {},
-    Foursquare: {}
-  };
+  Ti.include("/app/models/actions/account_based_action.js");
+  Ti.include("/app/models/actions/accountless_action.js");
+  Ti.include("/app/models/actions/responder_action.js");
   _.extend(Citrus.Actions, {
     newFromJSON: function(passed_attributes) {
       var _i, _len, _ref, action, attributes, namespace, scope, type, types;
