@@ -16,6 +16,7 @@ class SplashController extends Citrus.Controller
 		Citrus.Splash.newFromDecodedData(@codeData, (splash) =>
 			d("Found a splash in the decoded data, with shortcode "+splash.shortcode)
 			@splash = splash
+			@splash.actions = this._prepareActions(@splash.actions)
 			@window.displaySplash(@splash)
 		, (xhr, status, error) =>
 			e("Error finding a Citrus splash from the decoded data. Status: "+status)
@@ -126,5 +127,11 @@ class SplashController extends Citrus.Controller
 		d(error)
 		d(xhr.responseText)
 		row.displayError()
+
+	_prepareActions: (actions) ->
+		for action in actions
+			if action.requiresResponders()
+				action.respondWith(this._actionSuccess, this._actionFailure)
+		return actions
 
 Citrus.SplashController = SplashController

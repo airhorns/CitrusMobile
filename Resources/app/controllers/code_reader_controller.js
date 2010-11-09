@@ -13,17 +13,11 @@
   Ti.include('app/controllers/splash_controller.js');
   CodeReaderController = function() {
     this.window = new Citrus.CodeReaderWindow(this, 'Scanner', 'Scan a code!');
-    this.code = null;
     return this;
   };
   __extends(CodeReaderController, Citrus.Controller);
   CodeReaderController.prototype.focused = function(e) {
-    var _ref;
-    if (typeof (_ref = this.code) !== "undefined" && _ref !== null) {
-
-    } else {
-      return this.attemptScan();
-    }
+    return this.attemptScan();
   };
   CodeReaderController.prototype.attemptScan = function() {
     return Titanium.TiBar.scan({

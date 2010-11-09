@@ -72,7 +72,7 @@ class ActionTableViewRow extends Citrus.Object
 	displayText: ->
 		text = Ti.UI.createLabel {
 			top: 2
-			left: 40
+			left: this.textOffset()
 			color:'#000'
 			text: this.text()
 			font:{fontSize:16, fontWeight:'bold'}
@@ -120,8 +120,10 @@ class ActionTableViewRow extends Citrus.Object
 		return "Run"
 
 	text: ->
-		@action.actionText
+		return @action.actionText
 
+	textOffset: ->
+		return 40
 Citrus.ActionRows = {}
 Citrus.registerActionViewRow = (klass) ->
 	Citrus.ActionRows[klass::type] = klass

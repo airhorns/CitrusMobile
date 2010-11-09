@@ -1,3 +1,13 @@
+# Actions namespace
+Citrus.Actions = {
+	Platform: {}
+	Twitter: {}
+	Paypal: {}
+	Facebook: {}
+	LinkedIn: {}
+	Foursquare: {}
+}
+
 class Action extends Citrus.Object
 	@declares: []
 	@alwaysDeclared: ["actionText"]
@@ -32,39 +42,17 @@ class Action extends Citrus.Object
 		success()
 
 	button: () ->
-		true
-
-class AccountlessAction extends Action
-	requiresAccount: () ->
+		return true
+	requiresAccount:() ->
+		return false
+	requiresResponders:() ->
 		return false
 
-class AccountBasedAction extends Action
-	requiresAccount: () ->
-		return true
-
-	readyToRun: (account) ->
-		return true
-
-	run: (account, success, failure) ->
-		if this.readyToRun(account)
-			this.action(account, success, failure)
-		else
-			this.failure(null, "Not ready to run!")
-
-	action: (account, success, failure) ->
-		success()
-
 Citrus.Action = Action
-Citrus.AccountBasedAction = AccountBasedAction
-Citrus.AccountlessAction = AccountlessAction
 
-Citrus.Actions = {
-	Platform: {}
-	Twitter: {}
-	Facebook: {}
-	LinkedIn: {}
-	Foursquare: {}
-}
+Ti.include("/app/models/actions/account_based_action.js")
+Ti.include("/app/models/actions/accountless_action.js")
+Ti.include("/app/models/actions/responder_action.js")
 
 # Defines the constructor for new polymorphic actions
 _.extend Citrus.Actions, {
@@ -104,3 +92,4 @@ _.extend Citrus.Actions, {
 Ti.include("/app/models/actions/platform/platform_action.js")
 Ti.include("/app/models/actions/twitter/twitter_action.js")
 Ti.include("/app/models/actions/foursquare/foursquare_action.js")
+Ti.include("/app/models/actions/paypal/paypal_action.js")

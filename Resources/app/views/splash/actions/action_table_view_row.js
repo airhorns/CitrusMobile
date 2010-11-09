@@ -87,7 +87,7 @@
     var text;
     text = Ti.UI.createLabel({
       top: 2,
-      left: 40,
+      left: this.textOffset(),
       color: '#000',
       text: this.text(),
       font: {
@@ -137,6 +137,9 @@
   };
   ActionTableViewRow.prototype.text = function() {
     return this.action.actionText;
+  };
+  ActionTableViewRow.prototype.textOffset = function() {
+    return 40;
   };
   Citrus.ActionRows = {};
   Citrus.registerActionViewRow = function(klass) {

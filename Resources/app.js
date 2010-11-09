@@ -1,5 +1,8 @@
 // App.js
 
+// Module Includes
+// Ti.Paypal = require('ti.paypal');
+
 // Namespaces
 var Citrus = {};
 var jQuery = {};
@@ -78,5 +81,4 @@ Ti.include('app/views/placeholder_window.js');
 Ti.include('app/controllers/controller.js');
 
 var root = new Citrus.Object(); // Make sure root gets event listeners
-
 Ti.include('app/controllers/main.js');

@@ -1,6 +1,7 @@
 Ti.include("/app/views/splash/splash_info_table_view_row.js")
 Ti.include("/app/views/splash/actions/action_table_view_row.js")
 Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
+Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js")
 
 class SplashWindow extends Citrus.GenericWindow
 	# Sets up the loading indicator
@@ -29,14 +30,16 @@ class SplashWindow extends Citrus.GenericWindow
 		@win.remove(@table) if @table?
 		rows = this.getActionRows()
 		rows.unshift this.getInfoRow()
+		d(rows)
+		
 		@table = Titanium.UI.createTableView({
 			data: rows
 			editable: false
 			allowsSelection: false
 		})
-
-		@win.add(@table)
 		this.hideLoading()
+		@win.add(@table)
+		d("Table added")
 
 	# If a splash couldn't be fetched, this displays the notification and an optional retry button
 	displayError: (msg, retry, callback) ->
