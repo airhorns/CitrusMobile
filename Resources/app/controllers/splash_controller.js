@@ -150,7 +150,7 @@
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       action = _ref[_i];
       if (action.requiresResponders()) {
-        action.respondWith(_actionSuccess, _actionFailure);
+        action.respondWith(this._actionSuccess, this._actionFailure);
       }
     }
     return actions;

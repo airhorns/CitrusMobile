@@ -11,6 +11,7 @@
   Ti.include("/app/views/splash/splash_info_table_view_row.js");
   Ti.include("/app/views/splash/actions/action_table_view_row.js");
   Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js");
+  Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js");
   SplashWindow = function(controller) {
     SplashWindow.__super__.constructor.apply(this, arguments);
     this.win = Ti.UI.createWindow({
@@ -41,13 +42,15 @@
     }
     rows = this.getActionRows();
     rows.unshift(this.getInfoRow());
+    d(rows);
     this.table = Titanium.UI.createTableView({
       data: rows,
       editable: false,
       allowsSelection: false
     });
+    this.hideLoading();
     this.win.add(this.table);
-    return this.hideLoading();
+    return d("Table added");
   };
   SplashWindow.prototype.displayError = function(msg, retry, callback) {
     var _ref;

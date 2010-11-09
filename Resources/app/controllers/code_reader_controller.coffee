@@ -5,13 +5,9 @@ Ti.include('app/controllers/splash_controller.js')
 class CodeReaderController extends Citrus.Controller
 	constructor: ->
 		@window = new Citrus.CodeReaderWindow(this, 'Scanner','Scan a code!')
-		@code = null
 		
 	focused: (e) ->
-		if @code?
-			# Show the code
-		else
-			this.attemptScan()
+		this.attemptScan()
 			
 	attemptScan: ->
 		Titanium.TiBar.scan({

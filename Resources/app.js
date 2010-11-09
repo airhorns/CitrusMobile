@@ -1,7 +1,7 @@
 // App.js
 
 // Module Includes
-Ti.Paypal = require('ti.paypal');
+// Ti.Paypal = require('ti.paypal');
 
 // Namespaces
 var Citrus = {};

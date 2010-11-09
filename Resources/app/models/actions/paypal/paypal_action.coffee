@@ -1,4 +1,4 @@
-class PaypalAction extends Citrus.RespondingAction
+class PaypalAction extends Citrus.ResponderAction
 	@declares: []
 	type: "PaypalAction"
 	buttonText: "PaypalAction"

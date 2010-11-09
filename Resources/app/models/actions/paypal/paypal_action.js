@@ -9,9 +9,9 @@
     child.__super__ = parent.prototype;
   };
   PaypalAction = function() {
-    return Citrus.RespondingAction.apply(this, arguments);
+    return Citrus.ResponderAction.apply(this, arguments);
   };
-  __extends(PaypalAction, Citrus.RespondingAction);
+  __extends(PaypalAction, Citrus.ResponderAction);
   PaypalAction.declares = [];
   PaypalAction.prototype.type = "PaypalAction";
   PaypalAction.prototype.buttonText = "PaypalAction";

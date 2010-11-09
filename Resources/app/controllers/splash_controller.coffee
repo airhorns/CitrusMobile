@@ -131,6 +131,7 @@ class SplashController extends Citrus.Controller
 	_prepareActions: (actions) ->
 		for action in actions
 			if action.requiresResponders()
-				action.respondWith(_actionSuccess, _actionFailure)
+				action.respondWith(this._actionSuccess, this._actionFailure)
 		return actions
+
 Citrus.SplashController = SplashController

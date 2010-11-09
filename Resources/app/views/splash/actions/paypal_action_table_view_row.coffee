@@ -1,13 +1,21 @@
+Ti.Paypal = require('ti.paypal')
+
 class PaypalActionTableViewRow extends Citrus.ActionRows.ActionTableViewRow
 	type: "PaypalActionTableViewRow"
+	textOffset: () ->
+		return 5
+
 	displayPhoto: ->
 		return true
+	
 	displayButton: ->
-		@button = Ti.Paypal.createPaypalButton {
-			width: 294
-			height: 40
+		opts = {
+			width: "auto"
+			height: "auto"
+			top: 4
+			right: 162
 			appId: "APP-80W284485P519543T"
-			buttonStyle: Ti.Paypal.BUTTON_294x43
+			buttonStyle: Ti.Paypal.BUTTON_152x33
 			paypalEnvironment: Ti.Paypal.PAYPAL_ENV_SANDBOX
 			feePaidByReceiver: false
 			transactionType: Ti.Paypal.PAYMENT_TYPE_DONATION
@@ -22,5 +30,12 @@ class PaypalActionTableViewRow extends Citrus.ActionRows.ActionTableViewRow
         merchantName: @action.merchantName
 			}
 		}
+		d(opts)
+		@button = Ti.Paypal.createPaypalButton opts
+		d(@button)
+		@button.addEventListener "paymentSuccess", @action.success
+		@button.addEventListener "paymentError", (e) -> @action.error(null, null, e)
+		@button.addEventListener "paymentCancled", (e) -> d("Payment canceled.")
+		@row.add(@button)
 
 Citrus.registerActionViewRow PaypalActionTableViewRow
