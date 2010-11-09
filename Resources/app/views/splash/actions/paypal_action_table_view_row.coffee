@@ -19,7 +19,7 @@ class PaypalActionTableViewRow extends Citrus.ActionRows.ActionTableViewRow
 			right: 4
 			appId: "APP-80W284485P519543T"
 			buttonStyle: Ti.Paypal.BUTTON_152x33
-			paypalEnvironment: Ti.Paypal.PAYPAL_ENV_SANDBOX
+			paypalEnvironment: Ti.Paypal.PAYPAL_ENV_LIVE
 			feePaidByReceiver: false
 			transactionType: Ti.Paypal.PAYMENT_TYPE_DONATION
 			enableShipping: false
