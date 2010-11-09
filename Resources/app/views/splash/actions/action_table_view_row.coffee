@@ -21,6 +21,7 @@ class ActionTableViewRow extends Citrus.Object
 		row =  Titanium.UI.createTableViewRow {
 			height: 41
 			className: @action.type + @type
+			touchEnabled: false
 		}
 		row.object = this
 		return row

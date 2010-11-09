@@ -37,6 +37,7 @@ class SplashWindow extends Citrus.GenericWindow
 			editable: false
 			allowsSelection: false
 		})
+	
 		this.hideLoading()
 		@win.add(@table)
 		d("Table added")

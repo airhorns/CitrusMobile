@@ -12,6 +12,6 @@ class PlaceholderWindow extends Citrus.GenericWindow
 			textAlign: 'center',
 			width: 'auto'
 		})
-		@win.add(label);
+		@win.add(label)
  
 Citrus.PlaceholderWindow = PlaceholderWindow

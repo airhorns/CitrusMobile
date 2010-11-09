@@ -34,7 +34,8 @@
     var row;
     row = Titanium.UI.createTableViewRow({
       height: 41,
-      className: this.action.type + this.type
+      className: this.action.type + this.type,
+      touchEnabled: false
     });
     row.object = this;
     return row;
