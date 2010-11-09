@@ -10,7 +10,8 @@
   };
   Ti.Paypal = require('ti.paypal');
   PaypalActionTableViewRow = function() {
-    return Citrus.ActionRows.ActionTableViewRow.apply(this, arguments);
+    PaypalActionTableViewRow.__super__.constructor.apply(this, arguments);
+    return this;
   };
   __extends(PaypalActionTableViewRow, Citrus.ActionRows.ActionTableViewRow);
   PaypalActionTableViewRow.prototype.type = "PaypalActionTableViewRow";
@@ -23,10 +24,10 @@
   PaypalActionTableViewRow.prototype.displayButton = function() {
     var opts;
     opts = {
-      width: "auto",
-      height: "auto",
+      height: 33,
+      width: 152,
       top: 4,
-      right: 162,
+      right: 4,
       appId: "APP-80W284485P519543T",
       buttonStyle: Ti.Paypal.BUTTON_152x33,
       paypalEnvironment: Ti.Paypal.PAYPAL_ENV_SANDBOX,
@@ -43,9 +44,7 @@
         merchantName: this.action.merchantName
       }
     };
-    d(opts);
     this.button = Ti.Paypal.createPaypalButton(opts);
-    d(this.button);
     this.button.addEventListener("paymentSuccess", this.action.success);
     this.button.addEventListener("paymentError", function(e) {
       return this.action.error(null, null, e);
@@ -53,6 +52,7 @@
     this.button.addEventListener("paymentCancled", function(e) {
       return d("Payment canceled.");
     });
+    this.button.addEventListener("click", function(e) {});
     return this.row.add(this.button);
   };
   Citrus.registerActionViewRow(PaypalActionTableViewRow);
