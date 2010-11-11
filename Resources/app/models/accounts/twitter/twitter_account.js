@@ -51,12 +51,12 @@
   TwitterAccount.prototype.isAuthorized = function() {
     return this.consumer.isAuthorized();
   };
-  TwitterAccount.prototype.authorize = function(callback) {
+  TwitterAccount.prototype.authorize = function() {
     TwitterAccount.__super__.authorize.apply(this, arguments);
-    return Citrus.Config.TWITTER_XAUTH ? this.xAuthAuthorize(callback) : this.oAuthAuthorize(callback);
+    return Citrus.Config.TWITTER_XAUTH ? this.xAuthAuthorize() : this.oAuthAuthorize();
   };
-  TwitterAccount.prototype.xAuthAuthorize = function(callback) {};
-  TwitterAccount.prototype.oAuthAuthorize = function(callback) {
+  TwitterAccount.prototype.xAuthAuthorize = function() {};
+  TwitterAccount.prototype.oAuthAuthorize = function() {
     var controller, errorFindingPin, findPin, tokenError, tokenSuccess;
     controller = {};
     d("Starting OAuth Twitter Authorization");

@@ -112,22 +112,18 @@
       });
       this.win.add(this.noticeLabel);
     }
-    if (!(typeof (_ref = this.dataLabel) !== "undefined" && _ref !== null)) {
-      this.dataLabel = Ti.UI.createLabel({
+    if (!(typeof (_ref = this.dataView) !== "undefined" && _ref !== null)) {
+      this.dataView = Ti.UI.createWebView({
         color: '#000',
-        font: {
-          fontSize: 20,
-          fontWeight: 'bold'
-        },
         top: 200,
         height: 'auto',
         width: 300,
-        text: data
+        html: data
       });
-      this.win.add(this.dataLabel);
+      this.win.add(this.dataView);
     }
     this.noticeLabel.show();
-    return this.dataLabel.show();
+    return this.dataView.show();
   };
   SplashWindow.prototype.hideError = function() {
     var _ref;
@@ -137,8 +133,8 @@
     if (typeof (_ref = this.noticeLabel) !== "undefined" && _ref !== null) {
       this.win.remove(this.noticeLabel);
     }
-    if (typeof (_ref = this.dataLabel) !== "undefined" && _ref !== null) {
-      this.win.remove(this.dataLabel);
+    if (typeof (_ref = this.dataView) !== "undefined" && _ref !== null) {
+      this.win.remove(this.dataView);
     }
     if (typeof (_ref = this.goButton) !== "undefined" && _ref !== null) {
       this.win.remove(this.goButton);

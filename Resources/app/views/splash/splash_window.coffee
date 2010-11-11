@@ -89,26 +89,25 @@ class SplashWindow extends Citrus.GenericWindow
 			}
 			@win.add(@noticeLabel)
 
-		unless @dataLabel?
-			@dataLabel = Ti.UI.createLabel {
+		unless @dataView?
+			@dataView = Ti.UI.createWebView {
 				color:'#000'
-				font:{fontSize:20, fontWeight:'bold'}
 				top:200
 				height:'auto'
 				width:300
-				text: data
+				html: data
 			}
-			@win.add(@dataLabel)
+			@win.add(@dataView)
 		
 		@noticeLabel.show()
-		@dataLabel.show()
+		@dataView.show()
 		
 
 	# Hides the error label and retry button.
 	hideError: () ->
 		@win.remove @errorLabel if @errorLabel?
 		@win.remove @noticeLabel if @noticeLabel?
-		@win.remove @dataLabel if @dataLabel?
+		@win.remove @dataView if @dataView?
 		@win.remove @goButton if @goButton?
 		@win.remove @retryButton if @retryButton?
 
