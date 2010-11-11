@@ -9,20 +9,20 @@
   Titanium.UI.setBackgroundColor('#000');
   root.CodeReaderController = new Citrus.CodeReaderController();
   codeReaderTab = Titanium.UI.createTab({
-    icon: 'KS_nav_views.png',
+    icon: 'images/radar.png',
     title: 'Scanner',
     window: root.CodeReaderController.window.win
   });
   root.accountStore = new Citrus.AccountSet();
   root.AccountsController = new Citrus.AccountsController(root.accountStore);
   accountsTab = Titanium.UI.createTab({
-    icon: 'KS_nav_views.png',
+    icon: 'images/id-card.png',
     title: 'Accounts',
     window: root.AccountsController.window.win
   });
   root.CodesWindow = new Citrus.CodesWindow('Codes', 'No Codes scanned yet.');
   codesTab = Titanium.UI.createTab({
-    icon: 'KS_nav_views.png',
+    icon: 'images/clock.png',
     title: 'Scanned Codes',
     window: root.CodesWindow.win
   });

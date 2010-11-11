@@ -29,6 +29,6 @@ class FacebookAuthorizationWindow extends Citrus.GenericWindow
 		@win.add(@fbButton)
 	
 	destroyAuthorizeUI: () ->
-		@win.close()
+		@win.close({animated: false})
 
 Citrus.FacebookAuthorizationWindow = FacebookAuthorizationWindow

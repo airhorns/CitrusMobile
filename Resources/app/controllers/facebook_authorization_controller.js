@@ -13,8 +13,8 @@
   Ti.include("/app/views/accounts/facebook_authorization_window.js");
   FacebookAuthorizationController = function(onLoad, onError) {
     FacebookAuthorizationController.__super__.constructor.apply(this, arguments);
-    d(Titanium.Facebook.loggedIn);
-    if (Titanium.Facebook.loggedIn) {
+    d(Titanium.Facebook.isLoggedIn());
+    if (Titanium.Facebook.isLoggedIn()) {
       onLoad(Titanium.Facebook.session);
       return null;
     } else {

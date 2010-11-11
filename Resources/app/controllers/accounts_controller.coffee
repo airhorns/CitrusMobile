@@ -31,8 +31,6 @@ class AccountsController extends Citrus.Controller
 		@selectWindow ?= new Citrus.NewAccountSelectWindow this, (type) =>
 			this.addNewAccountOfType(type)
 
-		Ti.API.debug(@selectWindow.win)
-
 		root.tabGroup.activeTab.open @selectWindow.win, {animated:true}
 
 	# Calledback from the NewAccountSelectWindow
@@ -44,16 +42,22 @@ class AccountsController extends Citrus.Controller
 		else
 			account = new Citrus[type]()
 
-		if account?
+		if account? && account.valid
 			this.watchAccount(account)
-			account.authorize (account) =>
-				@selectWindow.win.close()
+			# Callback to trigger initial sync
+			success = () =>
+				@selectWindow.win.close({animated: false})
 				account.synch()
+				account.removeEventListener "authorization:success", success
 
+			account.addEventListener "authorization:success", success
+			account.authorize() # This adds a new window to the heirarchy
+			d("Created account and added authorization success listener")
 			return account
 		else
-			Ti.API.error("Couldn't create a new account of type "+type)
-			return null
+			er("Couldn't create a new account of type "+type)
+			er(account)
+			return false
 
 	# Called on each account to set up event listeners
 	watchAccount: (account) ->
@@ -71,6 +75,7 @@ class AccountsController extends Citrus.Controller
 
 		# Called when row is first ready to show and when it updates.
 		account.addEventListener "state:ready", (e) =>
+			d("Account state is ready")
 			if account.displayed? && account.displayed
 				@window.updateAccountDisplay(account)
 			else
@@ -82,7 +87,7 @@ class AccountsController extends Citrus.Controller
 		# Called if row has error loading
 		account.addEventListener "state:error", (e) =>
 			@window.hideLoading()
-			alert("There was an error retrieving your details from Twitter. Please try again.")
+			alert("There was an error retrieving your details. Please try again.")
 
 		account.addEventListener "state:deleted", (e) =>
 			@store.removeAccount(account)

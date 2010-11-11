@@ -3,8 +3,8 @@ Ti.include("/app/views/accounts/facebook_authorization_window.js")
 class FacebookAuthorizationController extends Citrus.Controller
 	constructor: (onLoad, onError) ->
 		super
-		d(Titanium.Facebook.loggedIn)
-		if Titanium.Facebook.loggedIn
+		d(Titanium.Facebook.isLoggedIn())
+		if Titanium.Facebook.isLoggedIn()
 			onLoad(Titanium.Facebook.session)
 			return
 		else

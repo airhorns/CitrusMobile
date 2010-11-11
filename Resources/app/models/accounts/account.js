@@ -10,7 +10,9 @@
   };
   Citrus.AccountTypes = [];
   Account = function() {
-    return Citrus.PersistedObject.apply(this, arguments);
+    Account.__super__.constructor.apply(this, arguments);
+    this.valid = true;
+    return this;
   };
   __extends(Account, Citrus.PersistedObject);
   Account.prototype.type = "GenericAccount";
@@ -19,16 +21,14 @@
   Account.prototype.isAuthorized = function() {
     return false;
   };
-  Account.prototype.authorize = function(callback) {
-    this._authCallback = callback;
+  Account.prototype.authorize = function() {
+    if (this.isAuthorized()) {
+      return true;
+    }
     this.fireEvent("authorization:start");
     return true;
   };
   Account.prototype.completeAuthorization = function() {
-    var _ref;
-    if (typeof (_ref = this._authCallback) !== "undefined" && _ref !== null) {
-      this._authCallback(this);
-    }
     this.fireEvent("authorization:success");
     this.fireEvent("authorization:complete");
     return true;

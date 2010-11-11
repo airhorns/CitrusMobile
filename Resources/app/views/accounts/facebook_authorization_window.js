@@ -39,7 +39,9 @@
   };
   __extends(FacebookAuthorizationWindow, Citrus.GenericWindow);
   FacebookAuthorizationWindow.prototype.destroyAuthorizeUI = function() {
-    return this.win.close();
+    return this.win.close({
+      animated: false
+    });
   };
   Citrus.FacebookAuthorizationWindow = FacebookAuthorizationWindow;
 }).call(this);
