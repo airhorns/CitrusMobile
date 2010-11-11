@@ -2,6 +2,7 @@ Ti.include("/app/views/splash/splash_info_table_view_row.js")
 Ti.include("/app/views/splash/actions/action_table_view_row.js")
 Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js")
+Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js")
 
 class SplashWindow extends Citrus.GenericWindow
 	# Sets up the loading indicator
@@ -92,10 +93,10 @@ class SplashWindow extends Citrus.GenericWindow
 		unless @dataView?
 			@dataView = Ti.UI.createWebView {
 				color:'#000'
-				top:200
-				height:'auto'
+				top:150
+				height:300
 				width:300
-				html: data
+				html: sc.helpers.makeClickable(data, {autolink: true, screenname: true})
 			}
 			@win.add(@dataView)
 		

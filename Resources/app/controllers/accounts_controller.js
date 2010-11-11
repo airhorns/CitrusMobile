@@ -41,28 +41,34 @@
     this.selectWindow = (typeof this.selectWindow !== "undefined" && this.selectWindow !== null) ? this.selectWindow : new Citrus.NewAccountSelectWindow(this, __bind(function(type) {
       return this.addNewAccountOfType(type);
     }, this));
-    Ti.API.debug(this.selectWindow.win);
     return root.tabGroup.activeTab.open(this.selectWindow.win, {
       animated: true
     });
   };
   AccountsController.prototype.addNewAccountOfType = function(type) {
-    var account;
+    var account, success;
     if (_.isFunction(type)) {
       account = new type();
     } else {
       account = new Citrus[type]();
     }
-    if (typeof account !== "undefined" && account !== null) {
+    if ((typeof account !== "undefined" && account !== null) && account.valid) {
       this.watchAccount(account);
-      account.authorize(__bind(function(account) {
-        this.selectWindow.win.close();
-        return account.synch();
-      }, this));
+      success = __bind(function() {
+        this.selectWindow.win.close({
+          animated: false
+        });
+        account.synch();
+        return account.removeEventListener("authorization:success", success);
+      }, this);
+      account.addEventListener("authorization:success", success);
+      account.authorize();
+      d("Created account and added authorization success listener");
       return account;
     } else {
-      Ti.API.error("Couldn't create a new account of type " + type);
-      return null;
+      er("Couldn't create a new account of type " + type);
+      er(account);
+      return false;
     }
   };
   AccountsController.prototype.watchAccount = function(account) {
@@ -79,6 +85,7 @@
     }, this));
     account.addEventListener("state:ready", __bind(function(e) {
       var _ref;
+      d("Account state is ready");
       if ((typeof (_ref = account.displayed) !== "undefined" && _ref !== null) && account.displayed) {
         this.window.updateAccountDisplay(account);
       } else {
@@ -89,7 +96,7 @@
     }, this));
     account.addEventListener("state:error", __bind(function(e) {
       this.window.hideLoading();
-      return alert("There was an error retrieving your details from Twitter. Please try again.");
+      return alert("There was an error retrieving your details. Please try again.");
     }, this));
     return account.addEventListener("state:deleted", __bind(function(e) {
       this.store.removeAccount(account);

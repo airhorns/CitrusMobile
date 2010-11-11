@@ -82,11 +82,17 @@
   AccountsTableViewWindow.prototype._addAccountToTable = function(account) {
     var row;
     row = this._getTableRowFromAccount(account);
-    d("Adding row to the table");
-    d(row);
-    return this.table.appendRow(row, {
-      animated: true
-    });
+    if (row) {
+      d("Adding row to the table");
+      d(row);
+      return this.table.appendRow(row, {
+        animated: true
+      });
+    } else {
+      er("Couldn't get the account's table view row! Account is: ");
+      d(account);
+      return (account.displayed = false);
+    }
   };
   AccountsTableViewWindow.prototype._getTableRowFromAccount = function(account) {
     var klass, rowView;

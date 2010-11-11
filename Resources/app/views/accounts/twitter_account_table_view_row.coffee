@@ -1,4 +1,4 @@
-class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow 
+class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow
 	constructor: (account) ->
 		super
 
@@ -12,7 +12,7 @@ class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow
 			width:'auto'
 		}
 		@row.add(screenName)
-		
+
 		if @account.name?
 			realName = Ti.UI.createLabel {
 				color:'#333'
@@ -24,5 +24,5 @@ class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow
 				width:'auto'
 			}
 			@row.add(realName)
-		
+
 Citrus.TwitterAccountTableViewRow = TwitterAccountTableViewRow

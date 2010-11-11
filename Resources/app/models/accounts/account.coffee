@@ -4,16 +4,19 @@ class Account extends Citrus.PersistedObject
 	type: "GenericAccount"
 	lastSynched: false
 	refreshInterval: 1000*60*3 # 3 hours
+	constructor: ->
+		super
+		@valid = true
+
 	isAuthorized: ->
 		false
 		
-	authorize: (callback) ->
-		@_authCallback = callback
+	authorize: () ->
+		return true if this.isAuthorized()
 		this.fireEvent("authorization:start")
 		true
 	
 	completeAuthorization: () ->
-		@_authCallback(this) if @_authCallback?
 		this.fireEvent("authorization:success")
 		this.fireEvent("authorization:complete")
 		true

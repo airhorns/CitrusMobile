@@ -12,6 +12,7 @@
   Ti.include("/app/views/splash/actions/action_table_view_row.js");
   Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js");
   Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js");
+  Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js");
   SplashWindow = function(controller) {
     SplashWindow.__super__.constructor.apply(this, arguments);
     this.win = Ti.UI.createWindow({
@@ -115,10 +116,13 @@
     if (!(typeof (_ref = this.dataView) !== "undefined" && _ref !== null)) {
       this.dataView = Ti.UI.createWebView({
         color: '#000',
-        top: 200,
-        height: 'auto',
+        top: 150,
+        height: 300,
         width: 300,
-        html: data
+        html: sc.helpers.makeClickable(data, {
+          autolink: true,
+          screenname: true
+        })
       });
       this.win.add(this.dataView);
     }

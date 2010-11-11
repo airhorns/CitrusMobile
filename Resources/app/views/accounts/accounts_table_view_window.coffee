@@ -60,10 +60,15 @@ class AccountsTableViewWindow extends Citrus.GenericWindow
 	# Adds a displayable account to the tableview
 	_addAccountToTable: (account) ->
 		row = this._getTableRowFromAccount(account)
-		d("Adding row to the table")
-		d(row)
-		@table.appendRow(row, {animated:true})
-
+		if row
+			d("Adding row to the table")
+			d(row)
+			@table.appendRow(row, {animated:true})
+		else
+			er("Couldn't get the account's table view row! Account is: ")
+			d(account)
+			account.displayed = false
+		
 	_getTableRowFromAccount: (account) ->
 		klass = Citrus[account.type+"TableViewRow"]
 
