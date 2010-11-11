@@ -39,8 +39,7 @@
       return false;
     }
     this.selectWindow = (typeof this.selectWindow !== "undefined" && this.selectWindow !== null) ? this.selectWindow : new Citrus.NewAccountSelectWindow(this, __bind(function(type) {
-      this.addNewAccountOfType(type);
-      return this.selectWindow.win.close();
+      return this.addNewAccountOfType(type);
     }, this));
     Ti.API.debug(this.selectWindow.win);
     return root.tabGroup.activeTab.open(this.selectWindow.win, {
@@ -56,11 +55,14 @@
     }
     if (typeof account !== "undefined" && account !== null) {
       this.watchAccount(account);
-      return account.authorize(__bind(function(account) {
+      account.authorize(__bind(function(account) {
+        this.selectWindow.win.close();
         return account.synch();
       }, this));
+      return account;
     } else {
-      return Ti.API.error("Couldn't create a new account of type " + type);
+      Ti.API.error("Couldn't create a new account of type " + type);
+      return null;
     }
   };
   AccountsController.prototype.watchAccount = function(account) {

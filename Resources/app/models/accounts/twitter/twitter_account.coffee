@@ -1,5 +1,5 @@
 Ti.include('/app/controllers/oauthorization_controller.js')
-Ti.include('/vendor/spazcore/libs/spaztwit.js');
+Ti.include('/vendor/spazcore/libs/spaztwit.js')
 
 class TwitterAccount extends Citrus.Account
 	type: "TwitterAccount"
@@ -39,16 +39,16 @@ class TwitterAccount extends Citrus.Account
 	isAuthorized: ->
 		return @consumer.isAuthorized()
 
-	authorize: (callback) ->
+	authorize: ->
 		super
 		if Citrus.Config.TWITTER_XAUTH
-			this.xAuthAuthorize(callback)
+			this.xAuthAuthorize()
 		else
-			this.oAuthAuthorize(callback)
+			this.oAuthAuthorize()
 
-	xAuthAuthorize: (callback) ->
+	xAuthAuthorize: () ->
 
-	oAuthAuthorize: (callback) ->
+	oAuthAuthorize: () ->
 		controller = {}
 		d("Starting OAuth Twitter Authorization")
 		this.addEventListener "authorization:error", (e) =>
