@@ -46,7 +46,7 @@ class FacebookAccount extends Citrus.Account
 		loggedIn = (session) =>
 			d("Successfully logged in to facebook")
 			d(session)
-			controller.destroy()
+			controller.destroy() if controller.destroy?
 			this.completeAuthorization()
 
 		errorLoggingIn = (e) =>

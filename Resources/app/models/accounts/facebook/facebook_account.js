@@ -70,9 +70,12 @@
     d(Titanium.Facebook.permissions);
     controller = {};
     loggedIn = __bind(function(session) {
+      var _ref;
       d("Successfully logged in to facebook");
       d(session);
-      controller.destroy();
+      if (typeof (_ref = controller.destroy) !== "undefined" && _ref !== null) {
+        controller.destroy();
+      }
       return this.completeAuthorization();
     }, this);
     errorLoggingIn = __bind(function(e) {
