@@ -25,7 +25,7 @@
         _result.push((function() {
           name = klass.prototype.type;
           item = Titanium.UI.createDashboardItem({
-            image: "images/account_icons/" + name + '_64.png',
+            image: Citrus.getIconPath(name),
             type: name,
             label: name.replace("Account", "")
           });

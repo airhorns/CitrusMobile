@@ -13,9 +13,6 @@
   };
   __extends(FacebookActionTableViewRow, Citrus.ActionRows.ActionTableViewRow);
   FacebookActionTableViewRow.prototype.type = "FacebookActionTableViewRow";
-  FacebookActionTableViewRow.prototype.icon = function() {
-    return "images/account_icons/FacebookAccount_32.png";
-  };
   FacebookActionTableViewRow.prototype.buttonText = function() {
     return this.action.buttonText;
   };

@@ -1,27 +1,41 @@
-Ti.include("/app/views/splash/splash_info_table_view_row.js")
+Ti.include("/app/views/splash/splash_info_header_view.js")
 Ti.include("/app/views/splash/actions/action_table_view_row.js")
 Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js")
+Ti.include("/app/views/splash/actions/platform_action_table_view_row.js")
 
 class SplashWindow extends Citrus.GenericWindow
 	# Sets up the loading indicator
 	constructor: (controller) ->
 		super
 		@win = Ti.UI.createWindow({title: "Scan Results",backgroundColor:'#fff'})
-
-		@loadingIndicator = Titanium.UI.createActivityIndicator {
-			# style: Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN
-			font: {
-				fontFamily: 'Helvetica Neue'
-				fontSize: 20
-				fontWeight: 'bold' }
-			color: '#000'
-			message: 'Loading Scan Results ...'
-			top: 100
+	
+		@loadingWindow = Ti.UI.createWindow {
+			modal: true
+			opacity: 0.75
+			backgroundColor: 'black'
 		}
-		@win.add(@loadingIndicator)
 
+		@loadingIndicator = Ti.UI.createView {
+	    backgroundColor: 'black'
+  	  opacity: 0.75
+   		height: 70
+   		width: 70
+			left: 125
+			top: 280
+		}
+ 
+		loadIndicator = Ti.UI.createActivityIndicator {
+    	style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
+    	message: 'loading data...'
+    	font : 'Arial'
+    	color: '#FFF'
+		}
+ 
+		@loadingIndicator.add(loadIndicator)
+		@loadingWindow.add(@loadingIndicator)
+		@loadingShown = false
 	# Once a splash has been successfully displayed, this displays it
 	displaySplash: (splash) ->
 		Ti.API.debug("Displaying splash \""+splash.name+"\", tid:"+splash.tid)
@@ -30,17 +44,17 @@ class SplashWindow extends Citrus.GenericWindow
 		@splash = splash
 		@win.remove(@table) if @table?
 		rows = this.getActionRows()
-		rows.unshift this.getInfoRow()
-		d(rows)
-		
+
 		@table = Titanium.UI.createTableView({
 			data: rows
 			editable: false
 			allowsSelection: false
+			style: Titanium.UI.iPhone.TableViewStyle.GROUPED
+			headerView: this.getHeaderView()
 		})
-	
-		this.hideLoading()
+
 		@win.add(@table)
+		this.hideLoading()
 		d("Table added")
 
 	# If a splash couldn't be fetched, this displays the notification and an optional retry button
@@ -55,7 +69,7 @@ class SplashWindow extends Citrus.GenericWindow
 				width:300
 			}
 			@win.add @errorLabel
-		
+
 		@errorLabel.text = msg
 		@errorLabel.show()
 		if retry
@@ -78,7 +92,6 @@ class SplashWindow extends Citrus.GenericWindow
 			@retryButton.show()
 	# Displays non Citrus decoded data as a simple qr code scanner.
 	displayDecodedData: (data) ->
-		this.hideLoading()
 		unless @noticeLabel?
 			@noticeLabel = Ti.UI.createLabel {
 				color:'#000'
@@ -99,10 +112,10 @@ class SplashWindow extends Citrus.GenericWindow
 				html: sc.helpers.makeClickable(data, {autolink: true, screenname: true})
 			}
 			@win.add(@dataView)
-		
+
 		@noticeLabel.show()
 		@dataView.show()
-		
+		this.hideLoading()
 
 	# Hides the error label and retry button.
 	hideError: () ->
@@ -113,9 +126,9 @@ class SplashWindow extends Citrus.GenericWindow
 		@win.remove @retryButton if @retryButton?
 
 
-	getInfoRow: () ->
-		row = new Citrus.SplashInfoTableViewRow(@splash)
-		return row.row
+	getHeaderView: () ->
+		view = new Citrus.SplashInfoHeaderView(@splash)
+		return view.view
 
 	# Gets all the TableViewRow objects corresponding to the splash's actions.
 	getActionRows: () ->
@@ -134,10 +147,10 @@ class SplashWindow extends Citrus.GenericWindow
 
 	showLoading: () ->
 		d("Showing loading indicator")
-		@loadingIndicator.show()
+		@loadingWindow.open({animated: false}) unless @loadingShown
 
 	hideLoading: () ->
 		d("Hiding loading indicator")
-		# @loadingIndicator.hide()
+		@loadingWindow.close({animated: false}) if @loadingShown
 
 Citrus.SplashWindow = SplashWindow

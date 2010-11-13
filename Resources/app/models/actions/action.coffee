@@ -12,7 +12,7 @@ class Action extends Citrus.Object
 	@declares: []
 	@alwaysDeclared: ["actionText"]
 	valid: false
-	icon: "images/account_icons/GenericAccount_16.png"
+	icon: Citrus.getIconPath("generic")
 	actionText: ""
 
 	constructor: (attributes) ->

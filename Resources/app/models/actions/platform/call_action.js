@@ -15,6 +15,7 @@
   CallAction.declares = ["phoneNumber"];
   CallAction.prototype.type = "PlatformCallAction";
   CallAction.prototype.buttonText = "Call";
+  CallAction.prototype.iconName = "phone";
   CallAction.prototype.action = function(success, failure) {
     return Titanium.Platform.openURL("tel:" + this.phoneNumber);
   };

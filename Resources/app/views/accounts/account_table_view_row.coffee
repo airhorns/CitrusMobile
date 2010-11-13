@@ -10,7 +10,7 @@ class AccountTableViewRow extends Citrus.Object
 		row.wrapper = this
 		# Add image
 		photo = Ti.UI.createView {
-			backgroundImage: 'images/account_icons/'+@account.type+'_64.png'
+			backgroundImage: Citrus.getIconPath(@account.type)
 			top:10
 			left:15
 			height: 40

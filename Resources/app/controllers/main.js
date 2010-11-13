@@ -1,5 +1,6 @@
 (function() {
   var _i, _len, _ref, accountsTab, codeReaderTab, codesTab, tab;
+  Ti.include('app/helpers/icons_helper.js');
   Ti.include('app/controllers/accounts_controller.js');
   Ti.include('app/controllers/code_reader_controller.js');
   Ti.include('app/views/codes/codes_window.js');

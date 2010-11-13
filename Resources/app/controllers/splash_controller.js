@@ -21,13 +21,16 @@
     root.tabGroup.activeTab.open(this.window.win, {
       animated: true
     });
-    this.tryToShow();
+    this.tryToShow(false);
     return this;
   };
   __extends(SplashController, Citrus.Controller);
-  SplashController.prototype.tryToShow = function() {
+  SplashController.prototype.tryToShow = function(showLoading) {
     d("Trying to show " + this.codeData);
-    this.window.showLoading();
+    showLoading = (typeof showLoading !== "undefined" && showLoading !== null) ? showLoading : true;
+    if (showLoading) {
+      this.window.showLoading();
+    }
     return Citrus.Splash.newFromDecodedData(this.codeData, __bind(function(splash) {
       d("Found a splash in the decoded data, with shortcode " + splash.shortcode);
       this.splash = splash;

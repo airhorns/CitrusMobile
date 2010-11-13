@@ -1,12 +1,12 @@
-class SplashInfoTableViewRow extends Citrus.Object
+class SplashInfoHeaderView extends Citrus.Object
 	constructor: (splash) ->
-		@row = Titanium.UI.createTableViewRow {
-			className: "codeInfoRow"
-			height: "auto"
+		@view = Titanium.UI.createView {
+			height: 65
+			top: 0
 		}
 
 		@splash = splash
-		@row.object = this
+		@view.object = this
 		
 		if splash.photo?
 			text_offset = 74
@@ -17,7 +17,7 @@ class SplashInfoTableViewRow extends Citrus.Object
 				top: 4
 				left: 7
 			}
-			@row.add(photo)
+			@view.add(photo)
 		else
 			text_offset = 5
 		
@@ -25,25 +25,27 @@ class SplashInfoTableViewRow extends Citrus.Object
 			color:'#000'
 			text: splash.name
 			font:{fontSize:30, fontWeight:'bold'}
+			minimumFontSize: 16
 			top:4
 			left:text_offset
-			height:'auto'
-			width:'auto'
+			height: 32
+			width: (320 - text_offset - 4)
 		}
 		
-		@row.add(title)
+		@view.add(title)
 		
 		description = Ti.UI.createLabel {
 			color:'#000'
 			text: splash.text
 			font:{fontSize:20, fontWeight:'bold'}
+			minimumFontSize: 12
 			top:40
 			left: text_offset
-			height:'auto'
-			width:'auto'
+			height: 22
+			width: (320 - text_offset - 4)
 		}
 		
-		@row.add(description)
+		@view.add(description)
 		
 		# if @account.name?
 		#		realName = Ti.UI.createLabel {
@@ -55,7 +57,7 @@ class SplashInfoTableViewRow extends Citrus.Object
 		#			height:'auto'
 		#			width:'auto'
 		#		}
-		#		@row.add(realName)
+		#		@view.add(realName)
 	
-Citrus.SplashInfoTableViewRow = SplashInfoTableViewRow
+Citrus.SplashInfoHeaderView = SplashInfoHeaderView
 	

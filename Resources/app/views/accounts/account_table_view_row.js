@@ -21,7 +21,7 @@
     row.height = 60;
     row.wrapper = this;
     photo = Ti.UI.createView({
-      backgroundImage: 'images/account_icons/' + this.account.type + '_64.png',
+      backgroundImage: Citrus.getIconPath(this.account.type),
       top: 10,
       left: 15,
       height: 40,

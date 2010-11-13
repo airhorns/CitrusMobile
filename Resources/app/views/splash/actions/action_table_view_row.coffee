@@ -38,10 +38,10 @@ class ActionTableViewRow extends Citrus.Object
 			# the style is the spinner type (which is proxied by a different object in titanium which
 			# barfs when it gets these option)
 			opts = {
-				right:10
+				right:5
 				color: "#000"
-				width: 80
-				height: 20
+				width: this.buttonWidth()
+				height: 25
 			}
 			unless shittyTI
 				opts.style = style if style?
@@ -77,16 +77,18 @@ class ActionTableViewRow extends Citrus.Object
 			color:'#000'
 			text: this.text()
 			font:{fontSize:16, fontWeight:'bold'}
+			minimumFontSize: 12
+			width: (320 - 30 - this.textOffset() - this.buttonWidth())
 		}
 		@row.add(text)
 
 	displayPhoto: ->
 		photo = Ti.UI.createView {
 			backgroundImage: this.icon()
-			top: 4
-			left: 4
-			height: 32
-			width: 32
+			top: 5
+			left: 5
+			height: 30
+			width: 30
 		}
 		@row.add(photo)
 
@@ -115,7 +117,7 @@ class ActionTableViewRow extends Citrus.Object
 		d("Error displayed")
 
 	icon: ->
-		return "images/account_icons/GenericAccount_32.png"
+		return Citrus.getIconPath(@action.accountType)
 
 	buttonText: ->
 		return "Run"
@@ -124,7 +126,10 @@ class ActionTableViewRow extends Citrus.Object
 		return @action.actionText
 
 	textOffset: ->
-		return 40
+		return 42
+	buttonWidth: ->
+		return 80
+
 Citrus.ActionRows = {}
 Citrus.registerActionViewRow = (klass) ->
 	Citrus.ActionRows[klass::type] = klass

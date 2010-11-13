@@ -74,6 +74,8 @@ Ti.include('/vendor/spazcore/platforms/Titanium/helpers/sys.js');
 // SpazCore setup
 jQuery = Titanium.Network;
 sc.dumplevel = 999;
+// Helpers
+Ti.include('app/helpers/icons_helper.js');
 
 // Citrus Specific Abstractions
 Ti.include('app/models/object.js');

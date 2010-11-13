@@ -7,7 +7,8 @@ class PaypalActionTableViewRow extends Citrus.ActionRows.ActionTableViewRow
 	
 	textOffset: () ->
 		return 5
-
+	buttonWidth: () ->
+		return 152
 	displayPhoto: ->
 		return true
 	

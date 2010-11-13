@@ -8,28 +8,41 @@
     if (typeof parent.extended === "function") parent.extended(child);
     child.__super__ = parent.prototype;
   };
-  Ti.include("/app/views/splash/splash_info_table_view_row.js");
+  Ti.include("/app/views/splash/splash_info_header_view.js");
   Ti.include("/app/views/splash/actions/action_table_view_row.js");
   Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js");
   Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js");
   Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js");
+  Ti.include("/app/views/splash/actions/platform_action_table_view_row.js");
   SplashWindow = function(controller) {
+    var loadIndicator;
     SplashWindow.__super__.constructor.apply(this, arguments);
     this.win = Ti.UI.createWindow({
       title: "Scan Results",
       backgroundColor: '#fff'
     });
-    this.loadingIndicator = Titanium.UI.createActivityIndicator({
-      font: {
-        fontFamily: 'Helvetica Neue',
-        fontSize: 20,
-        fontWeight: 'bold'
-      },
-      color: '#000',
-      message: 'Loading Scan Results ...',
-      top: 100
+    this.loadingWindow = Ti.UI.createWindow({
+      modal: true,
+      opacity: 0.75,
+      backgroundColor: 'black'
     });
-    this.win.add(this.loadingIndicator);
+    this.loadingIndicator = Ti.UI.createView({
+      backgroundColor: 'black',
+      opacity: 0.75,
+      height: 70,
+      width: 70,
+      left: 125,
+      top: 280
+    });
+    loadIndicator = Ti.UI.createActivityIndicator({
+      style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+      message: 'loading data...',
+      font: 'Arial',
+      color: '#FFF'
+    });
+    this.loadingIndicator.add(loadIndicator);
+    this.loadingWindow.add(this.loadingIndicator);
+    this.loadingShown = false;
     return this;
   };
   __extends(SplashWindow, Citrus.GenericWindow);
@@ -42,15 +55,15 @@
       this.win.remove(this.table);
     }
     rows = this.getActionRows();
-    rows.unshift(this.getInfoRow());
-    d(rows);
     this.table = Titanium.UI.createTableView({
       data: rows,
       editable: false,
-      allowsSelection: false
+      allowsSelection: false,
+      style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
+      headerView: this.getHeaderView()
     });
-    this.hideLoading();
     this.win.add(this.table);
+    this.hideLoading();
     return d("Table added");
   };
   SplashWindow.prototype.displayError = function(msg, retry, callback) {
@@ -98,7 +111,6 @@
   };
   SplashWindow.prototype.displayDecodedData = function(data) {
     var _ref;
-    this.hideLoading();
     if (!(typeof (_ref = this.noticeLabel) !== "undefined" && _ref !== null)) {
       this.noticeLabel = Ti.UI.createLabel({
         color: '#000',
@@ -127,7 +139,8 @@
       this.win.add(this.dataView);
     }
     this.noticeLabel.show();
-    return this.dataView.show();
+    this.dataView.show();
+    return this.hideLoading();
   };
   SplashWindow.prototype.hideError = function() {
     var _ref;
@@ -147,10 +160,10 @@
       return this.win.remove(this.retryButton);
     }
   };
-  SplashWindow.prototype.getInfoRow = function() {
-    var row;
-    row = new Citrus.SplashInfoTableViewRow(this.splash);
-    return row.row;
+  SplashWindow.prototype.getHeaderView = function() {
+    var view;
+    view = new Citrus.SplashInfoHeaderView(this.splash);
+    return view.view;
   };
   SplashWindow.prototype.getActionRows = function() {
     var _i, _len, _ref, _result, action, callback, klass, row, rows, takeable;
@@ -177,10 +190,19 @@
   };
   SplashWindow.prototype.showLoading = function() {
     d("Showing loading indicator");
-    return this.loadingIndicator.show();
+    if (!(this.loadingShown)) {
+      return this.loadingWindow.open({
+        animated: false
+      });
+    }
   };
   SplashWindow.prototype.hideLoading = function() {
-    return d("Hiding loading indicator");
+    d("Hiding loading indicator");
+    if (this.loadingShown) {
+      return this.loadingWindow.close({
+        animated: false
+      });
+    }
   };
   Citrus.SplashWindow = SplashWindow;
 }).call(this);
