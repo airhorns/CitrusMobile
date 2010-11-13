@@ -3,7 +3,7 @@ class TwitterAction extends Citrus.AccountBasedAction
 	type: "TwitterAction"
 	buttonText: "TwitterAction"
 	accountType: "TwitterAccount"
-	tableViewRow: "TwitterActionTableViewRow"
+	tableViewRow: "AccountActionTableViewRow"
 	
 	readyToRun: (account) ->
 		unless account.isAuthorized()

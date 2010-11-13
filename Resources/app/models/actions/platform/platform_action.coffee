@@ -2,8 +2,8 @@ class PlatformAction extends Citrus.AccountlessAction
 	@declares: []
 	type: "PlatformAction"
 	buttonText: "PlatformAction"
-	tableViewRow: "ActionTableViewRow"
-	
+	tableViewRow: "PlatformActionTableViewRow"
+
 	readyToRun: () ->
 		return true
 

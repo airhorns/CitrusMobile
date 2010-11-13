@@ -1,3 +1,6 @@
+# Helpers
+Ti.include('app/helpers/icons_helper.js')
+
 # Main controllers
 Ti.include('app/controllers/accounts_controller.js')
 Ti.include('app/controllers/code_reader_controller.js')

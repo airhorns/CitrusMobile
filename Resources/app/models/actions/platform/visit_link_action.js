@@ -15,6 +15,7 @@
   VisitLinkAction.declares = ["url"];
   VisitLinkAction.prototype.type = "PlatformVisitLinkAction";
   VisitLinkAction.prototype.buttonText = "Safari";
+  VisitLinkAction.prototype.iconName = "safari";
   VisitLinkAction.prototype.action = function(success, failure) {
     return Titanium.Platform.openURL(this.url);
   };

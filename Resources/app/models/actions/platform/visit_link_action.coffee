@@ -3,6 +3,7 @@ class VisitLinkAction extends Citrus.PlatformAction
 
 	type: "PlatformVisitLinkAction"
 	buttonText: "Safari"
+	iconName: "safari"
 
 	action: (success, failure) ->
 		Titanium.Platform.openURL(@url)

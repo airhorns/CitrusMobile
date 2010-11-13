@@ -15,7 +15,7 @@
   PlatformAction.declares = [];
   PlatformAction.prototype.type = "PlatformAction";
   PlatformAction.prototype.buttonText = "PlatformAction";
-  PlatformAction.prototype.tableViewRow = "ActionTableViewRow";
+  PlatformAction.prototype.tableViewRow = "PlatformActionTableViewRow";
   PlatformAction.prototype.readyToRun = function() {
     return true;
   };

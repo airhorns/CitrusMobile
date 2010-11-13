@@ -3,6 +3,7 @@ class CallAction extends Citrus.PlatformAction
 
 	type: "PlatformCallAction"
 	buttonText: "Call"
+	iconName: "phone"
 
 	action: (success, failure) ->
 		Titanium.Platform.openURL("tel:"+@phoneNumber)

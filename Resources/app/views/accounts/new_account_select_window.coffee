@@ -11,7 +11,7 @@ class NewAccountSelectWindow extends Citrus.GenericWindow
 		data = for klass in Citrus.AccountTypes
 			name = klass.prototype.type
 			item = Titanium.UI.createDashboardItem {
-				image: "images/account_icons/"+name+'_64.png'
+				image: Citrus.getIconPath(name)
 				type: name
 				label: name.replace("Account", "")
 			}

@@ -49,10 +49,10 @@
     shittyTI = style === Titanium.UI.iPhone.SystemButton.SPINNER;
     if (!(typeof (_ref = this.buttons[key]) !== "undefined" && _ref !== null)) {
       opts = {
-        right: 10,
+        right: 5,
         color: "#000",
-        width: 80,
-        height: 20
+        width: this.buttonWidth(),
+        height: 25
       };
       if (!(shittyTI)) {
         if (typeof style !== "undefined" && style !== null) {
@@ -94,7 +94,9 @@
       font: {
         fontSize: 16,
         fontWeight: 'bold'
-      }
+      },
+      minimumFontSize: 12,
+      width: (320 - 30 - this.textOffset() - this.buttonWidth())
     });
     return this.row.add(text);
   };
@@ -102,10 +104,10 @@
     var photo;
     photo = Ti.UI.createView({
       backgroundImage: this.icon(),
-      top: 4,
-      left: 4,
-      height: 32,
-      width: 32
+      top: 5,
+      left: 5,
+      height: 30,
+      width: 30
     });
     return this.row.add(photo);
   };
@@ -131,7 +133,7 @@
     return d("Error displayed");
   };
   ActionTableViewRow.prototype.icon = function() {
-    return "images/account_icons/GenericAccount_32.png";
+    return Citrus.getIconPath(this.action.accountType);
   };
   ActionTableViewRow.prototype.buttonText = function() {
     return "Run";
@@ -140,7 +142,10 @@
     return this.action.actionText;
   };
   ActionTableViewRow.prototype.textOffset = function() {
-    return 40;
+    return 42;
+  };
+  ActionTableViewRow.prototype.buttonWidth = function() {
+    return 80;
   };
   Citrus.ActionRows = {};
   Citrus.registerActionViewRow = function(klass) {

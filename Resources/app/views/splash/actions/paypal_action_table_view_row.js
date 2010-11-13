@@ -18,6 +18,9 @@
   PaypalActionTableViewRow.prototype.textOffset = function() {
     return 5;
   };
+  PaypalActionTableViewRow.prototype.buttonWidth = function() {
+    return 152;
+  };
   PaypalActionTableViewRow.prototype.displayPhoto = function() {
     return true;
   };

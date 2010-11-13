@@ -3,7 +3,7 @@ class FoursquareAction extends Citrus.AccountBasedAction
 	type: "FoursquareAction"
 	buttonText: "Check In"
 	accountType: "FoursquareAccount"
-	tableViewRow: "FoursquareActionTableViewRow"
+	tableViewRow: "AccountActionTableViewRow"
 	
 	readyToRun: (account) ->
 		unless account.isAuthorized()

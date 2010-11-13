@@ -41,7 +41,7 @@
   Action.declares = [];
   Action.alwaysDeclared = ["actionText"];
   Action.prototype.valid = false;
-  Action.prototype.icon = "images/account_icons/GenericAccount_16.png";
+  Action.prototype.icon = Citrus.getIconPath("generic");
   Action.prototype.actionText = "";
   Action.prototype.readyToRun = function() {
     return true;

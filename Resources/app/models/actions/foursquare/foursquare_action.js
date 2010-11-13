@@ -16,7 +16,7 @@
   FoursquareAction.prototype.type = "FoursquareAction";
   FoursquareAction.prototype.buttonText = "Check In";
   FoursquareAction.prototype.accountType = "FoursquareAccount";
-  FoursquareAction.prototype.tableViewRow = "FoursquareActionTableViewRow";
+  FoursquareAction.prototype.tableViewRow = "AccountActionTableViewRow";
   FoursquareAction.prototype.readyToRun = function(account) {
     if (!(account.isAuthorized())) {
       Ti.API.debug("Trying to run action on non authorized account!");

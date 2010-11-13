@@ -16,7 +16,7 @@
   TwitterAction.prototype.type = "TwitterAction";
   TwitterAction.prototype.buttonText = "TwitterAction";
   TwitterAction.prototype.accountType = "TwitterAccount";
-  TwitterAction.prototype.tableViewRow = "TwitterActionTableViewRow";
+  TwitterAction.prototype.tableViewRow = "AccountActionTableViewRow";
   TwitterAction.prototype.readyToRun = function(account) {
     if (!(account.isAuthorized())) {
       Ti.API.debug("Trying to run action on non authorized account!");
