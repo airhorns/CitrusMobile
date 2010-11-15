@@ -29,8 +29,7 @@
         color: '#333',
         text: this.account.name,
         font: {
-          fontSize: 15,
-          fontWeight: 'bold'
+          fontSize: 15
         },
         top: 30,
         left: 70,

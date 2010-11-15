@@ -39,5 +39,3 @@ codesTab = Titanium.UI.createTab({
 root.tabGroup.addTab(tab) for tab in [codeReaderTab, accountsTab, codesTab]
 root.tabGroup.setActiveTab(accountsTab)
 root.tabGroup.open({transition:Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT})
-
-Ti.include('test.js')

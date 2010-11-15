@@ -8,6 +8,7 @@
     if (typeof parent.extended === "function") parent.extended(child);
     child.__super__ = parent.prototype;
   };
+  Ti.include("/app/views/modal_loading_view.js");
   Ti.include("/app/views/splash/splash_info_header_view.js");
   Ti.include("/app/views/splash/actions/action_table_view_row.js");
   Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js");
@@ -15,34 +16,12 @@
   Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js");
   Ti.include("/app/views/splash/actions/platform_action_table_view_row.js");
   SplashWindow = function(controller) {
-    var loadIndicator;
     SplashWindow.__super__.constructor.apply(this, arguments);
     this.win = Ti.UI.createWindow({
       title: "Scan Results",
       backgroundColor: '#fff'
     });
-    this.loadingWindow = Ti.UI.createWindow({
-      modal: true,
-      opacity: 0.75,
-      backgroundColor: 'black'
-    });
-    this.loadingIndicator = Ti.UI.createView({
-      backgroundColor: 'black',
-      opacity: 0.75,
-      height: 70,
-      width: 70,
-      left: 125,
-      top: 280
-    });
-    loadIndicator = Ti.UI.createActivityIndicator({
-      style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
-      message: 'loading data...',
-      font: 'Arial',
-      color: '#FFF'
-    });
-    this.loadingIndicator.add(loadIndicator);
-    this.loadingWindow.add(this.loadingIndicator);
-    this.loadingShown = false;
+    this.loading = new Citrus.ModalLoadingView("Loading info...", this);
     return this;
   };
   __extends(SplashWindow, Citrus.GenericWindow);
@@ -189,20 +168,10 @@
     return rows;
   };
   SplashWindow.prototype.showLoading = function() {
-    d("Showing loading indicator");
-    if (!(this.loadingShown)) {
-      return this.loadingWindow.open({
-        animated: false
-      });
-    }
+    return this.loading.show(this.win);
   };
   SplashWindow.prototype.hideLoading = function() {
-    d("Hiding loading indicator");
-    if (this.loadingShown) {
-      return this.loadingWindow.close({
-        animated: false
-      });
-    }
+    return this.loading.hide(this.win);
   };
   Citrus.SplashWindow = SplashWindow;
 }).call(this);

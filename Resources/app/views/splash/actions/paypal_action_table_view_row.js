@@ -15,24 +15,18 @@
   };
   __extends(PaypalActionTableViewRow, Citrus.ActionRows.ActionTableViewRow);
   PaypalActionTableViewRow.prototype.type = "PaypalActionTableViewRow";
-  PaypalActionTableViewRow.prototype.textOffset = function() {
-    return 5;
-  };
   PaypalActionTableViewRow.prototype.buttonWidth = function() {
-    return 152;
-  };
-  PaypalActionTableViewRow.prototype.displayPhoto = function() {
-    return true;
+    return 68;
   };
   PaypalActionTableViewRow.prototype.displayButton = function() {
     var opts;
     opts = {
-      height: 33,
-      width: 152,
-      top: 4,
-      right: 4,
+      height: 24,
+      width: this.buttonWidth(),
+      top: 8,
+      right: 12,
       appId: "APP-80W284485P519543T",
-      buttonStyle: Ti.Paypal.BUTTON_152x33,
+      buttonStyle: Ti.Paypal.BUTTON_68x24,
       paypalEnvironment: Ti.Paypal.PAYPAL_ENV_SANDBOX,
       feePaidByReceiver: false,
       transactionType: Ti.Paypal.PAYMENT_TYPE_DONATION,
@@ -57,6 +51,9 @@
     });
     this.button.addEventListener("click", function(e) {});
     return this.row.add(this.button);
+  };
+  PaypalActionTableViewRow.prototype.icon = function() {
+    return Citrus.getIconPath("paypal");
   };
   Citrus.registerActionViewRow(PaypalActionTableViewRow);
 }).call(this);

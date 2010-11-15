@@ -36,5 +36,4 @@
   root.tabGroup.open({
     transition: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT
   });
-  Ti.include('test.js');
 }).call(this);
