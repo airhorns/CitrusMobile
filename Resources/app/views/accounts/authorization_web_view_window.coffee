@@ -33,7 +33,7 @@ class AuthorizationWebViewWindow extends Citrus.GenericWindow
 				right: 12
 				width: 20
 		}
-	
+		d("Opening window")
 		@win.open()
 
 		this.authorizationWebView = Ti.UI.createWebView({
@@ -42,15 +42,17 @@ class AuthorizationWebViewWindow extends Citrus.GenericWindow
 	
 		@authorizationWebView.addEventListener('load', (e) => this.fireEvent("load", e))
 		@authorizationView.add(@authorizationWebView)
-		@win.add(@authorizationView)
 	
 		@loadCallback = => this.destroyAuthorizeUI()
 		@closeLabel.addEventListener('click', @loadCallback)
 		@authorizationView.add(@closeLabel)
 
+		@win.add(@authorizationView)
+
 		animation = Ti.UI.createAnimation()
 		animation.transform = Ti.UI.create2DMatrix()
 		animation.duration = 500
+		d("Animating auth web view")
 		@authorizationView.animate(animation)
 
 	loadURL: (url) ->

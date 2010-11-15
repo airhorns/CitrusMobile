@@ -20,10 +20,13 @@
       text_offset = 74;
       photo = Ti.UI.createImageView({
         image: splash.photo,
-        height: 60,
         width: 60,
-        top: 4,
-        left: 7
+        height: 'auto',
+        top: 6,
+        left: 7,
+        borderColor: 'black',
+        borderRadius: 5,
+        borderWidth: 1
       });
       this.view.add(photo);
     } else {
@@ -40,7 +43,12 @@
       top: 4,
       left: text_offset,
       height: 32,
-      width: (320 - text_offset - 4)
+      width: (320 - text_offset - 4),
+      shadowColor: '#999',
+      shadowOffset: {
+        x: 1,
+        y: 1
+      }
     });
     this.view.add(title);
     description = Ti.UI.createLabel({

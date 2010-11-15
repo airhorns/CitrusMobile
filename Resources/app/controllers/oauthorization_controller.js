@@ -10,6 +10,7 @@
   };
   Ti.include("/app/views/accounts/authorization_web_view_window.js");
   OAuthorizationController = function(onload, onerror) {
+    d("Creating window");
     this.window = new Citrus.AuthorizationWebViewWindow(this);
     this.window.addEventListener("load", onload);
     this.window.addEventListener("destroy", onerror);

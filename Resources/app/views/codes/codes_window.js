@@ -9,7 +9,10 @@
     child.__super__ = parent.prototype;
   };
   CodesWindow = function() {
-    return Citrus.PlaceholderWindow.apply(this, arguments);
+    CodesWindow.__super__.constructor.apply(this, arguments);
+    this.loading = new Citrus.ModalLoadingView("Loading info...", this);
+    this.loading.show(this.win);
+    return this;
   };
   __extends(CodesWindow, Citrus.PlaceholderWindow);
   Citrus.CodesWindow = CodesWindow;

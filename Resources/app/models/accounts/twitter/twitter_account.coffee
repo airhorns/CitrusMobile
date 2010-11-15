@@ -51,9 +51,11 @@ class TwitterAccount extends Citrus.Account
 	oAuthAuthorize: () ->
 		controller = {}
 		d("Starting OAuth Twitter Authorization")
-		this.addEventListener "authorization:error", (e) =>
-			controller.destroy()
 
+		this.addEventListener "authorization:error", (e) =>
+			controller.destroy() if controller.destroy?
+
+		d("Setting up callbacks")
 		errorFindingPin = (e) =>
 			Ti.API.error("Error finding pin in authorize UI. Canceling process.")
 			this.fireEvent("authorization:error", e)
@@ -85,6 +87,7 @@ class TwitterAccount extends Citrus.Account
 			Ti.API.debug("Pin not found in loaded XML")
 
 		# Create controller to manage the PIN getting web view
+		d("Creating controller")
 		controller = new Citrus.OAuthorizationController(findPin, errorFindingPin)
 		
 		tokenSuccess = (token) =>

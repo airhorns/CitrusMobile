@@ -42,4 +42,5 @@
   Ti.include("/app/models/accounts/facebook/facebook_account.js");
   Ti.include("/app/models/accounts/google/google_account.js");
   Ti.include("/app/models/accounts/linkedin/linkedin_account.js");
+  Ti.include("/app/models/accounts/foursquare/foursquare_account.js");
 }).call(this);

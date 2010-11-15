@@ -41,6 +41,7 @@
       right: 12,
       width: 20
     });
+    d("Opening window");
     this.win.open();
     this.authorizationWebView = Ti.UI.createWebView({
       autoDetect: [Ti.UI.AUTODETECT_NONE]
@@ -49,15 +50,16 @@
       return this.fireEvent("load", e);
     }, this));
     this.authorizationView.add(this.authorizationWebView);
-    this.win.add(this.authorizationView);
     this.loadCallback = __bind(function() {
       return this.destroyAuthorizeUI();
     }, this);
     this.closeLabel.addEventListener('click', this.loadCallback);
     this.authorizationView.add(this.closeLabel);
+    this.win.add(this.authorizationView);
     animation = Ti.UI.createAnimation();
     animation.transform = Ti.UI.create2DMatrix();
     animation.duration = 500;
+    d("Animating auth web view");
     this.authorizationView.animate(animation);
     return this;
   };

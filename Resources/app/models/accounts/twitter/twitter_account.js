@@ -61,8 +61,12 @@
     controller = {};
     d("Starting OAuth Twitter Authorization");
     this.addEventListener("authorization:error", __bind(function(e) {
-      return controller.destroy();
+      var _ref;
+      if (typeof (_ref = controller.destroy) !== "undefined" && _ref !== null) {
+        return controller.destroy();
+      }
     }, this));
+    d("Setting up callbacks");
     errorFindingPin = __bind(function(e) {
       Ti.API.error("Error finding pin in authorize UI. Canceling process.");
       this.fireEvent("authorization:error", e);
@@ -97,6 +101,7 @@
       }
       return Ti.API.debug("Pin not found in loaded XML");
     }, this);
+    d("Creating controller");
     controller = new Citrus.OAuthorizationController(findPin, errorFindingPin);
     tokenSuccess = __bind(function(token) {
       var url;

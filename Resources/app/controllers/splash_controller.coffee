@@ -7,12 +7,11 @@ class SplashController extends Citrus.Controller
 		@window = new Citrus.SplashWindow(this)
 
 		root.tabGroup.activeTab.open @window.win, {animated:true}
-		this.tryToShow(false)
+		this.tryToShow()
 
-	tryToShow: (showLoading) ->
+	tryToShow: () ->
 		d("Trying to show "+@codeData)
-		showLoading ?= true
-		@window.showLoading() if showLoading
+		@window.showLoading()
 
 		Citrus.Splash.newFromDecodedData(@codeData, (splash) =>
 			d("Found a splash in the decoded data, with shortcode "+splash.shortcode)

@@ -17,7 +17,7 @@ class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow
 			realName = Ti.UI.createLabel {
 				color:'#333'
 				text: @account.name
-				font:{fontSize:15, fontWeight:'bold'}
+				font:{fontSize:15}
 				top:30
 				left:70
 				height:'auto'

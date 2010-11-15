@@ -1,3 +1,4 @@
+Ti.include("/app/views/modal_loading_view.js")
 Ti.include("/app/views/splash/splash_info_header_view.js")
 Ti.include("/app/views/splash/actions/action_table_view_row.js")
 Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
@@ -10,32 +11,8 @@ class SplashWindow extends Citrus.GenericWindow
 	constructor: (controller) ->
 		super
 		@win = Ti.UI.createWindow({title: "Scan Results",backgroundColor:'#fff'})
-	
-		@loadingWindow = Ti.UI.createWindow {
-			modal: true
-			opacity: 0.75
-			backgroundColor: 'black'
-		}
+		@loading = new Citrus.ModalLoadingView("Loading info...", this)
 
-		@loadingIndicator = Ti.UI.createView {
-	    backgroundColor: 'black'
-  	  opacity: 0.75
-   		height: 70
-   		width: 70
-			left: 125
-			top: 280
-		}
- 
-		loadIndicator = Ti.UI.createActivityIndicator {
-    	style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
-    	message: 'loading data...'
-    	font : 'Arial'
-    	color: '#FFF'
-		}
- 
-		@loadingIndicator.add(loadIndicator)
-		@loadingWindow.add(@loadingIndicator)
-		@loadingShown = false
 	# Once a splash has been successfully displayed, this displays it
 	displaySplash: (splash) ->
 		Ti.API.debug("Displaying splash \""+splash.name+"\", tid:"+splash.tid)
@@ -45,13 +22,13 @@ class SplashWindow extends Citrus.GenericWindow
 		@win.remove(@table) if @table?
 		rows = this.getActionRows()
 
-		@table = Titanium.UI.createTableView({
+		@table = Titanium.UI.createTableView
 			data: rows
 			editable: false
 			allowsSelection: false
 			style: Titanium.UI.iPhone.TableViewStyle.GROUPED
 			headerView: this.getHeaderView()
-		})
+		
 
 		@win.add(@table)
 		this.hideLoading()
@@ -146,11 +123,8 @@ class SplashWindow extends Citrus.GenericWindow
 		rows
 
 	showLoading: () ->
-		d("Showing loading indicator")
-		@loadingWindow.open({animated: false}) unless @loadingShown
-
+		@loading.show(@win)
 	hideLoading: () ->
-		d("Hiding loading indicator")
-		@loadingWindow.close({animated: false}) if @loadingShown
+		@loading.hide(@win)
 
 Citrus.SplashWindow = SplashWindow
