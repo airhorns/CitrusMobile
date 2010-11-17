@@ -30,11 +30,19 @@ function SpazOAuth(args) {
 SpazOAuth.prototype.initServices = function() {
 	this.addService('twitter', {
 		signatureMethod      : 'HMAC-SHA1',
-		consumerKey          : 'at0rryC4zHWNcIRhbIW0Fw',
-		consumerSecret       : '1NrCi94u62mwaAvZyDjdznOVUN0vQdfsyLpiy2O4',
-		requestTokenUrl      : 'https://twitter.com/oauth/request_token',
-		accessTokenUrl       : 'https://twitter.com/oauth/access_token',
-		userAuthorizationUrl : 'https://twitter.com/oauth/authorize'
+		consumerKey          : 't94eBtc4Pz2zqo4KhABseQ',
+		consumerSecret       : 'PMEkuk4xQpQMY7HqpHZqddzg9TYr4MyJxd8kujivE',
+		requestTokenUrl      : 'https://api.twitter.com/oauth/request_token',
+		accessTokenUrl       : 'https://api.twitter.com/oauth/access_token',
+		userAuthorizationUrl : 'https://api.twitter.com/oauth/authorize'
+	});
+	this.addService('foursquare', {
+		signatureMethod      : 'HMAC-SHA1',
+		consumerKey          : 'KOD2Y40NK4YVTQQRSCQMDVUZBIYI3IBZ5DN0B0VVEMSRZBI5',
+		consumerSecret       : 'QJFO3QRX3UJA4VD02K4FDNYXK52BNCZIXBMM2ALB1TR2JBDL',
+		requestTokenUrl      : 'http://foursquare.com/oauth/request_token',
+		accessTokenUrl       : 'http://foursquare.com/oauth/access_token',
+		userAuthorizationUrl : 'http://foursquare.com/oauth/authorize'
 	});
 };
 
@@ -262,6 +270,10 @@ SpazOAuth.prototype.getXauthTokens = function(opts) {
 
 	if (!opts.username || !opts.password) {
 		sch.error('Username and password required by getXauthTokens');
+		sch.error(opts)
+			if (opts.onFailure) {
+				opts.onFailure(null, "bad_options",null);
+			}
 		return;
 	}
 
@@ -312,9 +324,9 @@ SpazOAuth.prototype.getXauthTokens = function(opts) {
 					opts.onSuccess(data, textStatus);
 				}			
 		},
-		failure: function(req, textStatus, error) {
-			if (opts.onFailure) {
-				opts.onFailure(req, textStatus, error);
+		error: function(req, textStatus, error) {
+			if (opts.onError) {
+				opts.onError(req, textStatus, error);
 			}
 		},
 		complete: function(req, textStatus) {
@@ -353,33 +365,34 @@ SpazOAuth.prototype.getAuthHeader = function(options) {
 
 	}
 	
-	// if (options.xauth) {
-	// 	complete_opts = {
-	// 		consumerKey: this.getService().consumerKey,
-	// 		consumerSecret: this.getService().consumerSecret
-	// 	};
-	// } else {
+	if (options.xauth) {
+		complete_opts = {
+			consumerKey: this.getService().consumerKey,
+			consumerSecret: this.getService().consumerSecret
+		};
+	} else {
 		complete_opts = {
 			consumerKey: this.getService().consumerKey,
 			consumerSecret: this.getService().consumerSecret,
 			token: this.accessToken,
 			tokenSecret: this.accessTokenSecret
 		};	
-	// }
+	}
 
 	var message = {
 		method: options.method,
 		action: options.url,
 		parameters: params
 	};
-		
+	// d(complete_opts);
+	// d(message);
 	OAuth.completeRequest(message, complete_opts);
-		
+	// d(message);
 	var authHeader = OAuth.getAuthorizationHeader(
 		this.getService().name,
 		params
 	);
-	
+	// d(authHeader);	
 	return authHeader;
 };
 

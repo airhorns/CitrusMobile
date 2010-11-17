@@ -16,7 +16,7 @@
   FoursquareAction.prototype.type = "FoursquareAction";
   FoursquareAction.prototype.buttonText = "Check In";
   FoursquareAction.prototype.accountType = "FoursquareAccount";
-  FoursquareAction.prototype.tableViewRow = "AccountActionTableViewRow";
+  FoursquareAction.prototype.tableViewRow = "FoursquareActionTableViewRow";
   FoursquareAction.prototype.readyToRun = function(account) {
     if (!(account.isAuthorized())) {
       Ti.API.debug("Trying to run action on non authorized account!");
@@ -27,4 +27,5 @@
   };
   Citrus.FoursquareAction = FoursquareAction;
   Ti.include('/app/models/actions/foursquare/check_in_action.js');
+  Ti.include('/app/models/actions/foursquare/send_friend_request_action.js');
 }).call(this);

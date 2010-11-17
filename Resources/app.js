@@ -12,7 +12,7 @@ Citrus.Config = {
 	REMOTE_URL: "http://citrus.heroku.com/",
 	SHORTENER_PREFIX: "s/",
 	SHORTCODE_RE: "s/([a-zA-Z0-9]+)",	
-	TWITTER_XAUTH: false,
+	TWITTER_XAUTH: true,
 	FACEBOOK_API_KEY: "965a3c93faaea82715520e175d983b58",
 	FACEBOOK_APP_SECRET: "4b4fefb799217cdfd60ba81098291d8c"
 };
@@ -82,6 +82,7 @@ Ti.include('app/models/object.js');
 Ti.include('app/models/persisted_object.js');
 Ti.include('app/views/generic_window.js');
 Ti.include('app/views/placeholder_window.js');
+Ti.include('app/views/data_collection_window.js');
 Ti.include('app/controllers/controller.js');
 
 var root = new Citrus.Object(); // Make sure root gets event listeners

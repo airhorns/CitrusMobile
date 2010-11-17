@@ -2,7 +2,7 @@ Ti.include("/app/models/observable.js")
 
 class Object extends Citrus.Observable
 	constructor: () ->
-		this.tid = hex_sha1(String(Math.random()*10))
+		this.tid = String(new Date().valueOf())
 		
 	# @delegateTo: () ->
 	# 	delegate = arguments[0]

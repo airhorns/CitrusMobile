@@ -1,3 +1,5 @@
+Ti.include('/app/controllers/oauthorization_controller.js')
+Ti.include('/app/controllers/xauthorization_controller.js')
 Ti.include("/app/models/accounts/account.js")
 Ti.include("/app/models/accounts/account_set.js")
 Ti.include("/app/views/accounts/accounts_table_view_window.js")

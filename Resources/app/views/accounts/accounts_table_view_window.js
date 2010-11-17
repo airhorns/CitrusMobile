@@ -83,8 +83,6 @@
     var row;
     row = this._getTableRowFromAccount(account);
     if (row) {
-      d("Adding row to the table");
-      d(row);
       return this.table.appendRow(row, {
         animated: true
       });

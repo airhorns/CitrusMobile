@@ -61,8 +61,6 @@ class AccountsTableViewWindow extends Citrus.GenericWindow
 	_addAccountToTable: (account) ->
 		row = this._getTableRowFromAccount(account)
 		if row
-			d("Adding row to the table")
-			d(row)
 			@table.appendRow(row, {animated:true})
 		else
 			er("Couldn't get the account's table view row! Account is: ")

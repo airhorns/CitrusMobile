@@ -8,6 +8,7 @@
     processData: true,
     async: true,
     timeout: 300000,
+    traditional: false,
     xhr: function() {
       return Ti.Network.createHTTPClient();
     },
