@@ -31,3 +31,4 @@ Citrus.AccountTableViewRow = AccountTableViewRow
 
 Ti.include("/app/views/accounts/twitter_account_table_view_row.js")
 Ti.include("/app/views/accounts/facebook_account_table_view_row.js")
+Ti.include("/app/views/accounts/foursquare_account_table_view_row.js")

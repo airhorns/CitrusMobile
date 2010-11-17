@@ -5,6 +5,7 @@ defaultAjaxSettings = {
 	processData: true
 	async: true
 	timeout: 300000
+	traditional: false
 	# Create the request object; In Titanium it's always going to be the Ti.createHTTPClient
 	# implement the XMLHttpRequest in IE7 (can't request local files),
 	# so we use the ActiveXObject when it is available
@@ -50,7 +51,7 @@ _.extend(Titanium.Network, {
 						x = if (_.isObject(v) || _.isArray(v)) then i else ""
 						p = prefix + "[" + x + "]"
 						buildParams( p , v )
-					
+
 			else if ( !traditional && ! _.isNull(obj) && typeof obj == "object" )
 				# Serialize object item.
 				_.each( obj, (k, v) ->
@@ -59,12 +60,12 @@ _.extend(Titanium.Network, {
 			else
 				# Serialize scalar item.
 				add(prefix, obj)
-		
+
 		add = (key, value) ->
 			# If value is a function, invoke it and return its value
-			value = if _.isFunction(value) 
-				value() 
-			else 
+			value = if _.isFunction(value)
+				value()
+			else
 				value
 			s[ s.length ] = encodeURIComponent(key) + "=" + encodeURIComponent(value)
 
@@ -77,20 +78,20 @@ _.extend(Titanium.Network, {
 		else
 			# If traditional, encode the "old" way (the way 1.3.2 or older
 			# did it), otherwise encode params recursively.
-			for prefix, obj of a 
+			for prefix, obj of a
 				buildParams(prefix, obj)
 
 		# Return the resulting serialization
 		return s.join("&").replace(r20, "+")
-		
+
 	# Last-Modified header cache for next request
 	lastModified: {}
 	etag: {}
-	
+
 	# Determines if an XMLHttpRequest was successful or not
 	httpSuccess: ( xhr ) ->
 		try
-			return ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304;
+			return ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304
 		catch e
 
 		return false
@@ -108,7 +109,7 @@ _.extend(Titanium.Network, {
 
 		# Opera returns 0 when status is 304
 		return xhr.status == 304 || xhr.status == 0
-	
+
 	httpData: ( xhr, type, s ) ->
 		ct = xhr.getResponseHeader("content-type") || ""
 		xml = type == "xml" || !type && ct.indexOf("xml") >= 0
@@ -129,8 +130,8 @@ _.extend(Titanium.Network, {
 				data = JSON.parse( data )
 
 		return data
-		
-	error: ( msg ) -> 
+
+	error: ( msg ) ->
 		throw msg
 
 	handleError: ( s, xhr, status, e ) ->
@@ -152,7 +153,7 @@ _.extend(Titanium.Network, {
 		# convert data if not already a string
 		if s.data && s.processData && typeof s.data != "string"
 			s.data = Titanium.Network.param( s.data, s.traditional )
-	
+
 		if s.cache == false && type == "GET"
 			ts = (new Date).getTime()
 
@@ -165,11 +166,11 @@ _.extend(Titanium.Network, {
 		# If data is available, append data to url for get requests
 		if s.data && type == "GET"
 			s.url += (rquery.test(s.url) ? "&" : "?") + s.data
-		
+
 		# Matches an absolute URL, and saves the domain
 		parts = rurl.exec( s.url )
 		remote = true
-		requestDone = false;
+		requestDone = false
 
 		# Create the request object
 		xhr = s.xhr()
@@ -197,7 +198,7 @@ _.extend(Titanium.Network, {
 			if Titanium.Network.lastModified[s.url]
 				xhr.setRequestHeader("If-Modified-Since", Titanium.Network.lastModified[s.url])
 
-			if Titanium.Network.etag[s.url] 
+			if Titanium.Network.etag[s.url]
 				xhr.setRequestHeader("If-None-Match", Titanium.Network.etag[s.url])
 
 		# Set header so the called script knows that it's an XMLHttpRequest
@@ -210,7 +211,7 @@ _.extend(Titanium.Network, {
 			if s.dataType && s.accepts[ s.dataType ]
 				s.accepts[ s.dataType ] + ", */*"
 			else
-				s.accepts._default 
+				s.accepts._default
 		)
 
 		# Allow custom headers/mimetypes and early abort
@@ -235,19 +236,19 @@ _.extend(Titanium.Network, {
 				requestDone = true
 				xhr.onreadystatechange = ->
 
-				status = if isTimeout == "timeout" 
-					"timeout" 
+				status = if isTimeout == "timeout"
+					"timeout"
 				else
 					if !Titanium.Network.httpSuccess( xhr )
-						"error" 
+						"error"
 					else
 						if s.ifModified && Titanium.Network.httpNotModified( xhr, s.url )
-							"notmodified" 
+							"notmodified"
 						else
 							"success"
-							
+
 				errMsg = ""
-								
+
 				if status == "success"
 					# Watch for, and catch, XML document parse errors
 					try
@@ -294,7 +295,7 @@ _.extend(Titanium.Network, {
 		try
 			xhr.send( if type == "POST" || type == "PUT" || type == "DELETE" then s.data else null )
 		catch e
-			Titanium.Network.handleError(s, xhr, null, e);
+			Titanium.Network.handleError(s, xhr, null, e)
 			# Fire the complete handlers
 			complete()
 
@@ -321,7 +322,7 @@ _.extend(Titanium.Network, {
 			# if s.global && ! --jQuery.active
 			#		jQuery.event.trigger( "ajaxStop" )
 			#
-	
+
 		# function trigger(type, args) {
 		#			(s.context ? jQuery(s.context) : jQuery.event).trigger(type, args);
 		#		}

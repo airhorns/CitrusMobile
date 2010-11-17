@@ -3,7 +3,7 @@ class FoursquareAction extends Citrus.AccountBasedAction
 	type: "FoursquareAction"
 	buttonText: "Check In"
 	accountType: "FoursquareAccount"
-	tableViewRow: "AccountActionTableViewRow"
+	tableViewRow: "FoursquareActionTableViewRow"
 	
 	readyToRun: (account) ->
 		unless account.isAuthorized()
@@ -17,3 +17,4 @@ Citrus.FoursquareAction = FoursquareAction
 
 # Foursquare Actions
 Ti.include('/app/models/actions/foursquare/check_in_action.js')
+Ti.include('/app/models/actions/foursquare/send_friend_request_action.js')

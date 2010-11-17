@@ -27,6 +27,7 @@
     title: 'Scanned Codes',
     window: root.CodesWindow.win
   });
+  Titanium.include('test.js');
   _ref = [codeReaderTab, accountsTab, codesTab];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     tab = _ref[_i];

@@ -10,7 +10,7 @@
   };
   Ti.include("/app/models/observable.js");
   Object = function() {
-    this.tid = hex_sha1(String(Math.random() * 10));
+    this.tid = String(new Date().valueOf());
     return this;
   };
   __extends(Object, Citrus.Observable);

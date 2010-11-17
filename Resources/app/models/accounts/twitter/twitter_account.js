@@ -10,7 +10,7 @@
     if (typeof parent.extended === "function") parent.extended(child);
     child.__super__ = parent.prototype;
   };
-  Ti.include('/app/controllers/oauthorization_controller.js');
+  Ti.include('/app/views/accounts/twitter_xauthorization_window.js');
   Ti.include('/vendor/spazcore/libs/spaztwit.js');
   TwitterAccount = function(params) {
     TwitterAccount.__super__.constructor.call(this, params);
@@ -55,7 +55,42 @@
     TwitterAccount.__super__.authorize.apply(this, arguments);
     return Citrus.Config.TWITTER_XAUTH ? this.xAuthAuthorize() : this.oAuthAuthorize();
   };
-  TwitterAccount.prototype.xAuthAuthorize = function() {};
+  TwitterAccount.prototype.xAuthAuthorize = function() {
+    var canceled, controller, gotData;
+    d("Starting XAuth Twitter authorization");
+    controller = {};
+    gotData = __bind(function(data) {
+      controller.showLoading();
+      return this.consumer.getXauthTokens(_.extend(data, {
+        onSuccess: __bind(function(e) {
+          d("Sucess getting xauth tokens");
+          controller.hideLoading();
+          this.completeAuthorization();
+          return controller.destroy();
+        }, this),
+        onError: __bind(function(xhr, status, e) {
+          er("Unable to get XAuth tokens with supplied data.");
+          d(status);
+          d(xhr.status);
+          d(xhr.responseText);
+          d(e);
+          if (xhr.status === 401) {
+            controller.showCredentialsError();
+          } else {
+            controller.showCommunicationError();
+          }
+          Ti.API.error("Error finding pin in authorize UI. Canceling process.");
+          this.fireEvent("authorization:error", e);
+          return this.fireEvent("authorization:complete");
+        }, this)
+      }));
+    }, this);
+    canceled = __bind(function(e) {
+      this.fireEvent("authorization:error", e);
+      return this.fireEvent("authorization:complete");
+    }, this);
+    return (controller = new Citrus.XAuthorizationController(gotData, canceled, Citrus.TwitterXAuthorizationWindow));
+  };
   TwitterAccount.prototype.oAuthAuthorize = function() {
     var controller, errorFindingPin, findPin, tokenError, tokenSuccess;
     controller = {};

@@ -1,4 +1,4 @@
-class FacebookAccountTableViewRow extends Citrus.AccountTableViewRow
+class FoursquareAccountTableViewRow extends Citrus.AccountTableViewRow
 	constructor: (account) ->
 		super # sets up the row and account instance vars
 		
@@ -13,16 +13,16 @@ class FacebookAccountTableViewRow extends Citrus.AccountTableViewRow
 		}
 		@row.add(name)
 
-		if @account.affiliations?
-			affils = Ti.UI.createLabel {
+		if @account.location?
+			location = Ti.UI.createLabel {
 				color:'#333'
-				text: @account.affiliations
+				text: @account.location
 				# font:{fontSize:15, fontWeight:'bold'}
 				top:30
 				left:70
 				height: 20
 				width: 200
 			}
-			@row.add(affils)
+			@row.add(location)
 
-Citrus.FacebookAccountTableViewRow = FacebookAccountTableViewRow
+Citrus.FoursquareAccountTableViewRow = FoursquareAccountTableViewRow

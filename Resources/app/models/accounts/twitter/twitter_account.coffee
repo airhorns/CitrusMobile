@@ -1,4 +1,4 @@
-Ti.include('/app/controllers/oauthorization_controller.js')
+Ti.include('/app/views/accounts/twitter_xauthorization_window.js')
 Ti.include('/vendor/spazcore/libs/spaztwit.js')
 
 class TwitterAccount extends Citrus.Account
@@ -6,9 +6,8 @@ class TwitterAccount extends Citrus.Account
 	persistableAttributes: ["screenName", "name", "accessToken", "accessTokenSecret"]
 	constructor: (params) ->
 		super(params)
-		@consumer = new SpazOAuth {
+		@consumer = new SpazOAuth
 			'service' : 'twitter'
-		}
 
 		@api = new SpazTwit()
 
@@ -47,7 +46,37 @@ class TwitterAccount extends Citrus.Account
 			this.oAuthAuthorize()
 
 	xAuthAuthorize: () ->
+		d("Starting XAuth Twitter authorization")
+		controller = {}
+		gotData = (data) =>
+			controller.showLoading()
+			@consumer.getXauthTokens _.extend(data, {
+				onSuccess: (e) =>
+					d "Sucess getting xauth tokens"
+					controller.hideLoading()
+					this.completeAuthorization()
+					controller.destroy()
+				onError: (xhr, status, e) =>
+					er("Unable to get XAuth tokens with supplied data.")
+					d status
+					d xhr.status
+					d xhr.responseText
+					d e
+					if xhr.status == 401
+						controller.showCredentialsError()
+					else
+						controller.showCommunicationError()
+					Ti.API.error("Error finding pin in authorize UI. Canceling process.")
+					this.fireEvent("authorization:error", e)
+					this.fireEvent("authorization:complete")
+			})
 
+		canceled = (e) =>
+			this.fireEvent("authorization:error", e)
+			this.fireEvent("authorization:complete")
+
+		controller = new Citrus.XAuthorizationController(gotData, canceled, Citrus.TwitterXAuthorizationWindow)
+		
 	oAuthAuthorize: () ->
 		controller = {}
 		d("Starting OAuth Twitter Authorization")
