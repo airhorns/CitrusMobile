@@ -1,6 +1,8 @@
 (function() {
   var SplashWindow;
-  var __extends = function(child, parent) {
+  var __bind = function(func, context) {
+    return function(){ return func.apply(context, arguments); };
+  }, __extends = function(child, parent) {
     var ctor = function(){};
     ctor.prototype = parent.prototype;
     child.prototype = new ctor();
@@ -15,6 +17,7 @@
   Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js");
   Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js");
   Ti.include("/app/views/splash/actions/platform_action_table_view_row.js");
+  Ti.include("/app/helpers/redirect_helper.js");
   SplashWindow = function(controller) {
     SplashWindow.__super__.constructor.apply(this, arguments);
     this.win = Ti.UI.createWindow({
@@ -89,7 +92,7 @@
     }
   };
   SplashWindow.prototype.displayDecodedData = function(data) {
-    var _ref;
+    var _ref, html;
     if (!(typeof (_ref = this.noticeLabel) !== "undefined" && _ref !== null)) {
       this.noticeLabel = Ti.UI.createLabel({
         color: '#000',
@@ -110,13 +113,23 @@
         top: 150,
         height: 300,
         width: 300,
-        html: sc.helpers.makeClickable(data, {
-          autolink: true,
-          screenname: true
-        })
+        url: 'app/views/splash/local_webview.html'
       });
+      this.dataView.addEventListener("load", __bind(function(e) {
+        var link;
+        link = Citrus.redirectableLink(e.url);
+        if (link) {
+          d("Opening redirected link " + (link));
+          return Titanium.Platform.openURL(link);
+        }
+      }, this));
       this.win.add(this.dataView);
     }
+    html = Citrus.redirectifyLinks(sc.helpers.makeClickable(data, {
+      autolink: true,
+      screenname: true
+    }));
+    this.dataView.html = html;
     this.noticeLabel.show();
     this.dataView.show();
     return this.hideLoading();

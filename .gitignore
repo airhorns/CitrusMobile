@@ -3,3 +3,4 @@ build/iphone/*
 build/android/*
 build/**/*
 *.swp
+*.swo
