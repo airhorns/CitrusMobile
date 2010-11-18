@@ -5,6 +5,7 @@ Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/platform_action_table_view_row.js")
+Ti.include("/app/helpers/redirect_helper.js")
 
 class SplashWindow extends Citrus.GenericWindow
 	# Sets up the loading indicator
@@ -67,7 +68,8 @@ class SplashWindow extends Citrus.GenericWindow
 				@win.add @retryButton
 
 			@retryButton.show()
-	# Displays non Citrus decoded data as a simple qr code scanner.
+
+# Displays non Citrus decoded data as a simple qr code scanner.
 	displayDecodedData: (data) ->
 		unless @noticeLabel?
 			@noticeLabel = Ti.UI.createLabel {
@@ -81,15 +83,26 @@ class SplashWindow extends Citrus.GenericWindow
 			@win.add(@noticeLabel)
 
 		unless @dataView?
+
 			@dataView = Ti.UI.createWebView {
 				color:'#000'
 				top:150
 				height:300
 				width:300
-				html: sc.helpers.makeClickable(data, {autolink: true, screenname: true})
+				url: 'app/views/splash/local_webview.html'
 			}
+
+			# Open links in Safari
+			@dataView.addEventListener "load", (e) =>
+				link = Citrus.redirectableLink(e.url)
+				if link
+					d "Opening redirected link #{link}"
+					Titanium.Platform.openURL(link)
+
 			@win.add(@dataView)
 
+		html = Citrus.redirectifyLinks(sc.helpers.makeClickable(data, {autolink: true, screenname: true}))
+		@dataView.html = html
 		@noticeLabel.show()
 		@dataView.show()
 		this.hideLoading()
