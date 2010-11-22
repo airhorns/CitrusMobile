@@ -30,8 +30,8 @@ function SpazOAuth(args) {
 SpazOAuth.prototype.initServices = function() {
 	this.addService('twitter', {
 		signatureMethod      : 'HMAC-SHA1',
-		consumerKey          : 't94eBtc4Pz2zqo4KhABseQ',
-		consumerSecret       : 'PMEkuk4xQpQMY7HqpHZqddzg9TYr4MyJxd8kujivE',
+		consumerKey          : 'AGK46ekUzZbihfDxdEVMQw',
+		consumerSecret       : 'YltqxK5Gnfwy8jhmpcjmSAVO21i1MkjlLuA6tO1cM',
 		requestTokenUrl      : 'https://api.twitter.com/oauth/request_token',
 		accessTokenUrl       : 'https://api.twitter.com/oauth/access_token',
 		userAuthorizationUrl : 'https://api.twitter.com/oauth/authorize'
