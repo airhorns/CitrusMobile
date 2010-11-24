@@ -23,12 +23,15 @@ class SubscribeAction extends Citrus.MailchimpAction
 				apikey: @apiKey
 				email_address: account.email
 				id: @listId
-				merge_vars:
-					OPTINIP: Titanium.Platform.address
 			success: (data, status, xhr) ->
 				if data.error?
-					e("Error subscribing to list!")
-					failure(xhr, status, data)
+					if data.error.match(/is already subscribed/)
+						alert(data.error+"!")
+						success({})
+					else
+						er("Error subscribing to list!")
+						er(data, status, xhr)
+						failure(xhr, status, data)
 				else
 					d("Success subscribing", data, "Status:", status, "Code", xhr.status, "Response", xhr.responseText)
 					success(data)

@@ -5,11 +5,10 @@ class PublishStreamAction extends Citrus.FacebookAction
 	buttonText: "Share"
 
 	action: (account, success, failure) ->
-		Titanium.Facebook.publishStream(@title, @data, @target, (e) =>
+		Titanium.Facebook.publishStream @title, @data, @target, (e) =>
 			if e.success
 				success(e)
 			else
 				failure(e)
-	)
 
 Citrus.Actions.Facebook.PublishStreamAction = PublishStreamAction

@@ -24,15 +24,18 @@
         data: {
           apikey: this.apiKey,
           email_address: account.email,
-          id: this.listId,
-          merge_vars: {
-            OPTINIP: Titanium.Platform.address
-          }
+          id: this.listId
         },
         success: function(data, status, xhr) {
           if (data.error != null) {
-            e("Error subscribing to list!");
-            return failure(xhr, status, data);
+            if (data.error.match(/is already subscribed/)) {
+              alert(data.error + "!");
+              return success({});
+            } else {
+              er("Error subscribing to list!");
+              er(data, status, xhr);
+              return failure(xhr, status, data);
+            }
           } else {
             d("Success subscribing", data, "Status:", status, "Code", xhr.status, "Response", xhr.responseText);
             return success(data);
