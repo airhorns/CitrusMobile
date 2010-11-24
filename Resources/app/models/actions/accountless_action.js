@@ -1,19 +1,22 @@
 (function() {
   var AccountlessAction;
-  var __extends = function(child, parent) {
-    var ctor = function(){};
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
-    child.prototype = new ctor();
-    child.prototype.constructor = child;
-    if (typeof parent.extended === "function") parent.extended(child);
+    child.prototype = new ctor;
     child.__super__ = parent.prototype;
+    return child;
   };
   AccountlessAction = function() {
-    return Citrus.Action.apply(this, arguments);
-  };
-  __extends(AccountlessAction, Citrus.Action);
-  AccountlessAction.prototype.requiresAccount = function() {
-    return false;
-  };
+    function AccountlessAction() {
+      AccountlessAction.__super__.constructor.apply(this, arguments);
+    }
+    __extends(AccountlessAction, Citrus.Action);
+    AccountlessAction.prototype.requiresAccount = function() {
+      return false;
+    };
+    return AccountlessAction;
+  }();
   Citrus.AccountlessAction = AccountlessAction;
 }).call(this);

@@ -10,6 +10,6 @@ class PublishStreamAction extends Citrus.FacebookAction
 				success(e)
 			else
 				failure(e)
-		)
+	)
 
 Citrus.Actions.Facebook.PublishStreamAction = PublishStreamAction

@@ -6,7 +6,7 @@
     redirectableLink: function(str) {
       var matches;
       matches = str.match(/citrus_redirect.html\?to=(.+?)$/);
-      if ((typeof matches !== "undefined" && matches !== null) && matches) {
+      if ((matches != null) && matches) {
         return matches[1];
       } else {
         return false;

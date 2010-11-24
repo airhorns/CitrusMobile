@@ -1,6 +1,4 @@
-Ti.include("/app/models/observable.js")
-
-class Object extends Citrus.Observable
+class CustomObject extends Citrus.Observable
 	constructor: () ->
 		this.tid = String(new Date().valueOf())
 		
@@ -16,4 +14,4 @@ class Object extends Citrus.Observable
 	# 				if this[delegate]?
 	# 					this[delegate].apply(name, arguments)
 
-Citrus.Object = Object
+Citrus.Object = CustomObject

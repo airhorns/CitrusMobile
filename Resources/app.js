@@ -14,7 +14,8 @@ Citrus.Config = {
 	SHORTCODE_RE: "s/([a-zA-Z0-9]+)",	
 	TWITTER_XAUTH: true,
 	FACEBOOK_API_KEY: "965a3c93faaea82715520e175d983b58",
-	FACEBOOK_APP_SECRET: "4b4fefb799217cdfd60ba81098291d8c"
+	FACEBOOK_APP_SECRET: "4b4fefb799217cdfd60ba81098291d8c",
+	VALID_EMAIL_RE: "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b"
 };
 
 // Debugging functions
@@ -78,6 +79,7 @@ sc.dumplevel = 999;
 Ti.include('app/helpers/icons_helper.js');
 
 // Citrus Specific Abstractions
+Ti.include("/app/models/observable.js") 
 Ti.include('app/models/object.js');
 Ti.include('app/models/persisted_object.js');
 Ti.include('app/views/generic_window.js');

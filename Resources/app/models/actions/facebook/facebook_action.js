@@ -1,22 +1,25 @@
 (function() {
   var FacebookAction;
-  var __extends = function(child, parent) {
-    var ctor = function(){};
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
-    child.prototype = new ctor();
-    child.prototype.constructor = child;
-    if (typeof parent.extended === "function") parent.extended(child);
+    child.prototype = new ctor;
     child.__super__ = parent.prototype;
+    return child;
   };
   FacebookAction = function() {
-    return Citrus.AccountBasedAction.apply(this, arguments);
-  };
-  __extends(FacebookAction, Citrus.AccountBasedAction);
-  FacebookAction.declares = [];
-  FacebookAction.prototype.type = "FacebookAction";
-  FacebookAction.prototype.buttonText = "FacebookAction";
-  FacebookAction.prototype.accountType = "FacebookAccount";
-  FacebookAction.prototype.tableViewRow = "FacebookActionTableViewRow";
+    function FacebookAction() {
+      FacebookAction.__super__.constructor.apply(this, arguments);
+    }
+    __extends(FacebookAction, Citrus.AccountBasedAction);
+    FacebookAction.declares = [];
+    FacebookAction.prototype.type = "FacebookAction";
+    FacebookAction.prototype.buttonText = "FacebookAction";
+    FacebookAction.prototype.accountType = "FacebookAccount";
+    FacebookAction.prototype.tableViewRow = "FacebookActionTableViewRow";
+    return FacebookAction;
+  }();
   Citrus.FacebookAction = FacebookAction;
   Ti.include("/app/models/actions/facebook/publish_stream_action.js");
 }).call(this);

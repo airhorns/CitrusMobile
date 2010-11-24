@@ -9,7 +9,8 @@ class TwitterAccountTableViewRow extends Citrus.AccountTableViewRow
 			top:5
 			left:70
 			height:'auto'
-			width:'auto'
+			minimumFontSize: 13
+			width:240
 		}
 		@row.add(screenName)
 

@@ -1,6 +1,7 @@
 Ti.include("/app/views/modal_loading_view.js")
 Ti.include("/app/views/splash/splash_info_header_view.js")
 Ti.include("/app/views/splash/actions/action_table_view_row.js")
+Ti.include("/app/views/splash/actions/account_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/twitter_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/paypal_action_table_view_row.js")
 Ti.include("/app/views/splash/actions/facebook_action_table_view_row.js")
