@@ -13,7 +13,7 @@ class FoursquareAccount extends Citrus.Account
 		@api.consumer = @consumer
 		@consumer.accessToken = this.accessToken
 		@consumer.accessTokenSecret = this.accessTokenSecret
-		d("Initializing FSQ account", params, this.accessToken, this.accessTokenSecret, @consumer.isAuthorized())
+
 	synch: ->
 		this.fireEvent("state:updating")
 		if ! this.isAuthorized()

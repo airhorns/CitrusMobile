@@ -1,6 +1,4 @@
 (function() {
-  var HTTPClientWithCache, db;
-  var __hasProp = Object.prototype.hasOwnProperty;
   /*
   ------> HTTPClientWithCache <------
 
@@ -52,176 +50,171 @@
     cnn.prune_cache(0)
 
 
-  */
+  */  var HTTPClientWithCache, db;
+  var __hasProp = Object.prototype.hasOwnProperty;
   db = Titanium.Database.open('http_client_cache');
   db.execute('CREATE TABLE IF NOT EXISTS REQUESTS (URL_HASH STRING, RESPONSE TEXT, UPDATED_AT INTEGER)');
   db.close();
-  HTTPClientWithCache = function(opts) {
-    var self;
-    this.url_hash = "";
-    this.currentRetryCount = 0;
-    this.options = {
-      method: "GET",
-      baseUrl: "",
-      timeout: 10000,
-      retryCount: 0,
-      cacheSeconds: 30,
-      pruneSeconds: 2520000,
-      showActivityEvent: "show_activity_indicator",
-      hideActivityEvent: "hide_activity_indicator"
-    };
-    this.xhr = Titanium.Network.createHTTPClient();
-    self = this;
-    this.xhr.onload = function() {
-      return self.onload_hook(self, {
-        responseText: this.responseText,
-        cached: false,
-        status: this.status
-      });
-    };
-    this.xhr.onerror = function() {
-      return self.onerror_hook(self);
-    };
-    this.set_options(opts);
-    this.prune_cache();
-    return this;
-  };
-  HTTPClientWithCache.prototype.set_options = function(opts) {
-    var _i, _ref, attrname;
-    _ref = opts;
-    for (attrname in _ref) {
-      if (!__hasProp.call(_ref, attrname)) continue;
-      _i = _ref[attrname];
-      this.options[attrname] = opts[attrname];
-    }
-    return this._compute_url_hash();
-  };
-  HTTPClientWithCache.prototype.get = function(opts) {
-    this.set_options(opts);
-    this.options.method = "GET";
-    return this.send();
-  };
-  HTTPClientWithCache.prototype.post = function(opts) {
-    this.set_options(opts);
-    this.options.method = "POST";
-    return this.send();
-  };
-  HTTPClientWithCache.prototype.send = function(opts) {
-    var _ref, response, self;
-    self = this;
-    this.set_options(opts);
-    if (!this._validate()) {
-      return false;
-    }
-    this.prune_cache();
-    if (response = this._get_cached_response()) {
-      Ti.API.info("HTTPClientWithCache: Using cached response");
-      return this.onload_hook(this, response);
-    } else {
-      this._reset_xhr();
-      this.xhr.setTimeout(this.options.timeout);
-      Ti.App.fireEvent(this.options.showActivityEvent);
-      this.xhr.open(this.options.method, this.options.baseUrl + this.options.url);
-      return this.xhr.send((function() {
-        if (typeof (_ref = this.options.data) !== "undefined" && _ref !== null) {
-          return this.options.data;
-        }
-      }).call(this));
-    }
-  };
-  HTTPClientWithCache.prototype.onload_hook = function(self, response) {
-    var _ref;
-    if (response.status >= 400) {
-      this.onerror_hook(self);
-      return null;
-    }
-    Ti.App.fireEvent(this.options.hideActivityEvent);
-    this._save_to_cache(self, response);
-    return (typeof (_ref = this.options.onload) !== "undefined" && _ref !== null) ? this.options.onload(response) : Ti.API.error("HTTPClientWithCache: Please specify an onload callback!");
-  };
-  HTTPClientWithCache.prototype.onerror_hook = function(self) {
-    var _ref, response;
-    if ((this.currentRetryCount++) <= this.options.retryCount) {
-      Ti.API.info("HTTPClientWithCache: Retry Count " + (this.currentRetryCount) + " of " + (this.options.retryCount));
-      this.xhr.abort();
-      this.xhr.open(this.options.method, this.options.baseUrl + this.options.url);
-      this.xhr.send((function() {
-        if (typeof (_ref = this.options.data) !== "undefined" && _ref !== null) {
-          return this.options.data;
-        }
-      }).call(this));
-      return null;
-    }
-    Ti.App.fireEvent(this.options.hideActivityEvent);
-    if (typeof (_ref = this.options.onerror) !== "undefined" && _ref !== null) {
-      response = this._get_cached_response(9999999);
-      return this.options.onerror(response);
-    } else {
-      return Ti.API.info("You might want to specify an onerror callback.");
-    }
-  };
-  HTTPClientWithCache.prototype.prune_cache = function(seconds) {
-    seconds = (typeof seconds !== "undefined" && seconds !== null) ? seconds : this.options.pruneSeconds;
-    db = Titanium.Database.open('http_client_cache');
-    db.execute("DELETE FROM REQUESTS WHERE UPDATED_AT < DATETIME('now','-" + (seconds) + " seconds')");
-    return db.close();
-  };
-  HTTPClientWithCache.prototype._validate = function() {
-    var _ref;
-    if (typeof (_ref = this.options.url) !== "undefined" && _ref !== null) {
-      return true;
-    } else {
-      Ti.API.error("HTTPClientWithCache: Invalid options " + (JSON.stringify(this.options)));
-      return false;
-    }
-  };
-  HTTPClientWithCache.prototype._compute_url_hash = function() {
-    return (this.url_hash = Ti.Utils.md5HexDigest(this.options.method + this.options.baseUrl + this.options.url + this.options.data));
-  };
-  HTTPClientWithCache.prototype._save_to_cache = function(self, response) {
-    var urlHash;
-    if ((response.status >= 400) || response.cached) {
-      return null;
-    }
-    db = Titanium.Database.open('http_client_cache');
-    urlHash = self._compute_url_hash();
-    if (self._exists_in_cache()) {
-      db.execute("UPDATE REQUESTS SET RESPONSE=?, UPDATED_AT=CURRENT_TIMESTAMP WHERE URL_HASH=?", response.responseText, urlHash);
-    } else {
-      db.execute("INSERT INTO REQUESTS (RESPONSE, URL_HASH, UPDATED_AT) VALUES (?,?,CURRENT_TIMESTAMP)", response.responseText, urlHash);
-    }
-    return db.close();
-  };
-  HTTPClientWithCache.prototype._get_cached_response = function(seconds) {
-    var cachedAt, responseText, row;
-    db = Titanium.Database.open('http_client_cache');
-    seconds = (typeof seconds !== "undefined" && seconds !== null) ? seconds : this.options.cacheSeconds;
-    row = db.execute("SELECT RESPONSE, UPDATED_AT FROM REQUESTS WHERE URL_HASH=? AND UPDATED_AT > DATETIME('now','-" + (seconds) + " seconds')", this.url_hash);
-    responseText = row.field(0);
-    cachedAt = row.field(1);
-    row.close();
-    db.close();
-    if (typeof responseText !== "undefined" && responseText !== null) {
-      return {
-        responseText: responseText,
-        cached: true,
-        cached_at: cachedAt,
-        status: 200
+  HTTPClientWithCache = function() {
+    function HTTPClientWithCache(opts) {
+      var self;
+      this.url_hash = "";
+      this.currentRetryCount = 0;
+      this.options = {
+        method: "GET",
+        baseUrl: "",
+        timeout: 10000,
+        retryCount: 0,
+        cacheSeconds: 30,
+        pruneSeconds: 2520000,
+        showActivityEvent: "show_activity_indicator",
+        hideActivityEvent: "hide_activity_indicator"
       };
+      this.xhr = Titanium.Network.createHTTPClient();
+      self = this;
+      this.xhr.onload = function() {
+        return self.onload_hook(self, {
+          responseText: this.responseText,
+          cached: false,
+          status: this.status
+        });
+      };
+      this.xhr.onerror = function() {
+        return self.onerror_hook(self);
+      };
+      this.set_options(opts);
+      this.prune_cache();
     }
-  };
-  HTTPClientWithCache.prototype._exists_in_cache = function() {
-    var count, row;
-    row = db.execute("SELECT COUNT(*) FROM REQUESTS WHERE URL_HASH=?", this.url_hash);
-    count = row.field(0);
-    row.close();
-    return count > (typeof 0 !== "undefined" && 0 !== null) ? 0 : {
-      "true": false
+    HTTPClientWithCache.prototype.set_options = function(opts) {
+      var attrname;
+      for (attrname in opts) {
+        if (!__hasProp.call(opts, attrname)) continue;
+        this.options[attrname] = opts[attrname];
+      }
+      return this._compute_url_hash();
     };
-  };
-  HTTPClientWithCache.prototype._reset_xhr = function() {
-    this.currentRetryCount = 0;
-    return this.xhr.abort();
-  };
+    HTTPClientWithCache.prototype.get = function(opts) {
+      this.set_options(opts);
+      this.options.method = "GET";
+      return this.send();
+    };
+    HTTPClientWithCache.prototype.post = function(opts) {
+      this.set_options(opts);
+      this.options.method = "POST";
+      return this.send();
+    };
+    HTTPClientWithCache.prototype.send = function(opts) {
+      var response, self;
+      self = this;
+      this.set_options(opts);
+      if (!this._validate()) {
+        return false;
+      }
+      this.prune_cache();
+      if (response = this._get_cached_response()) {
+        Ti.API.info("HTTPClientWithCache: Using cached response");
+        return this.onload_hook(this, response);
+      } else {
+        this._reset_xhr();
+        this.xhr.setTimeout(this.options.timeout);
+        Ti.App.fireEvent(this.options.showActivityEvent);
+        this.xhr.open(this.options.method, this.options.baseUrl + this.options.url);
+        return this.xhr.send(this.options.data != null ? this.options.data : void 0);
+      }
+    };
+    HTTPClientWithCache.prototype.onload_hook = function(self, response) {
+      if (response.status >= 400) {
+        this.onerror_hook(self);
+        return;
+      }
+      Ti.App.fireEvent(this.options.hideActivityEvent);
+      this._save_to_cache(self, response);
+      if (this.options.onload != null) {
+        return this.options.onload(response);
+      } else {
+        return Ti.API.error("HTTPClientWithCache: Please specify an onload callback!");
+      }
+    };
+    HTTPClientWithCache.prototype.onerror_hook = function(self) {
+      var response;
+      if ((this.currentRetryCount++) <= this.options.retryCount) {
+        Ti.API.info("HTTPClientWithCache: Retry Count " + this.currentRetryCount + " of " + this.options.retryCount);
+        this.xhr.abort();
+        this.xhr.open(this.options.method, this.options.baseUrl + this.options.url);
+        this.xhr.send(this.options.data != null ? this.options.data : void 0);
+        return;
+      }
+      Ti.App.fireEvent(this.options.hideActivityEvent);
+      if (this.options.onerror != null) {
+        response = this._get_cached_response(9999999);
+        return this.options.onerror(response);
+      } else {
+        return Ti.API.info("You might want to specify an onerror callback.");
+      }
+    };
+    HTTPClientWithCache.prototype.prune_cache = function(seconds) {
+      seconds != null ? seconds : seconds = this.options.pruneSeconds;
+      db = Titanium.Database.open('http_client_cache');
+      db.execute("DELETE FROM REQUESTS WHERE UPDATED_AT < DATETIME('now','-" + seconds + " seconds')");
+      return db.close();
+    };
+    HTTPClientWithCache.prototype._validate = function() {
+      if (this.options.url != null) {
+        return true;
+      } else {
+        Ti.API.error("HTTPClientWithCache: Invalid options " + (JSON.stringify(this.options)));
+        return false;
+      }
+    };
+    HTTPClientWithCache.prototype._compute_url_hash = function() {
+      return this.url_hash = Ti.Utils.md5HexDigest(this.options.method + this.options.baseUrl + this.options.url + this.options.data);
+    };
+    HTTPClientWithCache.prototype._save_to_cache = function(self, response) {
+      var urlHash;
+      if (response.status >= 400 || response.cached) {
+        return;
+      }
+      db = Titanium.Database.open('http_client_cache');
+      urlHash = self._compute_url_hash();
+      if (self._exists_in_cache()) {
+        db.execute("UPDATE REQUESTS SET RESPONSE=?, UPDATED_AT=CURRENT_TIMESTAMP WHERE URL_HASH=?", response.responseText, urlHash);
+      } else {
+        db.execute("INSERT INTO REQUESTS (RESPONSE, URL_HASH, UPDATED_AT) VALUES (?,?,CURRENT_TIMESTAMP)", response.responseText, urlHash);
+      }
+      return db.close();
+    };
+    HTTPClientWithCache.prototype._get_cached_response = function(seconds) {
+      var cachedAt, responseText, row;
+      db = Titanium.Database.open('http_client_cache');
+      seconds != null ? seconds : seconds = this.options.cacheSeconds;
+      row = db.execute("SELECT RESPONSE, UPDATED_AT FROM REQUESTS WHERE URL_HASH=? AND UPDATED_AT > DATETIME('now','-" + seconds + " seconds')", this.url_hash);
+      responseText = row.field(0);
+      cachedAt = row.field(1);
+      row.close();
+      db.close();
+      if (responseText != null) {
+        return {
+          responseText: responseText,
+          cached: true,
+          cached_at: cachedAt,
+          status: 200
+        };
+      }
+    };
+    HTTPClientWithCache.prototype._exists_in_cache = function() {
+      var count, row, _ref;
+      row = db.execute("SELECT COUNT(*) FROM REQUESTS WHERE URL_HASH=?", this.url_hash);
+      count = row.field(0);
+      row.close();
+      return (_ref = count > 0) != null ? _ref : {
+        "true": false
+      };
+    };
+    HTTPClientWithCache.prototype._reset_xhr = function() {
+      this.currentRetryCount = 0;
+      return this.xhr.abort();
+    };
+    return HTTPClientWithCache;
+  }();
   root.HTTPClientWithCache = HTTPClientWithCache;
 }).call(this);

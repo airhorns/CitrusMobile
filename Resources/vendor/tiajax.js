@@ -28,7 +28,7 @@
   r20 = /%20/g;
   _.extend(Titanium.Network, {
     param: function(a) {
-      var _ref, add, buildParams, obj, prefix, s, traditional;
+      var add, buildParams, obj, prefix, s, traditional;
       s = [];
       traditional = false;
       buildParams = function(prefix, obj) {
@@ -38,7 +38,7 @@
             if (traditional || /\[\]$/.test(prefix)) {
               return add(prefix, v);
             } else {
-              x = (_.isObject(v) || _.isArray(v)) ? i : "";
+              x = _.isObject(v) || _.isArray(v) ? i : "";
               p = prefix + "[" + x + "]";
               return buildParams(p, v);
             }
@@ -53,17 +53,16 @@
       };
       add = function(key, value) {
         value = _.isFunction(value) ? value() : value;
-        return (s[s.length] = encodeURIComponent(key) + "=" + encodeURIComponent(value));
+        return s[s.length] = encodeURIComponent(key) + "=" + encodeURIComponent(value);
       };
       if (_.isArray(a)) {
         _.each(a, function() {
           return add(this.name, this.value);
         });
       } else {
-        _ref = a;
-        for (prefix in _ref) {
-          if (!__hasProp.call(_ref, prefix)) continue;
-          obj = _ref[prefix];
+        for (prefix in a) {
+          if (!__hasProp.call(a, prefix)) continue;
+          obj = a[prefix];
           buildParams(prefix, obj);
         }
       }
@@ -73,7 +72,7 @@
     etag: {},
     httpSuccess: function(xhr) {
       try {
-        return ((xhr.status >= 200) && xhr.status < 300) || xhr.status === 304;
+        return (xhr.status >= 200 && xhr.status < 300) || xhr.status === 304;
       } catch (e) {
 
       }
@@ -94,16 +93,16 @@
     httpData: function(xhr, type, s) {
       var ct, data, xml;
       ct = xhr.getResponseHeader("content-type") || "";
-      xml = type === "xml" || !type && (ct.indexOf("xml") >= 0);
+      xml = type === "xml" || !type && ct.indexOf("xml") >= 0;
       data = xml ? xhr.responseXML : xhr.responseText;
       if (xml && data.documentElement.nodeName === "parsererror") {
         Titanium.Network.error("parsererror");
       }
-      if ((typeof s !== "undefined" && s !== null) && s.dataFilter) {
+      if ((s != null) && s.dataFilter) {
         data = s.dataFilter(data, type);
       }
       if (typeof data === "string") {
-        if (type === "json" || !type && (ct.indexOf("json") >= 0)) {
+        if (type === "json" || !type && ct.indexOf("json") >= 0) {
           data = JSON.parse(data);
         }
       }
@@ -113,10 +112,12 @@
       throw msg;
     },
     handleError: function(s, xhr, status, e) {
-      return s.error ? s.error.call(s.context || s, xhr, status, e) : null;
+      if (s.error) {
+        return s.error.call(s.context || s, xhr, status, e);
+      }
     },
     ajax: function(origSettings) {
-      var _ref, callbackContext, complete, data, oldAbort, onreadystatechange, parts, remote, requestDone, ret, s, status, success, ts, type, xhr;
+      var callbackContext, complete, data, oldAbort, onreadystatechange, parts, remote, requestDone, ret, s, status, success, ts, type, xhr, _ref;
       s = _.extend({}, defaultAjaxSettings, origSettings);
       status = "";
       data = {};
@@ -126,12 +127,12 @@
         s.data = Titanium.Network.param(s.data, s.traditional);
       }
       if (s.cache === false && type === "GET") {
-        ts = (new Date()).getTime();
+        ts = (new Date).getTime();
         ret = s.url.replace(rts, "$1_=" + ts + "$2");
-        s.url = ret + ((ret === s.url) ? (rquery.test(s.url) ? "&" : "?") + "_=" + ts : "");
+        s.url = ret + (ret === s.url ? (rquery.test(s.url) ? "&" : "?") + "_=" + ts : "");
       }
       if (s.data && type === "GET") {
-        s.url += ((typeof (_ref = rquery.test(s.url)) !== "undefined" && _ref !== null) ? _ref : {
+        s.url += ((_ref = rquery.test(s.url)) != null ? _ref : {
           "&": "?"
         }) + s.data;
       }
@@ -140,14 +141,14 @@
       requestDone = false;
       xhr = s.xhr();
       if (!xhr) {
-        return null;
+        return;
       }
       Ti.API.debug("Sending " + type + " request to " + s.url);
       if (type === "POST") {
         Ti.API.debug("POSTing data:");
         Ti.API.debug(s.data);
       }
-      if (typeof (_ref = s.username) !== "undefined" && _ref !== null) {
+      if (s.username != null) {
         xhr.open(type, s.url, s.async, s.username, s.password);
       } else {
         xhr.open(type, s.url, s.async);
@@ -169,18 +170,20 @@
         xhr.abort();
         return false;
       }
-      onreadystatechange = (xhr.onreadystatechange = function(isTimeout) {
+      onreadystatechange = xhr.onreadystatechange = function(isTimeout) {
         var errMsg;
         if (!xhr || xhr.readyState === 0 || isTimeout === "abort") {
           if (!requestDone) {
             complete();
           }
           requestDone = true;
-          return xhr ? (xhr.onreadystatechange = function() {}) : null;
+          if (xhr) {
+            return xhr.onreadystatechange = function() {};
+          }
         } else if (!requestDone && xhr && (xhr.readyState === 4 || isTimeout === "timeout")) {
           requestDone = true;
           xhr.onreadystatechange = function() {};
-          status = isTimeout === "timeout" ? "timeout" : (!Titanium.Network.httpSuccess(xhr) ? "error" : (s.ifModified && Titanium.Network.httpNotModified(xhr, s.url) ? "notmodified" : "success"));
+          status = isTimeout === "timeout" ? "timeout" : !Titanium.Network.httpSuccess(xhr) ? "error" : s.ifModified && Titanium.Network.httpNotModified(xhr, s.url) ? "notmodified" : "success";
           errMsg = "";
           if (status === "success") {
             try {
@@ -199,9 +202,11 @@
           if (isTimeout === "timeout") {
             xhr.abort();
           }
-          return s.async ? (xhr = null) : null;
+          if (s.async) {
+            return xhr = null;
+          }
         }
-      });
+      };
       try {
         oldAbort = xhr.abort;
         xhr.abort = function() {
@@ -215,7 +220,9 @@
       }
       if (s.async && s.timeout > 0) {
         setTimeout(function() {
-          return xhr && !requestDone ? onreadystatechange("timeout") : null;
+          if (xhr && !requestDone) {
+            return onreadystatechange("timeout");
+          }
         }, s.timeout);
       }
       try {
@@ -225,10 +232,14 @@
         complete();
       }
       success = function() {
-        return s.success ? s.success.call(callbackContext, data, status, xhr) : null;
+        if (s.success) {
+          return s.success.call(callbackContext, data, status, xhr);
+        }
       };
       complete = function() {
-        return s.complete ? s.complete.call(callbackContext, xhr, status) : null;
+        if (s.complete) {
+          return s.complete.call(callbackContext, xhr, status);
+        }
       };
       return xhr;
     }

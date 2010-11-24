@@ -54,4 +54,5 @@ class DataCollectionWindow extends Citrus.GenericWindow
 			memo[f.name] = f.value
 			memo
 		, {}
+
 Citrus.DataCollectionWindow = DataCollectionWindow

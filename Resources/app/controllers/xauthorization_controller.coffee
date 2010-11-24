@@ -38,5 +38,5 @@ class XAuthorizationController extends Citrus.Controller
 		@loading.hide(@window.win)
 	destroy: () ->
 		@window.win.close()
-Citrus.XAuthorizationController = XAuthorizationController
 
+Citrus.XAuthorizationController = XAuthorizationController

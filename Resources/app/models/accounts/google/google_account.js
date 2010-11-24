@@ -1,17 +1,20 @@
 (function() {
   var GoogleAccount;
-  var __extends = function(child, parent) {
-    var ctor = function(){};
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
-    child.prototype = new ctor();
-    child.prototype.constructor = child;
-    if (typeof parent.extended === "function") parent.extended(child);
+    child.prototype = new ctor;
     child.__super__ = parent.prototype;
+    return child;
   };
   GoogleAccount = function() {
-    return Citrus.Account.apply(this, arguments);
-  };
-  __extends(GoogleAccount, Citrus.Account);
-  GoogleAccount.prototype.type = "GoogleAccount";
+    function GoogleAccount() {
+      GoogleAccount.__super__.constructor.apply(this, arguments);
+    }
+    __extends(GoogleAccount, Citrus.Account);
+    GoogleAccount.prototype.type = "GoogleAccount";
+    return GoogleAccount;
+  }();
   Citrus.registerAccount(GoogleAccount);
 }).call(this);

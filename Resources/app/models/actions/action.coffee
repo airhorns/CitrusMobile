@@ -6,6 +6,7 @@ Citrus.Actions = {
 	Facebook: {}
 	LinkedIn: {}
 	Foursquare: {}
+	Mailchimp: {}
 }
 
 class Action extends Citrus.Object
@@ -94,3 +95,4 @@ Ti.include("/app/models/actions/twitter/twitter_action.js")
 Ti.include("/app/models/actions/foursquare/foursquare_action.js")
 Ti.include("/app/models/actions/paypal/paypal_action.js")
 Ti.include("/app/models/actions/facebook/facebook_action.js")
+Ti.include("/app/models/actions/mailchimp/mailchimp_action.js")

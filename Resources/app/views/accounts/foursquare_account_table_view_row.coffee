@@ -9,7 +9,8 @@ class FoursquareAccountTableViewRow extends Citrus.AccountTableViewRow
 			top:5
 			left:70
 			height:'auto'
-			width:'auto'
+			minimumFontSize: 13
+			width:240
 		}
 		@row.add(name)
 
@@ -17,7 +18,8 @@ class FoursquareAccountTableViewRow extends Citrus.AccountTableViewRow
 			location = Ti.UI.createLabel {
 				color:'#333'
 				text: @account.location
-				# font:{fontSize:15, fontWeight:'bold'}
+				font:{fontSize:15, fontWeight:'bold'}
+				minmumFontSize: 12
 				top:30
 				left:70
 				height: 20
