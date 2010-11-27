@@ -25,11 +25,10 @@ class AccountsTableViewWindow extends Citrus.GenericWindow
 
 		@loading_indicator = Titanium.UI.createActivityIndicator()
 		@loading_indicator.style = Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN
-		@loading_indicator.font = {
+		@loading_indicator.font =
 			fontFamily: 'Helvetica Neue'
 			fontSize: 15
 			fontWeight: 'bold'
-		}
 
 		@loading_indicator.color = 'white'
 		@loading_indicator.message = 'Loading...'

@@ -30,9 +30,14 @@
           }
         },
         success: function(data) {
+          var controller;
           if ((data != null ? data.barcode : void 0) != null) {
             Titanium.Media.vibrate();
-            return new Citrus.SplashController(data.barcode, root.accountStore);
+            controller = new Citrus.SplashController(data.barcode, root.accountStore);
+            controller.addEventListener("splash:found", function(e) {
+              return root.splashStore.addSplash(e.splash);
+            });
+            return controller.tryToShow();
           }
         },
         cancel: function() {},

@@ -3,7 +3,7 @@
   Ti.include('app/helpers/icons_helper.js');
   Ti.include('app/controllers/accounts_controller.js');
   Ti.include('app/controllers/code_reader_controller.js');
-  Ti.include('app/views/codes/codes_window.js');
+  Ti.include('app/controllers/code_history_controller.js');
   root.tabGroup = Titanium.UI.createTabGroup({
     barColor: '#336699'
   });
@@ -21,11 +21,12 @@
     title: 'Accounts',
     window: root.AccountsController.window.win
   });
-  root.CodesWindow = new Citrus.CodesWindow('Codes', 'No Codes scanned yet.');
+  root.splashStore = new Citrus.SplashStore();
+  root.CodeHistoryController = new Citrus.CodeHistoryController();
   codesTab = Titanium.UI.createTab({
     icon: 'images/clock.png',
     title: 'Scanned Codes',
-    window: root.CodesWindow.win
+    window: root.CodeHistoryController.window.win
   });
   Titanium.include('test.js');
   _ref = [codeReaderTab, accountsTab, codesTab];

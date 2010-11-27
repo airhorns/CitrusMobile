@@ -29,14 +29,17 @@ class Splash extends Citrus.Object
 		else
 			error(false, "not_citrus_code")
 			return false
-
+	
 	name: ""
 	description: ""
 	photo: ""
 	text: ""
 	shortcode: ""
+	_persistable: {}
+
 	constructor: (attributes) ->
 		super()
+		this._persistable = attributes
 		@actions = []
 		for k,v of attributes
 			if _.isFunction(this[k])
@@ -57,5 +60,8 @@ class Splash extends Citrus.Object
 			else
 				Ti.API.error("Invalid/Unknown action! Attributes were:")
 				Ti.API.debug(attrs)
+	
+	persistable: () ->
+		return this._persistable
 
 Citrus.Splash = Splash
