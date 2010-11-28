@@ -1,32 +1,71 @@
 (function() {
-  var defaultAjaxSettings, jsre, r20, rquery, rts, rurl;
+  /*
+   Titanium $.ajax port from jQuery JavaScript Library v1.4.2
+   Original code at http://jquery.com/, Copyright 2010, John Resig
+   Dual licensed under the MIT or GPL Version 2 licenses.
+   http://jquery.org/license
+  */  var ajaxHandlerBindings, jsre, r20, rquery, rts, rurl, utils, _fn, _i, _len, _ref;
   var __hasProp = Object.prototype.hasOwnProperty;
-  defaultAjaxSettings = {
-    global: true,
-    type: "GET",
-    contentType: "application/x-www-form-urlencoded",
-    processData: true,
-    async: true,
-    timeout: 300000,
-    traditional: false,
-    xhr: function() {
-      return Ti.Network.createHTTPClient();
-    },
-    accepts: {
-      xml: "application/xml, text/xml",
-      html: "text/html",
-      script: "text/javascript, application/javascript",
-      json: "application/json, text/javascript",
-      text: "text/plain",
-      _default: "*/*"
-    }
-  };
   jsre = /=\?(&|$)/;
   rquery = /\?/;
   rts = /(\?|&)_=.*?(&|$)/;
   rurl = /^(\w+:)?\/\/([^\/?#]+)/;
   r20 = /%20/g;
-  _.extend(Titanium.Network, {
+  if (typeof utils == "undefined" || utils === null) {
+    utils = {
+      extend: function(obj) {
+        var key, source, val, _i, _len, _ref;
+        _ref = Array.prototype.slice.call(arguments, 1);
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          source = _ref[_i];
+          for (key in source) {
+            if (!__hasProp.call(source, key)) continue;
+            val = source[key];
+            obj[key] = val;
+          }
+        }
+        return obj;
+      }
+    };
+  }
+  ajaxHandlerBindings = {};
+  _ref = "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split(" ");
+  _fn = function(name) {
+    return ajaxHandlerBindings[name] = function(f) {
+      return Titanium.Network.addEventListener(name, function(e) {
+        return f(e, e.xhr, e.s, e.e);
+      });
+    };
+  };
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    name = _ref[_i];
+    _fn(name);
+  }
+  utils.extend(Titanium.Network, ajaxHandlerBindings, {
+    ajaxSetup: function(settings) {
+      return utils.extend(Titanium.Network.ajaxSettings, settings);
+    },
+    ajaxSettings: {
+      global: true,
+      type: "GET",
+      contentType: "application/x-www-form-urlencoded",
+      processData: true,
+      async: true,
+      timeout: 300000,
+      traditional: false,
+      xhr: function() {
+        return Ti.Network.createHTTPClient();
+      },
+      accepts: {
+        xml: "application/xml, text/xml",
+        html: "text/html",
+        script: "text/javascript, application/javascript",
+        json: "application/json, text/javascript",
+        text: "text/plain",
+        _default: "*/*"
+      }
+    },
+    active: 0,
     param: function(a) {
       var add, buildParams, obj, prefix, s, traditional;
       s = [];
@@ -113,12 +152,19 @@
     },
     handleError: function(s, xhr, status, e) {
       if (s.error) {
-        return s.error.call(s.context || s, xhr, status, e);
+        s.error.call(s.context || s, xhr, status, e);
+      }
+      if (s.global) {
+        return Titanium.Network.fireEvent("ajaxError", {
+          xhr: xhr,
+          s: s,
+          e: e
+        });
       }
     },
     ajax: function(origSettings) {
-      var callbackContext, complete, data, oldAbort, onreadystatechange, parts, remote, requestDone, ret, s, status, success, ts, type, xhr, _ref;
-      s = _.extend({}, defaultAjaxSettings, origSettings);
+      var callbackContext, complete, data, oldAbort, onreadystatechange, parts, remote, requestDone, ret, s, status, success, trigger, ts, type, xhr, _ref;
+      s = utils.extend({}, Titanium.Network.ajaxSettings, origSettings);
       status = "";
       data = {};
       callbackContext = origSettings && origSettings.context || s;
@@ -136,17 +182,15 @@
           "&": "?"
         }) + s.data;
       }
+      if (s.global && !Titanium.Network.active++) {
+        Titanium.Network.fireEvent("ajaxStart");
+      }
       parts = rurl.exec(s.url);
       remote = true;
       requestDone = false;
       xhr = s.xhr();
       if (!xhr) {
         return;
-      }
-      Ti.API.debug("Sending " + type + " request to " + s.url);
-      if (type === "POST") {
-        Ti.API.debug("POSTing data:");
-        Ti.API.debug(s.data);
       }
       if (s.username != null) {
         xhr.open(type, s.url, s.async, s.username, s.password);
@@ -169,6 +213,12 @@
       if (s.beforeSend && s.beforeSend.call(callbackContext, xhr, s) === false) {
         xhr.abort();
         return false;
+      }
+      if (s.global) {
+        Titanium.Network.fireEvent("ajaxSend", {
+          xhr: xhr,
+          s: s
+        });
       }
       onreadystatechange = xhr.onreadystatechange = function(isTimeout) {
         var errMsg;
@@ -231,14 +281,36 @@
         Titanium.Network.handleError(s, xhr, null, e);
         complete();
       }
+      trigger = function(type, arg) {
+        var obj;
+        obj = s.context ? s.context : Titanium.Network;
+        if ((obj != null ? obj.fireEvent : void 0) != null) {
+          return obj.fireEvent(type, arg);
+        }
+      };
       success = function() {
         if (s.success) {
-          return s.success.call(callbackContext, data, status, xhr);
+          s.success.call(callbackContext, data, status, xhr);
+        }
+        if (s.global) {
+          return trigger("ajaxSuccess", {
+            xhr: xhr,
+            s: s
+          });
         }
       };
       complete = function() {
         if (s.complete) {
-          return s.complete.call(callbackContext, xhr, status);
+          s.complete.call(callbackContext, xhr, status);
+        }
+        if (s.global) {
+          trigger("ajaxComplete", {
+            xhr: xhr,
+            s: s
+          });
+        }
+        if (s.global && !--Titanium.Network.active) {
+          return Titanium.Network.fireEvent("ajaxStop");
         }
       };
       return xhr;

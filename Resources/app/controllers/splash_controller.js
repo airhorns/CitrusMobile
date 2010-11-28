@@ -17,7 +17,6 @@
       root.tabGroup.activeTab.open(this.window.win, {
         animated: true
       });
-      this.tryToShow();
     }
     __extends(SplashController, Citrus.Controller);
     SplashController.prototype.tryToShow = function() {
@@ -27,6 +26,9 @@
         d("Found a splash in the decoded data, with shortcode " + splash.shortcode);
         this.splash = splash;
         this.splash.actions = this._prepareActions(this.splash.actions);
+        this.fireEvent("splash:found", {
+          splash: this.splash
+        });
         return this.window.displaySplash(this.splash);
       }, this), __bind(function(xhr, status, error) {
         var msg, retry;

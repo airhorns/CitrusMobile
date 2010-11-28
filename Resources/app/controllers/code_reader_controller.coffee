@@ -30,7 +30,12 @@ class CodeReaderController extends Citrus.Controller
 		success: (data) ->
 			if data?.barcode?
 				Titanium.Media.vibrate()
-				new Citrus.SplashController(data.barcode, root.accountStore)
+				controller = new Citrus.SplashController(data.barcode, root.accountStore)
+				controller.addEventListener "splash:found", (e) ->
+					root.splashStore.addSplash(e.splash)
+
+				controller.tryToShow()
+				
 		cancel: ->
 			# alert("Canceled")
 		error: ->

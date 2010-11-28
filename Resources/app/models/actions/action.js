@@ -20,21 +20,19 @@
   Action = function() {
     function Action(attributes) {
       var k, v;
-      if (_.keys(attributes).length === (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length)) {
-        this.valid = true;
-        for (k in attributes) {
-          if (!__hasProp.call(attributes, k)) continue;
-          v = attributes[k];
-          k = k.camelize(true);
-          if (_.isFunction(this[k])) {
-            this.valid = this.valid && this[k].call(v);
-          } else {
-            this[k] = v;
-          }
-        }
-      } else {
+      if (!(_.keys(attributes).length === (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length))) {
         Ti.API.debug("Wrong amount of arguments passed to action constructor!");
-        this.valid = false;
+      }
+      this.valid = true;
+      for (k in attributes) {
+        if (!__hasProp.call(attributes, k)) continue;
+        v = attributes[k];
+        k = k.camelize(true);
+        if (_.isFunction(this[k])) {
+          this.valid = this.valid && this[k].call(v);
+        } else {
+          this[k] = v;
+        }
       }
     }
     __extends(Action, Citrus.Object);

@@ -80,12 +80,12 @@ Ti.include('app/helpers/icons_helper.js');
 
 // Citrus Specific Abstractions
 Ti.include("/app/models/observable.js") 
-Ti.include('app/models/object.js');
-Ti.include('app/models/persisted_object.js');
-Ti.include('app/views/generic_window.js');
-Ti.include('app/views/placeholder_window.js');
-Ti.include('app/views/data_collection_window.js');
-Ti.include('app/controllers/controller.js');
+Ti.include('/app/models/object.js');
+Ti.include('/app/models/persisted_object.js');
+Ti.include('/app/views/generic_window.js');
+Ti.include('/app/views/placeholder_window.js');
+Ti.include('/app/views/data_collection_window.js');
+Ti.include('/app/controllers/controller.js');
 
 var root = new Citrus.Object(); // Make sure root gets event listeners
-Ti.include('app/controllers/main.js');
+Ti.include('/app/controllers/main.js');

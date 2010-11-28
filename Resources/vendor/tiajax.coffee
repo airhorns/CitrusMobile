@@ -1,26 +1,9 @@
-defaultAjaxSettings = {
-	global: true
-	type: "GET"
-	contentType: "application/x-www-form-urlencoded"
-	processData: true
-	async: true
-	timeout: 300000
-	traditional: false
-	# Create the request object; In Titanium it's always going to be the Ti.createHTTPClient
-	# implement the XMLHttpRequest in IE7 (can't request local files),
-	# so we use the ActiveXObject when it is available
-	# This function can be overriden by calling jQuery.ajaxSetup
-	xhr: ->
-		return Ti.Network.createHTTPClient()
-	accepts: {
-		xml: "application/xml, text/xml"
-		html: "text/html"
-		script: "text/javascript, application/javascript"
-		json: "application/json, text/javascript"
-		text: "text/plain"
-		_default: "*/*"
-	}
-}
+###
+ Titanium $.ajax port from jQuery JavaScript Library v1.4.2
+ Original code at http://jquery.com/, Copyright 2010, John Resig
+ Dual licensed under the MIT or GPL Version 2 licenses.
+ http://jquery.org/license
+###
 
 jsre = /=\?(&|$)/
 rquery = /\?/
@@ -28,7 +11,52 @@ rts = /(\?|&)_=.*?(&|$)/
 rurl = /^(\w+:)?\/\/([^\/?#]+)/
 r20 = /%20/g
 
-_.extend(Titanium.Network, {
+# utils = _
+unless utils?
+	# Port of Underscore.js extend function, jashkenas is the man.
+	utils =
+		extend: (obj) ->
+			for source in Array.prototype.slice.call(arguments, 1)
+    		(obj[key] = val) for key, val of source
+  		obj
+
+ajaxHandlerBindings = {}
+for name in "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split(" ")
+	ajaxHandlerBindings[name] = (f) ->
+		Titanium.Network.addEventListener name, (e) ->
+			# We must pass the function arguments as properties on the event object since
+			# Titanium doesn't support multiple event handler arguments, just the one.
+			f(e, e.xhr, e.s, e.e)
+	
+utils.extend(Titanium.Network, ajaxHandlerBindings, {
+	ajaxSetup: ( settings ) ->
+		utils.extend( Titanium.Network.ajaxSettings, settings )
+
+	ajaxSettings:
+		global: true
+		type: "GET"
+		contentType: "application/x-www-form-urlencoded"
+		processData: true
+		async: true
+		timeout: 300000
+		traditional: false
+		
+		# Create the request object; In Titanium it's always going to be the Ti.createHTTPClient
+		# This function can be overriden by calling jQuery.ajaxSetup
+		xhr: ->
+			return Ti.Network.createHTTPClient()
+		
+		accepts:
+			xml: "application/xml, text/xml"
+			html: "text/html"
+			script: "text/javascript, application/javascript"
+			json: "application/json, text/javascript"
+			text: "text/plain"
+			_default: "*/*"
+
+	# Counter for active requests
+	active: 0
+
 	param: (a) ->
 		s = []
 		traditional = false
@@ -140,11 +168,11 @@ _.extend(Titanium.Network, {
 			s.error.call( s.context || s, xhr, status, e )
 
 		# Fire the global callback
-		# if s.global
-		#		(s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] )
+		if s.global
+			Titanium.Network.fireEvent "ajaxError", {xhr:xhr, s:s, e:e}
 
 	ajax: ( origSettings ) ->
-		s = _.extend({}, defaultAjaxSettings, origSettings)
+		s = utils.extend({}, Titanium.Network.ajaxSettings, origSettings)
 		status = ""
 		data = {}
 		callbackContext = origSettings && origSettings.context || s
@@ -166,6 +194,10 @@ _.extend(Titanium.Network, {
 		# If data is available, append data to url for get requests
 		if s.data && type == "GET"
 			s.url += (rquery.test(s.url) ? "&" : "?") + s.data
+		
+		# Watch for a new set of requests
+		if s.global && ! Titanium.Network.active++
+			Titanium.Network.fireEvent "ajaxStart"
 
 		# Matches an absolute URL, and saves the domain
 		parts = rurl.exec( s.url )
@@ -178,10 +210,6 @@ _.extend(Titanium.Network, {
 		if !xhr
 			return
 
-		Ti.API.debug("Sending "+type+" request to "+s.url)
-		if type == "POST"
-			Ti.API.debug("POSTing data:")
-			Ti.API.debug(s.data)
 		# Open the socket
 		# Passing null username, generates a login popup on Opera (#2865)
 		if s.username?
@@ -219,6 +247,9 @@ _.extend(Titanium.Network, {
 			# close opended socket
 			xhr.abort()
 			return false
+
+		if s.global
+			Titanium.Network.fireEvent("ajaxSend", {xhr:xhr, s:s})
 
 		# Wait for a response to come back
 		onreadystatechange = xhr.onreadystatechange = ( isTimeout ) ->
@@ -298,34 +329,34 @@ _.extend(Titanium.Network, {
 			Titanium.Network.handleError(s, xhr, null, e)
 			# Fire the complete handlers
 			complete()
+		
+		trigger = (type, arg) ->
+			obj = if s.context then s.context else Titanium.Network
+			if obj?.fireEvent?
+				obj.fireEvent type, arg
 
-		success = () ->
+		success =  ->
 			# If a local callback was specified, fire it and pass it the data
 			if s.success
 				s.success.call( callbackContext, data, status, xhr )
 
 			# Fire the global callback
-			# if s.global
-			#		trigger( "ajaxSuccess", [xhr, s] );
+			if s.global
+				trigger( "ajaxSuccess", {xhr:xhr, s:s} )
 
-		complete = () ->
+		complete = ->
 			# Process result
 			if s.complete
 				s.complete.call( callbackContext, xhr, status)
 
 			# The request was completed
-			# if s.global
-			#		trigger( "ajaxComplete", [xhr, s] )
-			#
+			if s.global
+				trigger( "ajaxComplete", {xhr:xhr, s:s} )
+			
 
 			# Handle the global AJAX counter
-			# if s.global && ! --jQuery.active
-			#		jQuery.event.trigger( "ajaxStop" )
-			#
-
-		# function trigger(type, args) {
-		#			(s.context ? jQuery(s.context) : jQuery.event).trigger(type, args);
-		#		}
+			if s.global && ! --Titanium.Network.active
+				Titanium.Network.fireEvent( "ajaxStop" )
 
 		# return XMLHttpRequest to allow aborting the request etc.
 		return xhr

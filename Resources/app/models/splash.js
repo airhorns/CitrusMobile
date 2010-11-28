@@ -13,6 +13,7 @@
     function Splash(attributes) {
       var k, v;
       Splash.__super__.constructor.call(this);
+      this._persistable = attributes;
       this.actions = [];
       for (k in attributes) {
         if (!__hasProp.call(attributes, k)) continue;
@@ -65,6 +66,7 @@
     Splash.prototype.photo = "";
     Splash.prototype.text = "";
     Splash.prototype.shortcode = "";
+    Splash.prototype._persistable = {};
     Splash.prototype.setActions = function(passed_actions) {
       var action, attrs, _i, _len, _results;
       _results = [];
@@ -74,6 +76,9 @@
         _results.push(action !== false ? this.actions.push(action) : (Ti.API.error("Invalid/Unknown action! Attributes were:"), Ti.API.debug(attrs)));
       }
       return _results;
+    };
+    Splash.prototype.persistable = function() {
+      return this._persistable;
     };
     return Splash;
   }();
