@@ -17,18 +17,17 @@ class Action extends Citrus.Object
 	actionText: ""
 
 	constructor: (attributes) ->
-		if (_.keys(attributes).length == (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length))
-			@valid = true
-			for k, v of attributes
-				k = k.camelize(true) # Camel case the underscored lowercase Rails text
-				if _.isFunction(this[k])
-					@valid = (@valid && this[k].call(v))
-				else
-					this[k] = v
-
-		else
+		unless (_.keys(attributes).length == (this.constructor.declares.length + Citrus.Action.alwaysDeclared.length))
 			Ti.API.debug("Wrong amount of arguments passed to action constructor!")
-			@valid = false
+
+		@valid = true
+		for k, v of attributes
+			k = k.camelize(true) # Camel case the underscored lowercase Rails text
+			if _.isFunction(this[k])
+				@valid = (@valid && this[k].call(v))
+			else
+				this[k] = v
+
 
 	readyToRun: () ->
 		return true

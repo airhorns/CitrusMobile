@@ -10,26 +10,22 @@
   };
   SplashStore = function() {
     function SplashStore() {
-      var name, names, result, tables, _i, _len;
+      var names;
+      return;
       this.db = Titanium.Database.open("citrus");
       if (true) {
         names = [];
-        tables = this.db.execute("SELECT name from sqlite_master WHERE type='table';");
         while (tables.isValidRow()) {
           names.push(tables.fieldByName('name'));
           tables.next();
         }
         tables.close();
-        for (_i = 0, _len = names.length; _i < _len; _i++) {
-          name = names[_i];
-          result = this.db.execute("DROP TABLE IF EXISTS " + name);
-        }
-        this.db.execute("CREATE TABLE splashes IF NOT EXISTS (id INTEGER PRIMARY KEY, code STRING NOT NULL, name STRING NOT NULL, data TEXT NOT NULL)");
       }
     }
     __extends(SplashStore, Citrus.Object);
     SplashStore.prototype.addSplash = function(data) {
       var existing, save;
+      return;
       if (data.persistable != null) {
         save = data.persistable();
       } else {

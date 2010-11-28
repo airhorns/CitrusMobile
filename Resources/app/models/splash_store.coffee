@@ -1,22 +1,24 @@
 class SplashStore extends Citrus.Object
 	constructor: () ->
+		return
 		@db = Titanium.Database.open("citrus")
 		
 		# Temp reset
 		if true
 			names = []
-			tables = @db.execute("SELECT name from sqlite_master WHERE type='table';")
+			# tables = @db.execute("SELECT name from sqlite_master WHERE type='table';")
 			while tables.isValidRow()
 				names.push tables.fieldByName('name')
 				tables.next()
 			tables.close()
 	
-			for name in names
-				result = @db.execute("DROP TABLE IF EXISTS "+name)
+			#\for name in names
+				# result = @db.execute("DROP TABLE IF EXISTS "+name)
 
-			@db.execute("CREATE TABLE splashes IF NOT EXISTS (id INTEGER PRIMARY KEY, code STRING NOT NULL, name STRING NOT NULL, data TEXT NOT NULL)")
+			# @db.execute("CREATE TABLE splashes IF NOT EXISTS (id INTEGER PRIMARY KEY, code STRING NOT NULL, name STRING NOT NULL, data TEXT NOT NULL)")
 	
 	addSplash: (data) ->
+		return
 		if data.persistable?
 			save = data.persistable()
 		else
