@@ -122,6 +122,8 @@
           }
         }, this));
         this.win.add(this.dataView);
+      } else {
+        this.dataView.url = 'app/views/splash/local_webview.html';
       }
       html = Citrus.redirectifyLinks(sc.helpers.makeClickable(data, {
         autolink: true,

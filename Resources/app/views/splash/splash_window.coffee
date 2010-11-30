@@ -70,7 +70,7 @@ class SplashWindow extends Citrus.GenericWindow
 
 			@retryButton.show()
 
-# Displays non Citrus decoded data as a simple qr code scanner.
+	# Displays non Citrus decoded data as a simple qr code scanner.
 	displayDecodedData: (data) ->
 		unless @noticeLabel?
 			@noticeLabel = Ti.UI.createLabel {
@@ -101,6 +101,8 @@ class SplashWindow extends Citrus.GenericWindow
 					Titanium.Platform.openURL(link)
 
 			@win.add(@dataView)
+		else
+			@dataView.url = 'app/views/splash/local_webview.html'
 
 		html = Citrus.redirectifyLinks(sc.helpers.makeClickable(data, {autolink: true, screenname: true}))
 		@dataView.html = html

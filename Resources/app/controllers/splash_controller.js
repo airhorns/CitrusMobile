@@ -58,12 +58,30 @@
       }, this));
     };
     SplashController.prototype.takeActionFromRow = function(row, e) {
-      var action;
+      var action, alertDialog, type;
       action = row.action;
-      if (action.requiresAccount()) {
-        return this.takeAccountBasedActionFromRow(row, e);
+      if (this.isActionTakeable(action)) {
+        if (action.requiresAccount()) {
+          return this.takeAccountBasedActionFromRow(row, e);
+        } else {
+          return this.takeAccountlessActionFromRow(row, e);
+        }
       } else {
-        return this.takeAccountlessActionFromRow(row, e);
+        d("Cant run action!");
+        if (action.requiresAccount() && this.possibleAccountsForAction(action).length === 0) {
+          type = action.accountType.replace('Account', '');
+          alertDialog = Titanium.UI.createAlertDialog({
+            title: 'Whoops!',
+            message: "You can't run this yet because you haven't added a " + type + " account yet. Would you like to add one now?",
+            buttonNames: ["Add " + type, 'Cancel']
+          });
+          alertDialog.addEventListener('click', function(e) {
+            if (!e.cancel) {
+              return root.AccountsController.addNewAccountOfType(action.accountType);
+            }
+          });
+          return alertDialog.show();
+        }
       }
     };
     SplashController.prototype.takeAccountlessActionFromRow = function(row, e) {
@@ -141,10 +159,10 @@
       return row.displaySuccess();
     };
     SplashController.prototype._actionFailure = function(row, xhr, status, error) {
-      Titanium.API.error("Action failed!");
-      Titanium.API.error(status);
-      d(error);
-      d(xhr.responseText);
+      er("Action Failed! xhr:", xhr, "status:", status, "error", error);
+      if ((error != null) && (error.alertText != null) && _.isString(error.alertText)) {
+        alert(error.alertText);
+      }
       return row.displayError();
     };
     SplashController.prototype._prepareActions = function(actions) {

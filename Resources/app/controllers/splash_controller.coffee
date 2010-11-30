@@ -44,10 +44,27 @@ class SplashController extends Citrus.Controller
 
 	takeActionFromRow: (row, e) =>
 		action = row.action
-		if action.requiresAccount()
-			this.takeAccountBasedActionFromRow(row, e)
+		# Run action if possible, if not offer to make it possible
+		if this.isActionTakeable(action)
+			if action.requiresAccount()
+				this.takeAccountBasedActionFromRow(row, e)
+			else
+				this.takeAccountlessActionFromRow(row, e)
 		else
-			this.takeAccountlessActionFromRow(row, e)
+			d("Cant run action!")
+			if action.requiresAccount() && this.possibleAccountsForAction(action).length == 0
+				# Can't run action because no account has been added.
+					type = action.accountType.replace('Account', '')
+					alertDialog = Titanium.UI.createAlertDialog
+				    title: 'Whoops!'
+				    message: "You can't run this yet because you haven't added a #{type} account yet. Would you like to add one now?"
+				    buttonNames: ["Add #{type}", 'Cancel']
+					
+					alertDialog.addEventListener 'click', (e) ->
+						unless e.cancel
+							root.AccountsController.addNewAccountOfType(action.accountType)
+					alertDialog.show()
+				
 	
 	takeAccountlessActionFromRow: (row, e) ->
 		action = row.action
@@ -122,10 +139,9 @@ class SplashController extends Citrus.Controller
 		row.displaySuccess()
 
 	_actionFailure: (row, xhr, status, error) ->
-		Titanium.API.error("Action failed!")
-		Titanium.API.error(status)
-		d(error)
-		d(xhr.responseText)
+		er "Action Failed! xhr:", xhr, "status:", status, "error", error
+		if error? && error.alertText? && _.isString(error.alertText)
+			alert error.alertText
 		row.displayError()
 
 	_prepareActions: (actions) ->
