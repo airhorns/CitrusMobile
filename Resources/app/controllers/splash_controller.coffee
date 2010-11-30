@@ -60,9 +60,14 @@ class SplashController extends Citrus.Controller
 				    message: "You can't run this yet because you haven't added a #{type} account yet. Would you like to add one now?"
 				    buttonNames: ["Add #{type}", 'Cancel']
 					
-					alertDialog.addEventListener 'click', (e) ->
-						unless e.cancel
-							root.AccountsController.addNewAccountOfType(action.accountType)
+					alertDialog.addEventListener 'click', (e) =>
+						d e
+						if e.index? && e.index == 0
+							d "trying to add new account #{action.accountType}"
+							root.AccountsController.addNewAccountOfType(action.accountType, (account) =>
+								account.addEventListener "state:ready", () =>
+									this.takeAccountBasedActionFromRow(row, e)
+							)
 					alertDialog.show()
 				
 	

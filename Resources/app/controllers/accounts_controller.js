@@ -46,7 +46,7 @@
         animated: true
       });
     };
-    AccountsController.prototype.addNewAccountOfType = function(type) {
+    AccountsController.prototype.addNewAccountOfType = function(type, callback) {
       var account, success;
       if (_.isFunction(type)) {
         account = new type();
@@ -56,11 +56,16 @@
       if ((account != null) && account.valid) {
         this.watchAccount(account);
         success = __bind(function() {
-          this.selectWindow.win.close({
-            animated: false
-          });
+          if (this.selectWindow != null) {
+            this.selectWindow.win.close({
+              animated: false
+            });
+          }
           account.synch();
-          return account.removeEventListener("authorization:success", success);
+          account.removeEventListener("authorization:success", success);
+          if (callback != null) {
+            return callback(account);
+          }
         }, this);
         account.addEventListener("authorization:success", success);
         account.authorize();

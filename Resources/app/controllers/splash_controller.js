@@ -75,11 +75,17 @@
             message: "You can't run this yet because you haven't added a " + type + " account yet. Would you like to add one now?",
             buttonNames: ["Add " + type, 'Cancel']
           });
-          alertDialog.addEventListener('click', function(e) {
-            if (!e.cancel) {
-              return root.AccountsController.addNewAccountOfType(action.accountType);
+          alertDialog.addEventListener('click', __bind(function(e) {
+            d(e);
+            if ((e.index != null) && e.index === 0) {
+              d("trying to add new account " + action.accountType);
+              return root.AccountsController.addNewAccountOfType(action.accountType, __bind(function(account) {
+                return account.addEventListener("state:ready", __bind(function() {
+                  return this.takeAccountBasedActionFromRow(row, e);
+                }, this));
+              }, this));
             }
-          });
+          }, this));
           return alertDialog.show();
         }
       }
