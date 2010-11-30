@@ -38,30 +38,27 @@
       row.object = this;
       return row;
     };
-    ActionTableViewRow.prototype.displayButton = function(style, title) {
-      var b, button, k, key, opts, shittyTI, _ref, _ref2;
+    ActionTableViewRow.prototype.displayButton = function(style, title, opts) {
+      var b, button, k, key, shittyTI, v, _ref, _ref2;
       style != null ? style : style = Titanium.UI.iPhone.SystemButton.BORDERED;
       title != null ? title : title = _.isFunction(this.action.buttonText) ? this.action.buttonText() : this.action.buttonText;
       key = String(style) + "style" || "nostyle";
       (_ref = this.buttons) != null ? _ref : this.buttons = {};
       shittyTI = style === Titanium.UI.iPhone.SystemButton.SPINNER;
-      if (this.buttons[key] == null) {
-        opts = {
-          right: 5,
-          color: "#000",
-          width: this.buttonWidth(),
-          height: 25
-        };
-        if (!shittyTI) {
-          if (style != null) {
-            opts.style = style;
-          }
-        } else {
+      opts = _.extend({
+        right: 5,
+        color: "#000",
+        width: this.buttonWidth(),
+        height: 25
+      }, opts || {});
+      if (!shittyTI) {
+        if (style != null) {
           opts.style = style;
-          opts.enabled = true;
-          opts.height = "auto";
-          opts.width = "auto";
         }
+      } else {
+        opts.systemButton = style;
+      }
+      if (this.buttons[key] == null) {
         button = Ti.UI.createButton(opts);
         if (!shittyTI) {
           button.addEventListener("click", __bind(function(e) {
@@ -75,6 +72,13 @@
         this.buttons[key] = button;
         this.row.add(button);
       }
+      for (k in opts) {
+        if (!__hasProp.call(opts, k)) continue;
+        v = opts[k];
+        if (!_.include(["style", "systemButton"], k)) {
+          this.buttons[key][k] = v;
+        }
+      }
       _ref2 = this.buttons;
       for (k in _ref2) {
         if (!__hasProp.call(_ref2, k)) continue;
@@ -82,7 +86,6 @@
         b.hide();
       }
       this.buttons[key].title = title;
-      this.buttons[key].enabled = this.takeable;
       this.buttons[key].show();
       return true;
     };
@@ -117,13 +120,16 @@
       d("Trying to display progress");
       this.state = Citrus.ActionTableViewRow.InProgress;
       this.takeable = false;
-      return this.displayButton(Titanium.UI.iPhone.SystemButton.ACTION, " ");
+      return this.displayButton(Titanium.UI.iPhone.SystemButton.SPINNER, "Running ...");
     };
     ActionTableViewRow.prototype.displaySuccess = function() {
       d("Trying to display success");
       this.state = Citrus.ActionTableViewRow.Success;
       this.takeable = false;
-      this.displayButton(Titanium.UI.iPhone.SystemButton.PLAIN, "Done!");
+      this.displayButton(Titanium.UI.iPhone.SystemButton.PLAIN, "Done!", {
+        enabled: false,
+        color: "#ccc"
+      });
       return d("Success displayed");
     };
     ActionTableViewRow.prototype.displayError = function(retry) {
@@ -131,7 +137,9 @@
       retry != null ? retry : retry = true;
       this.state = Citrus.ActionTableViewRow.Error;
       this.takeable = retry;
-      this.displayButton(null, retry ? "Retry?" : "Error!");
+      this.displayButton(null, (retry ? "Retry?" : "Error!"), {
+        color: 'red'
+      });
       return d("Error displayed");
     };
     ActionTableViewRow.prototype.icon = function() {

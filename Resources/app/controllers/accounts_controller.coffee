@@ -38,7 +38,7 @@ class AccountsController extends Citrus.Controller
 	# Calledback from the NewAccountSelectWindow
 	# Returns true or false based on the instantiation of the account,
 	# not the authorization.
-	addNewAccountOfType: (type) ->
+	addNewAccountOfType: (type, callback) ->
 		if _.isFunction(type)
 			account = new type()
 		else
@@ -48,9 +48,11 @@ class AccountsController extends Citrus.Controller
 			this.watchAccount(account)
 			# Callback to trigger initial sync
 			success = () =>
-				@selectWindow.win.close({animated: false})
+				@selectWindow.win.close({animated: false}) if @selectWindow?
 				account.synch()
 				account.removeEventListener "authorization:success", success
+				if callback?
+					callback(account)
 
 			account.addEventListener "authorization:success", success
 			account.authorize() # This adds a new window to the heirarchy
