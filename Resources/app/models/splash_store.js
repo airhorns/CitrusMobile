@@ -1,6 +1,6 @@
 (function() {
   var SplashStore;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
@@ -10,16 +10,25 @@
   };
   SplashStore = function() {
     function SplashStore() {
-      var names;
+      var name, names, result, tables, _i, _len;
       return;
       this.db = Titanium.Database.open("citrus");
+      root.addEventListener("splash:found", __bind(function(splash) {
+        return this.addSplash(splash);
+      }, this));
       if (true) {
         names = [];
+        tables = this.db.execute("SELECT name from sqlite_master WHERE type='table';");
         while (tables.isValidRow()) {
           names.push(tables.fieldByName('name'));
           tables.next();
         }
         tables.close();
+        for (_i = 0, _len = names.length; _i < _len; _i++) {
+          name = names[_i];
+          result = this.db.execute("DROP TABLE IF EXISTS " + name);
+        }
+        this.db.execute("CREATE TABLE splashes IF NOT EXISTS (id INTEGER PRIMARY KEY,         code STRING NOT NULL, name STRING NOT NULL, data TEXT NOT NULL)");
       }
     }
     __extends(SplashStore, Citrus.Object);

@@ -24,16 +24,14 @@
       this.window.showLoading();
       return Citrus.Splash.newFromDecodedData(this.codeData, __bind(function(splash) {
         d("Found a splash in the decoded data, with shortcode " + splash.shortcode);
-        this.splash = splash;
-        this.splash.actions = this._prepareActions(this.splash.actions);
-        this.fireEvent("splash:found", {
-          splash: this.splash
-        });
-        return this.window.displaySplash(this.splash);
+        return this.displaySplash(splash);
       }, this), __bind(function(xhr, status, error) {
         var msg, retry;
         e("Error finding a Citrus splash from the decoded data. Status: " + status);
-        e(xhr.responseText);
+        if (status === "not_citrus_code") {
+          this.window.displayDecodedData(this.codeData);
+          return true;
+        }
         if (xhr) {
           if (!Titanium.Network.online) {
             msg = "You need to be connected to the internet to scan this code. Please connect and then retry.";
@@ -46,16 +44,19 @@
             retry = true;
           }
         } else {
-          if (status === "not_citrus_code") {
-            this.window.displayDecodedData(this.codeData);
-            return true;
-          }
+          msg = "An unknown error occured while trying to display this code. Please try again.";
+          retry = true;
         }
         this.window.displayError(msg, retry, __bind(function() {
           return this.tryToShow();
         }, this));
         return false;
       }, this));
+    };
+    SplashController.prototype.displaySplash = function(splash) {
+      this.splash = splash;
+      this.splash.actions = this._prepareActions(this.splash.actions);
+      return this.window.displaySplash(this.splash);
     };
     SplashController.prototype.takeActionFromRow = function(row, e) {
       var action, alertDialog, type;
